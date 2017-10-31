@@ -18,9 +18,38 @@ D
 D
  */
 #include <cstdlib>
-
+#include <iostream>
+#include "ArrayList.h"
+using namespace std;
 int main()
 {
+	ArrayList tab;
+	tab.push_back(10);
+	tab.push_back(12);
+	tab.push_back(95);
+	if (tab.find(10))
+	{
+		cerr << "true"<<endl;
+	}
+	else
+	{
+		cerr << "false" << endl;
+	}
+	cerr << tab.pop_front() << endl;
+	if (tab.find(10))
+	{
+		cerr << "true" << endl;
+	}
+	else
+	{
+		cerr << "false" << endl;
+	}
+	tab.pop_back();
+	tab.pop_back();
+	tab.pop_back();
+	cerr << tab.size() << endl;
+
+
 	system("PAUSE");
 	return 0;
 }
