@@ -41,7 +41,7 @@ int ArrayList::pop_front()
 		return temp;
 	}
 	std::cerr << "NOPE! pop_front Array is empty";
-	return 0;
+	return -1;
 }
 
 void ArrayList::push_back(int value)
@@ -63,7 +63,7 @@ int ArrayList::pop_back()
 		return tab[firstFree--];
 	}
 	std::cerr << "NOPE! pop_back Array is empty";
-	return 0;
+	return -1;
 }
 
 int* ArrayList::find(int value)
@@ -82,6 +82,21 @@ int ArrayList::size() const
 {
 	return firstFree;
 }
+
+void ArrayList::display()
+{
+	for (int i = 0; i<firstFree; i++)
+	{
+		std::cout << tab[i] << std::endl;
+	}
+}
+
+int ArrayList::getValue(int i)
+{
+	return tab[i];
+}
+
+
 
 
 

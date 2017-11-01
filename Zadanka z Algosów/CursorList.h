@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CursorList_h
+#define CursorList_h
 class CursorList
 {
 	struct node
@@ -10,6 +11,7 @@ class CursorList
 	int head;			//indeks of first node
 	int length;
 	int nextFree;
+	void UpdateNextFree();
 
 public:
 	CursorList();
@@ -20,5 +22,9 @@ public:
 	int pop_back();
 	int* find(int value);
 	int size() const;
+	void display();
+	int getValue(int i);
 };
+#endif
+
 

@@ -25,9 +25,17 @@ using namespace std;
 int main()
 {
 	CursorList tab;
-/*	tab.push_back(10);
-	tab.push_back(12);
-	tab.push_back(95);
+//	tab.push_back(10);
+//	tab.push_back(12);
+	cout << tab.getValue(1) << endl;
+	tab.push_front(30);
+	cout << tab.getValue(1) << endl;
+	tab.push_front(12);
+//	tab.push_back(95);
+	cout << tab.getValue(1) << endl;
+	tab.push_front(14);
+	cout << tab.getValue(1) << endl;
+/*	tab.display();
 	cerr << tab.size() << endl;
 	if (tab.find(10))
 	{
@@ -46,11 +54,15 @@ int main()
 	{
 		cerr << "false" << endl;
 	}
+	cerr << "done" << endl;
 	tab.pop_back();
+	cerr << "done" << endl;
 	tab.pop_back();
-	tab.pop_back();*/
+	cerr << "done" << endl;
+	tab.pop_back();
+	cerr << "done" << endl;
 	cerr << tab.size() << endl;
-	
+	*/
 
 	system("PAUSE");
 	return 0;

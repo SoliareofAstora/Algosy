@@ -1,5 +1,6 @@
 #ifndef ArrayList_h
 #define ArrayList_h
+#include <locale>
 
 class ArrayList
 {
@@ -15,6 +16,8 @@ public:
 	int pop_back();
 	int* find(int value);
 	int size() const;
+	void display();
+	int getValue(int i);
 };
 
 #endif
