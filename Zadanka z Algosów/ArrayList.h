@@ -3,17 +3,18 @@
 
 class ArrayList
 {
- int tab[10000];
- int firstFree;
+	int tab[10000];
+	int firstFree;
 
 public:
 	ArrayList();
-	 void push_front(int x);
-	 int pop_front();
-	 void push_back(int x);
-	 int pop_back();
-	 int* find(int x);
-	 int size() const;
+	~ArrayList();
+	void push_front(int value);
+	int pop_front();
+	void push_back(int value);
+	int pop_back();
+	int* find(int value);
+	int size() const;
 };
 
 #endif

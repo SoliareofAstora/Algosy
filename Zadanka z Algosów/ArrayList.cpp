@@ -6,7 +6,11 @@ ArrayList::ArrayList()
 	firstFree = 0;
 }
 
-void ArrayList::push_front(int x)
+ArrayList::~ArrayList()
+{
+}
+
+void ArrayList::push_front(int value)
 {
 	
 	if (sizeof tab / 4 > firstFree+1)
@@ -15,7 +19,7 @@ void ArrayList::push_front(int x)
 		{
 			tab[i] = tab[i - 1];
 		}
-		tab[0] = x;
+		tab[0] = value;
 		firstFree++;
 	}
 	else
@@ -40,17 +44,16 @@ int ArrayList::pop_front()
 	return 0;
 }
 
-void ArrayList::push_back(int x)
+void ArrayList::push_back(int value)
 {
 	if (sizeof tab /4 >firstFree+1)
 	{
-		tab[firstFree++] = x;
+		tab[firstFree++] = value;
 	}
 	else
 	{
 		std::cerr << "NOPE! push_back Out of range exception";
 	}
-	
 }
 
 int ArrayList::pop_back()
@@ -63,11 +66,11 @@ int ArrayList::pop_back()
 	return 0;
 }
 
-int* ArrayList::find(int x)
+int* ArrayList::find(int value)
 {
 	for (int i =0; i<firstFree;i++)
 	{
-		if (tab[i]==x)
+		if (tab[i] == value)
 		{
 			return &tab[i];
 		}
@@ -84,11 +87,11 @@ int ArrayList::size() const
 
 
 /*
-    void push_front(int x) - wstawia element na pocz¹tek listy
+    void push_front(int value) - wstawia element na pocz¹tek listy
     int pop_front() - usuwa element z pocz¹tku listy i zwraca jego wartoœæ
-    void push_back(int x) - wstawia element na koniec listy
+    void push_back(int value) - wstawia element na koniec listy
     int pop_back() - usuwa element z koñca listy i zwraca jego wartoœæ
-    int* find(int x) - wyszukuje element o wartoœci x i zwraca do niego wskaŸnik lub nullptr gdy nie element istnieje
+    int* find(int value) - wyszukuje element o wartoœci value i zwraca do niego wskaŸnik lub nullptr gdy nie element istnieje
     int size() - zwraca liczbê elementów w liœcie
 */
 

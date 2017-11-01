@@ -21,9 +21,15 @@
     <ClCompile Include="ArrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CursorList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CursorList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
