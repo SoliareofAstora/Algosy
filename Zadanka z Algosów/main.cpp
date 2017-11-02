@@ -21,48 +21,90 @@ D
 #include <iostream>
 #include "ArrayList.h"
 #include "CursorList.h"
-using namespace std;
+#include "SingleList.h"
+#include "LinkedList.h"
+#include <list>
+
 int main()
 {
-	CursorList tab;
-//	tab.push_back(10);
-//	tab.push_back(12);
-	cout << tab.getValue(1) << endl;
-	tab.push_front(30);
-	cout << tab.getValue(1) << endl;
-	tab.push_front(12);
-//	tab.push_back(95);
-	cout << tab.getValue(1) << endl;
-	tab.push_front(14);
-	cout << tab.getValue(1) << endl;
-/*	tab.display();
-	cerr << tab.size() << endl;
-	if (tab.find(10))
+
+	ArrayList array;
+	CursorList cursor;
+	SingleList single;
+	LinkedList linked;
+	std::list<int> list;
+
+	int n;
+	std::cin >> n;
+	std::string commands;
+	int* values = new int[n];
+
+	for (int i = 0; i < n; i++)
 	{
-		cerr << "true"<<endl;
+		char command;
+		std::cin >> command;
+		commands += command;
+		if (command == 'A' || command == 'F')
+		{
+			int value;
+			std::cin >> value;
+			values[i] = value;
+		}
 	}
-	else
+
+	for (int i = 0; i < commands.length(); i++)
 	{
-		cerr << "false" << endl;
+		char command = commands[i];
+
+		if (command == 'A')
+		{
+			array.push_back(values[i]);
+			cursor.push_back(values[i]);
+			single.push_back(values[i]);
+			linked.push_back(values[i]);
+			list.push_back(values[i]);
+		}
+		else if (command == 'F')
+		{
+			array.pop_front;
+			cursor.pop_front;
+			single.pop_front;
+			linked.pop_front;
+			list.pop_front;
+		}
+		else if (command == 'D')
+		{
+
+		}
+		else if (command == 'S')
+		{
+		}
 	}
-	cerr << tab.pop_front() << endl;
-	if (tab.find(10))
+
+	for (int i=0;i<list.size();i++)
 	{
-		cerr << "true" << endl;
+		auto l_front = list.begin();
+		std::advance(l_front, i);
+
+		if (*l_front != array.getValue(i))
+		{
+			std::cerr << "array FALSE!!!";
+		}
+		if (*l_front != cursor.getValue(i))
+		{
+			std::cerr << "cursor FALSE!!!";
+		}
+		if (*l_front != single.getValue(i))
+		{
+			std::cerr << "single FALSE!!!";
+		}
+		if (*l_front != linked.getValue(i))
+		{
+			std::cerr << "linked FALSE!!!";
+		}
 	}
-	else
-	{
-		cerr << "false" << endl;
-	}
-	cerr << "done" << endl;
-	tab.pop_back();
-	cerr << "done" << endl;
-	tab.pop_back();
-	cerr << "done" << endl;
-	tab.pop_back();
-	cerr << "done" << endl;
-	cerr << tab.size() << endl;
-	*/
+
+
 
 	system("PAUSE");
 	return 0;

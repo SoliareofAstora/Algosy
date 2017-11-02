@@ -3,6 +3,7 @@
 
 SingleList::SingleList()
 {
+	head = nullptr;
 }
 
 SingleList::~SingleList()
@@ -11,7 +12,7 @@ SingleList::~SingleList()
 
 void SingleList::push_front(int value)
 {
-	node *temp =new node();
+	node *temp = new node;
 	temp->value = value;
 	if (head)
 	{
@@ -21,20 +22,16 @@ void SingleList::push_front(int value)
 	{
 		temp->next = nullptr;
 	}
-	
 	head = temp;
 }
-/*
+
 int SingleList::pop_front()
 {
-	if (length>0)
+	if (head!=nullptr)
 	{
-		length--;
-		int temp = tab[head].next;
-		int value = tab[head].value;
-		tab[head].next = -2;
-		head = temp;
-		return value;
+		node *temp = head;
+		head = head->next;
+		delete temp;
 	}
 	std::cerr << "NOPE! pop_front Array is empty";
 	return -1;
@@ -42,117 +39,93 @@ int SingleList::pop_front()
 
 void SingleList::push_back(int value)
 {
-	if (length == 0)
-	{
-		tab[nextFree].value = value;
-		tab[nextFree].next = -1;
-		length++;
-		UpdateNextFree();
-	}
-	else
-	{
+	node *temp = new node;
+	temp->value = value;
+	temp->next = nullptr;
 
-		if (sizeof tab / 8 > length + 1)
-		{
-			int next = head;
-			while (tab[next].next != -1)
-			{
-				next = tab[next].next;
-			}
-			tab[next].next = nextFree;
-			tab[nextFree].value = value;
-			tab[nextFree].next = -1;
-			length++;
-			UpdateNextFree();
-		}
-		else
-		{
-			std::cerr << "NOPE! push_back Out of range exception";
-		}
+	if (head==nullptr)
+	{
+		head = temp;
 	}
-
+	else 
+	{
+		node* current = head;
+		while (current->next != nullptr)
+		{
+			current = current->next;
+		}
+		current->next = temp;
+	}
 }
 
-//TODO ten kawa³ek kodu jest po prostu z³y :(
 int SingleList::pop_back()
 {
-	if (length>0)
+	node *temp = new node;
+	node *previous = new node;
+	temp = head;
+	while (temp->next != nullptr)
 	{
-		length--;
-		if (length>2)
-		{
-			//only for length>2 
-			int next = head;
-			while (tab[tab[next].next].next != -1)
-			{
-				next = tab[next].next;
-			}
-			tab[tab[next].next].next = -2;
-			int value = tab[tab[next].next].value;
-			tab[next].next = -1;
-			return value;
-		}
-		else
-		{
-			if (length == 1)
-			{
-				int value = tab[head].value;
-				tab[head].next = -2;
-				head = nextFree;
-				return value;
-			}
-			else
-			{
-				int value = tab[tab[head].next].value;
-				tab[tab[head].next].next = -2;
-				tab[head].next = -1;
-				return value;
-			}
-		}
-
+		previous = temp;
+		temp = temp->next;
 	}
-	std::cerr << "NOPE! pop_back Array is empty";
-	return -1;
+	previous->next = nullptr;
+	int value = temp->value;
+	delete temp;
+	return value;
 }
 
 int* SingleList::find(int value)
 {
-	if (length > 0)
+	node* temp = head;
+	while (temp != nullptr)
 	{
-		int next = head;
-		do
+		if (temp->value==value)
 		{
-			if (tab[next].value == value)
-			{
-				return &tab[next].value;
-			}
-			next = tab[next].next;
-		} while (next != -1);//End of array
-		return nullptr;
+			return &temp->value;
+		}
+		temp = temp->next;
 	}
 	return nullptr;
 }
 
 int SingleList::size() const
 {
-	return length;
+	int size = 0;
+	node *current = head;
+	while (current->next != nullptr)
+	{
+		size++;
+		current = current->next;
+	}
+	return size;
 }
 
 void SingleList::display()
 {
-	int next = head;
-	do
+	node* temp = head;
+	while (temp != nullptr)
 	{
-		std::cout << tab[next].value << std::endl;
-		next = tab[next].next;
-	} while (next != -1);//End of array
+		std::cout << temp->value << std::endl;
+		temp = temp->next;
+	} 
 }
-*/
+
 int SingleList::getValue(int i)
 {
-	
-	return head->value;
 
+	node *temp = head;
+	int x = 0;
+	do
+	{
+		if (x == i)
+		{
+			return temp->value;
+		}
+		temp = temp->next;
+		x++;
+	} while (temp!= nullptr);
+	
+	return -1;
 }
 
 

@@ -1,5 +1,5 @@
 ﻿  main.cpp
-  SingleList.cpp
-  Generating Code...
+e:\studia\algosy\zadanka z algosów\main.cpp(55): warning C4018: '<': signed/unsigned mismatch
+e:\studia\algosy\zadanka z algosów\main.cpp(78): warning C4018: '<': signed/unsigned mismatch
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.exe
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.pdb (Partial PDB)

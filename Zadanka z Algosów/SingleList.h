@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SingleList_h
+#define SingleList_h
 class SingleList
 {
 	struct node
@@ -7,7 +8,7 @@ class SingleList
 		node* next;		//ref no new node
 	};
 	node *head;	//first node address
-	int length;
+
 
 public:
 	SingleList();
@@ -21,4 +22,6 @@ public:
 	void display();
 	int getValue(int i);
 };
+#endif
+
 

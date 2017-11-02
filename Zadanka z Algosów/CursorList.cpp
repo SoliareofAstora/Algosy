@@ -108,7 +108,7 @@ void CursorList::push_back(int value)
 
 }
 
-//TODO ten kawa³ek kodu jest po prostu z³y :(
+//TODO ten kawa³ek kodu jest po prostu z³y, Tak wstyd mi za niego :(
 int CursorList::pop_back()
 {
 	if (length>0)
@@ -165,6 +165,7 @@ int* CursorList::find(int value)
 		} while (next != -1);//End of array
 		return nullptr;
 	}
+	std::cerr << "NOPE! find Array is empty";
 	return nullptr;
 }
 
@@ -196,7 +197,7 @@ int CursorList::getValue(int i)
 		next = tab[next].next;
 		x++;
 	}
-	return 0;
+	return -1;
 }
 
 
