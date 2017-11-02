@@ -17,6 +17,8 @@ A 317
 D
 D
  */
+//Compilation command 
+//  g++ -std=c++11 main.cpp ArrayList.cpp CursorList.cpp LinkedList.cpp SingleList.cpp
 #include <cstdlib>
 #include <iostream>
 #include "ArrayList.h"
@@ -24,6 +26,7 @@ D
 #include "SingleList.h"
 #include "LinkedList.h"
 #include <list>
+#include <iterator>
 
 int main()
 {
@@ -35,25 +38,27 @@ int main()
 	std::list<int> list;
 
 	int n;
-	std::cin >> n;
+//	std::cin >> n;
 	std::string commands;
-	int* values = new int[n];
+	//int* values = new int[n];
 
-	for (int i = 0; i < n; i++)
+	//for (int i = 0; i < n; i++)
 	{
-		char command;
-		std::cin >> command;
-		commands += command;
-		if (command == 'A' || command == 'F')
+		//char command;
+	//	std::cin >> command;
+	//	commands += command;
+	//	if (command == 'A' || command == 'F')
 		{
-			int value;
-			std::cin >> value;
-			values[i] = value;
+	//		int value;
+		//	std::cin >> value;
+		//	values[i] = value;
 		}
 	}
-
+	commands = "AAADDAADADADAAD";
+	int values[15] = { 1,2,3,4,5,6,7,8,9,0,1,2,3,4,5 };
 	for (int i = 0; i < commands.length(); i++)
 	{
+		std::cerr << i << std::endl;
 		char command = commands[i];
 
 		if (command == 'A')
@@ -66,15 +71,16 @@ int main()
 		}
 		else if (command == 'F')
 		{
-			array.pop_front;
-			cursor.pop_front;
-			single.pop_front;
-			linked.pop_front;
-			list.pop_front;
+
 		}
 		else if (command == 'D')
 		{
 
+			array.pop_front();
+			cursor.pop_front();
+			single.pop_front();
+			linked.pop_front();
+			list.pop_front();
 		}
 		else if (command == 'S')
 		{
@@ -103,6 +109,14 @@ int main()
 			std::cerr << "linked FALSE!!!";
 		}
 	}
+	std::cerr << "Array" << std::endl;
+	array.display();
+	std::cerr << "Cursor"<<std::endl;
+	cursor.display();
+	std::cerr << "Single" << std::endl;
+	single.display();
+	std::cerr << "Linked" << std::endl;
+	linked.display();
 
 
 

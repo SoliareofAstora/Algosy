@@ -1,6 +1,6 @@
 #include "CursorList.h"
 #include <iostream>
-#include <ppltasks.h>
+
 
 CursorList::CursorList()
 {
@@ -108,7 +108,7 @@ void CursorList::push_back(int value)
 
 }
 
-//TODO ten kawa³ek kodu jest po prostu z³y, Tak wstyd mi za niego :(
+//TODO ten kawa³ek kodu jest po prostu z³y, ale dzia³a :(
 int CursorList::pop_back()
 {
 	if (length>0)

@@ -31,7 +31,9 @@ int SingleList::pop_front()
 	{
 		node *temp = head;
 		head = head->next;
+		int value = temp->value;
 		delete temp;
+		return value;
 	}
 	std::cerr << "NOPE! pop_front Array is empty";
 	return -1;
