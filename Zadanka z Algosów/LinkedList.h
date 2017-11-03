@@ -13,9 +13,7 @@ class LinkedList
 public:
 
 	LinkedList();
-
 	~LinkedList();
-
 	void push_front(int value);
 	int pop_front();
 	void push_back(int value);

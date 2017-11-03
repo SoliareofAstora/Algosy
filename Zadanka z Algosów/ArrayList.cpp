@@ -95,18 +95,3 @@ int ArrayList::getValue(int i)
 {
 	return tab[i];
 }
-
-
-
-
-
-
-/*
-    void push_front(int value) - wstawia element na pocz¹tek listy
-    int pop_front() - usuwa element z pocz¹tku listy i zwraca jego wartoœæ
-    void push_back(int value) - wstawia element na koniec listy
-    int pop_back() - usuwa element z koñca listy i zwraca jego wartoœæ
-    int* find(int value) - wyszukuje element o wartoœci value i zwraca do niego wskaŸnik lub nullptr gdy nie element istnieje
-    int size() - zwraca liczbê elementów w liœcie
-*/
-

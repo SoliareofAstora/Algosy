@@ -79,8 +79,8 @@ void CursorList::push_back(int value)
 {
 	if (length==0)
 	{
-		tab[nextFree].value = value;
-		tab[nextFree].next = -1;
+		tab[head].value = value;
+		tab[head].next = -1;
 		length++;
 		UpdateNextFree();
 	}
@@ -152,20 +152,23 @@ int CursorList::pop_back()
 
 int* CursorList::find(int value)
 {
+	if (length<1)
+	{
+		return nullptr;
+	}
 	if (length > 0)
 	{
 		int next = head;
-		do
-		{
+		//do
+		//{
 			if (tab[next].value == value)
 			{
 				return &tab[next].value;
 			}
 			next = tab[next].next;
-		} while (next != -1);//End of array
+		//} while (next != -1);//End of array
 		return nullptr;
 	}
-	std::cerr << "NOPE! find Array is empty";
 	return nullptr;
 }
 
