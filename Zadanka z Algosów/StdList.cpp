@@ -25,6 +25,7 @@ int StdList::pop_front()
 		tab.pop_front();
 		return i;
 	}
+	return -1;
 }
 
 void StdList::push_back(int value)

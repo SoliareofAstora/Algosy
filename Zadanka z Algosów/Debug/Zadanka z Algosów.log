@@ -1,10 +1,9 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\main.cpp(45): warning C4018: '<': signed/unsigned mismatch
-e:\studia\algosy\zadanka z algosów\main.cpp(67): warning C4018: '<': signed/unsigned mismatch
-e:\studia\algosy\zadanka z algosów\main.cpp(93): warning C4018: '<': signed/unsigned mismatch
-e:\studia\algosy\zadanka z algosów\main.cpp(115): warning C4018: '<': signed/unsigned mismatch
-e:\studia\algosy\zadanka z algosów\main.cpp(137): warning C4018: '<': signed/unsigned mismatch
-  CursorList.cpp
-  Generating Code...
+e:\studia\algosy\zadanka z algosów\main.cpp(14): warning C4018: '<': signed/unsigned mismatch
+  e:\studia\algosy\zadanka z algosów\main.cpp(70): note: see reference to function template instantiation 'void Execute<ArrayList>(std::string,int [],T *)' being compiled
+          with
+          [
+              T=ArrayList
+          ]
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.exe
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.pdb (Partial PDB)

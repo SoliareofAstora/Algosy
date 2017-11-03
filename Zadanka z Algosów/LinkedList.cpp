@@ -94,7 +94,7 @@ void LinkedList::display()
 
 int LinkedList::getValue(int i)
 {
-	node *temp = head;
+	node *temp = head->next;
 	int x = 0;
 	do
 	{
