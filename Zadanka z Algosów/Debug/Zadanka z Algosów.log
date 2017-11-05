@@ -1,9 +1,9 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\main.cpp(14): warning C4018: '<': signed/unsigned mismatch
-  e:\studia\algosy\zadanka z algosów\main.cpp(70): note: see reference to function template instantiation 'void Execute<ArrayList>(std::string,int [],T *)' being compiled
+e:\studia\algosy\zadanka z algosów\main.cpp(15): warning C4018: '<': signed/unsigned mismatch
+  e:\studia\algosy\zadanka z algosów\main.cpp(72): note: see reference to function template instantiation 'void ExecuteCommands<SortedArrayList>(std::string,int [],T *)' being compiled
           with
           [
-              T=ArrayList
+              T=SortedArrayList
           ]
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.exe
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\Debug\Zadanka z Algosów.pdb (Partial PDB)

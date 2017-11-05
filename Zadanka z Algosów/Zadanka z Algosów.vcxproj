@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArrayList.cpp" />
+    <ClCompile Include="SortedArrayList.cpp" />
     <ClCompile Include="CursorList.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="main.cpp" />
@@ -27,7 +27,7 @@
     <ClCompile Include="StdList.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArrayList.h" />
+    <ClInclude Include="SortedArrayList.h" />
     <ClInclude Include="CursorList.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="SingleList.h" />

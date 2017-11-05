@@ -1,12 +1,13 @@
 ﻿//Linux compilation command 
 //  g++ -std=c++11 main.cpp ArrayList.cpp CursorList.cpp LinkedList.cpp SingleList.cpp StdList.cpp
 #include <iostream>
-#include "ArrayList.h"
+#include "SortedArrayList.h"
 #include "CursorList.h"
 #include "SingleList.h"
 #include "LinkedList.h"
 #include <iterator>
 #include "StdList.h"
+
 
 template<class T>
 void ExecuteCommands(std::string commands, int values[], T *t)
@@ -17,7 +18,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 		if (command == 'A')
 		{
-			t->push_back(values[i]);
+			t->push(values[i]);
 		}
 		else if (command == 'F')
 		{
@@ -25,7 +26,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 		}
 		else if (command == 'D')
 		{
-			t->pop_front();
+		//	t->pop();
 		}
 		else if (command == 'S')
 		{
@@ -36,11 +37,12 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 int main()
 {
-	ArrayList array;
-	CursorList cursor;
-	SingleList single;
-	LinkedList linked;
-	StdList list;
+	SortedArrayList array1;
+	SortedArrayList array2;
+	//CursorList cursor;
+	//SingleList single;
+	//LinkedList linked;
+	//StdList list;
 	
 	/*
 	//Linux reading
@@ -64,13 +66,20 @@ int main()
 	
 
 	//Test vlaues
-	std::string commands = "AAAAAADDAADADADAAD";
+	std::string commands = "AAAAAAAAAAAAAAAA";
 	int values[18] = { 1,2,3,4,5,3,4,5,6,7,8,9,0,1,2,3,4,5 };
 
-	ExecuteCommands(commands, values, &array);
+	ExecuteCommands(commands, values, &array1);
+	array1.print();
+	std::cerr << "array finished" << std::endl;
+	ExecuteCommands(commands, values, &array2);
+	array2.print();
 	std::cerr << "array finished" << std::endl;
 
-	ExecuteCommands(commands, values, &cursor);
+	SortedArrayList array3 = SortedArrayList::merge(array1, array2);
+	array3.print();
+
+/*	ExecuteCommands(commands, values, &cursor);
 	std::cerr << "cursor finished" << std::endl;
 
 	ExecuteCommands(commands, values, &single);
@@ -80,9 +89,9 @@ int main()
 	std::cerr << "linked finished" << std::endl;
 
 	ExecuteCommands(commands, values, &list);
-	std::cerr << "std::list finished \n" << std::endl;
+	std::cerr << "std::list finished \n" << std::endl;*/
 
-	for (int i = 0; i < list.size(); i++)
+	/*for (int i = 0; i < list.size(); i++)
 	{
 		auto l_front = list.begin();
 		std::advance(l_front, i);
@@ -105,8 +114,7 @@ int main()
 			std::cerr << "linked FALSE!!!";
 		}
 		std::cout << std::endl;
-	}
-
+	}*/
 	system("PAUSE");
 	return 0;
 }
