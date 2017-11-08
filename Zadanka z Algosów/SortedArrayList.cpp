@@ -115,37 +115,57 @@ int SortedArrayList::getValue(int i) const
 	return tab[i];
 }
 
-
+//O(2N)
 SortedArrayList SortedArrayList::merge(
 	const SortedArrayList& a,
 	const SortedArrayList& b)
 {
 	SortedArrayList output;
 	int outputSize = a.size() + b.size();
+	std::cerr << outputSize << std::endl;
 	if (outputSize > output.maxElements())
 	{
 		std::cerr << "ERROR! merge - too many elements" << std::endl;;
 		return output;
 	}
-	int ai = 1;
-	int bi = 1;
+	int ai = 0;
+	int bi = 0;
 	int amin = a.getValue(0);
 	int bmin = b.getValue(0);
-	for (int i = 0; i < outputSize; i++)
+
+	for (int i = 0; i < outputSize+1; i++)
 	{
-		if (amin > bmin)
+		if (amin < bmin)
 		{
-			//input: b
-			output.pushSorted(bmin);
-			bmin = b.getValue(bi);
-			bi++;
+			//input: a
+
+			ai++;
+			if (ai > a.size())
+			{
+				amin = INT_MAX;
+			}
+			else
+			{
+				std::cerr << "a";
+				output.pushSorted(amin);
+				amin = a.getValue(ai);
+			}
+
 		}
 		else
 		{
-			//input: a
-			output.pushSorted(amin);
-			amin = a.getValue(ai);
-			ai++;
+			//input: b
+			bi++;
+			if (bi > b.size())
+			{
+				bmin = INT_MAX;
+			}
+			else
+			{
+				std::cerr << "b";
+				output.pushSorted(bmin);
+				bmin = b.getValue(bi);
+			}
 		}
 	}
 	return output;
@@ -153,8 +173,28 @@ SortedArrayList SortedArrayList::merge(
 
 void SortedArrayList::print()
 {
+	std::cout << std::endl;
 	for (int i = 0; i < firstFree; i++)
 	{
-		std::cout << tab[i] << std::endl;
+		std::cout << tab[i] << " ";// << std::endl;
 	}
+	std::cout << std::endl;
+}
+
+//O(N)
+void SortedArrayList::unique()
+{
+	int distance = 1;
+	for (int i=0;i<firstFree-distance;i++)
+	{
+		if (tab[i]==tab[i+distance])
+		{
+			distance++;
+			i--;
+		}
+		else {
+			tab[i + 1] = tab[i + distance];
+		}
+	}
+	firstFree -= distance-1;
 }

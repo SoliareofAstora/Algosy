@@ -19,6 +19,7 @@ public:
 	int size() const;
 	void remove(int value);
 	void print();
+	void unique();
 	int getValue(int i) const;
 	int maxElements() const { return sizeof tab / 4; }
 	static SortedArrayList merge(const SortedArrayList& a,

@@ -66,17 +66,28 @@ int main()
 	
 
 	//Test vlaues
-	std::string commands = "AAAAAAAAAAAAAAAA";
-	int values[18] = { 1,2,3,4,5,3,4,5,6,7,8,9,0,1,2,3,4,5 };
+	std::string commands = "AAAAAAAAAA";
+	int values[19] = { 1,5,2,3,4,5,3,4,5,6,7,8,9,0,1,2,3,4,5 };
 
 	ExecuteCommands(commands, values, &array1);
+	array1.push(-1);
+	array1.print();
+	array1.unique();
 	array1.print();
 	std::cerr << "array finished" << std::endl;
 	ExecuteCommands(commands, values, &array2);
+	array2.push(100);
+	array2.push(10);
+	array2.push(109); 
+	array2.push(160);
+	array2.push(540);
+	array2.push(170);
 	array2.print();
 	std::cerr << "array finished" << std::endl;
 
 	SortedArrayList array3 = SortedArrayList::merge(array1, array2);
+	array3.print();
+	array3.unique();
 	array3.print();
 
 /*	ExecuteCommands(commands, values, &cursor);
