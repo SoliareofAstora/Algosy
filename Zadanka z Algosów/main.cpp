@@ -2,11 +2,8 @@
 //  g++ -std=c++11 main.cpp ArrayList.cpp CursorList.cpp LinkedList.cpp SingleList.cpp StdList.cpp
 #include <iostream>
 #include "SortedArrayList.h"
-#include "CursorList.h"
-#include "SingleList.h"
-#include "LinkedList.h"
+#include "SortedLinkedList.h"
 #include <iterator>
-#include "StdList.h"
 
 
 template<class T>
@@ -35,10 +32,15 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 	}
 }
 
+void ExecuteCommands()
+{
+	
+}
+
 int main()
 {
-	SortedArrayList array1;
-	SortedArrayList array2;
+	SortedLinkedList array1;
+	SortedLinkedList array2;
 	//CursorList cursor;
 	//SingleList single;
 	//LinkedList linked;
@@ -66,13 +68,10 @@ int main()
 	
 
 	//Test vlaues
-	std::string commands = "AAAAAAAAAA";
-	int values[19] = { 1,5,2,3,4,5,3,4,5,6,7,8,9,0,1,2,3,4,5 };
-
+	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
 	ExecuteCommands(commands, values, &array1);
-	array1.push(-1);
-	array1.print();
-	array1.unique();
+	std::cerr << std::endl;
 	array1.print();
 	std::cerr << "array finished" << std::endl;
 	ExecuteCommands(commands, values, &array2);
@@ -82,11 +81,13 @@ int main()
 	array2.push(160);
 	array2.push(540);
 	array2.push(170);
+	array2.unique();
 	array2.print();
 	std::cerr << "array finished" << std::endl;
 
-	SortedArrayList array3 = SortedArrayList::merge(array1, array2);
+	SortedLinkedList array3 = SortedLinkedList::merge(array1, array2);
 	array3.print();
+	std::cerr << std::endl;
 	array3.unique();
 	array3.print();
 

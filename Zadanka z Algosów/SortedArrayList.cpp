@@ -146,7 +146,7 @@ SortedArrayList SortedArrayList::merge(
 			}
 			else
 			{
-				std::cerr << "a";
+			//	std::cerr << "a";
 				output.pushSorted(amin);
 				amin = a.getValue(ai);
 			}
@@ -162,7 +162,7 @@ SortedArrayList SortedArrayList::merge(
 			}
 			else
 			{
-				std::cerr << "b";
+			//	std::cerr << "b";
 				output.pushSorted(bmin);
 				bmin = b.getValue(bi);
 			}

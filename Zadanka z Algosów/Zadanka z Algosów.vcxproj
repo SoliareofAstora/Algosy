@@ -20,18 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SortedArrayList.cpp" />
-    <ClCompile Include="CursorList.cpp" />
-    <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="SortedLinkedList.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SingleList.cpp" />
-    <ClCompile Include="StdList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SortedArrayList.h" />
-    <ClInclude Include="CursorList.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="SingleList.h" />
-    <ClInclude Include="StdList.h" />
+    <ClInclude Include="SortedLinkedList.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
