@@ -8,6 +8,7 @@ class stack
 	};
 	node *last;
 	int length;
+
 public:
 	stack();
 	~stack();

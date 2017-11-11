@@ -3,6 +3,7 @@
 #include <iostream>
 #include "deque.h"
 #include "stack.h"
+#include	"queue.h"
 #include <iterator>
 
 template<class T>
@@ -14,7 +15,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 		if (command == 'A')
 		{
-			t->push(values[i]);
+			t->enqueue(values[i]);
 		}
 		else if (command == 'F')
 		{
@@ -61,12 +62,12 @@ int main()
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
 
-	stack deq;
+	queue deq;
 	ExecuteCommands(commands, values, &deq);
 	std::cout << deq.size() << std::endl;
 	while (!deq.empty())
 	{
-		std::cout << deq.pop() << std::endl;
+		std::cout << deq.dequeue() << std::endl;
 	}
 
 

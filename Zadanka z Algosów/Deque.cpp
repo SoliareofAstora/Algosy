@@ -118,6 +118,10 @@ int& deque::back()
 
 int deque::size()
 {
+	if (empty())
+	{
+		return 0;
+	}
 	if (write > read)
 	{
 		return write - read;
