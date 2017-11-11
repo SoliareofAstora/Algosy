@@ -1,10 +1,7 @@
 ﻿//Linux compilation command 
-//  g++ -std=c++11 main.cpp ArrayList.cpp CursorList.cpp LinkedList.cpp SingleList.cpp StdList.cpp
+//  g++ -std=c++11 main.cpp 
 #include <iostream>
-#include "SortedArrayList.h"
-#include "SortedLinkedList.h"
 #include <iterator>
-
 
 template<class T>
 void ExecuteCommands(std::string commands, int values[], T *t)
@@ -32,19 +29,10 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 	}
 }
 
-void ExecuteCommands()
-{
-	
-}
 
 int main()
 {
-	SortedLinkedList array1;
-	SortedLinkedList array2;
-	//CursorList cursor;
-	//SingleList single;
-	//LinkedList linked;
-	//StdList list;
+
 	
 	/*
 	//Linux reading
@@ -70,26 +58,7 @@ int main()
 	//Test vlaues
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
-	ExecuteCommands(commands, values, &array1);
-	std::cerr << std::endl;
-	array1.print();
-	std::cerr << "array finished" << std::endl;
-	ExecuteCommands(commands, values, &array2);
-	array2.push(100);
-	array2.push(10);
-	array2.push(109); 
-	array2.push(160);
-	array2.push(540);
-	array2.push(170);
-	array2.unique();
-	array2.print();
-	std::cerr << "array finished" << std::endl;
 
-	SortedLinkedList array3 = SortedLinkedList::merge(array1, array2);
-	array3.print();
-	std::cerr << std::endl;
-	array3.unique();
-	array3.print();
 
 /*	ExecuteCommands(commands, values, &cursor);
 	std::cerr << "cursor finished" << std::endl;
