@@ -1,6 +1,7 @@
 ﻿//Linux compilation command 
 //  g++ -std=c++11 main.cpp 
 #include <iostream>
+#include "Deque.h"
 #include <iterator>
 
 template<class T>
@@ -33,7 +34,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 int main()
 {
 
-	
+
 	/*
 	//Linux reading
 	int n;
@@ -58,6 +59,9 @@ int main()
 	//Test vlaues
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
+
+	Deque deq;
+	deq.push_front(1);
 
 
 /*	ExecuteCommands(commands, values, &cursor);
