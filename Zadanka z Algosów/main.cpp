@@ -1,23 +1,23 @@
 ﻿//Linux compilation command 
 //  g++ -std=c++11 main.cpp 
 #include <iostream>
-#include "Deque.h"
+#include "deque.h"
 #include <iterator>
 
 template<class T>
 void ExecuteCommands(std::string commands, int values[], T *t)
 {
-	for (int i = 0; i < commands.length(); i++)
+	for (int i = 0; i <5; i++)
 	{
 		char command = commands[i];
 
 		if (command == 'A')
 		{
-			t->push(values[i]);
+			t->push_back(values[i]);
 		}
 		else if (command == 'F')
 		{
-			t->find(values[i]);
+			//t->find(values[i]);
 		}
 		else if (command == 'D')
 		{
@@ -25,7 +25,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 		}
 		else if (command == 'S')
 		{
-			t->size();
+		//	t->size();
 		}
 	}
 }
@@ -60,8 +60,13 @@ int main()
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
 
-	Deque deq;
-	deq.push_front(1);
+	deque deq;
+	ExecuteCommands(commands, values, &deq);
+	std::cout << deq.size() << std::endl;
+	while (!deq.empty())
+	{
+		std::cout << deq.pop_back() << std::endl;
+	}
 
 
 /*	ExecuteCommands(commands, values, &cursor);

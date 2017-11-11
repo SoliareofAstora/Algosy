@@ -1,5 +1,5 @@
 #pragma once
-class Deque
+class deque
 {
 	int arr[10000];
 	int read;
@@ -11,8 +11,8 @@ class Deque
 	int getDecreasedPointer(int &pointer);
 
 public:
-	Deque();
-	~Deque();
+	deque();
+	~deque();
 
 	void push_front(int value); // Wstawia element na pocz¹tek kolejki
 	int pop_front();        // Usuwa element z pocz¹tku kolejki
