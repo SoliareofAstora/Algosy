@@ -2,6 +2,7 @@
 //  g++ -std=c++11 main.cpp 
 #include <iostream>
 #include "deque.h"
+#include "stack.h"
 #include <iterator>
 
 template<class T>
@@ -13,7 +14,7 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 		if (command == 'A')
 		{
-			t->push_back(values[i]);
+			t->push(values[i]);
 		}
 		else if (command == 'F')
 		{
@@ -60,12 +61,12 @@ int main()
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
 
-	deque deq;
+	stack deq;
 	ExecuteCommands(commands, values, &deq);
 	std::cout << deq.size() << std::endl;
 	while (!deq.empty())
 	{
-		std::cout << deq.pop_back() << std::endl;
+		std::cout << deq.pop() << std::endl;
 	}
 
 
