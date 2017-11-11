@@ -1,9 +1,11 @@
 #pragma once
+
+template<typename T>
 class stack
 {
 	struct node
 	{
-		int value;
+		T value;
 		node* prev;
 	};
 	node *last;
@@ -13,7 +15,7 @@ public:
 	stack();
 	~stack();
 
-	void push(int x); // Dodaje element na stos
+	void push(T x); // Dodaje element na stos
 	int pop();        // Usuwa element ze stosu
 	int& top();       // Zwraca referencjê do ostatniego elementu
 	int size();       // Zwraca liczbê elementów na stosie

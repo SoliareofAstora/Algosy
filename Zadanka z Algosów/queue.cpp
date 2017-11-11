@@ -1,37 +1,39 @@
 #include "queue.h"
 
 
-
-queue::queue()
+template<typename T>
+queue<typename T>::queue()
 {
 }
 
-
-queue::~queue()
+template<typename T>
+queue<typename T>::~queue()
 {
 }
-
-void queue::enqueue(int x)
+template<typename T>
+void queue<typename T>::enqueue(T x)
 {
 	push_back(x);
 }
-
-int queue::dequeue()
+template<typename T>
+int queue<typename T>::dequeue()
 {
 	return pop_front();
 }
-
-int& queue::peek()
+template<typename T>
+int& queue<typename T>::peek()
 {
 	return front();
 }
-
-int queue::size()
+template<typename T>
+int queue<typename T>::size()
 {
-	return deque::size();
+	return deque<typename T>::size();
+}
+template<typename T>
+bool queue<typename T>::empty()
+{
+	return deque<typename T>::empty();
 }
 
-bool queue::empty()
-{
-	return deque::empty();
-}
+template class queue<int>;

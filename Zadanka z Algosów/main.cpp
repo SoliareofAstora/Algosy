@@ -3,7 +3,7 @@
 #include <iostream>
 #include "deque.h"
 #include "stack.h"
-#include	"queue.h"
+#include "queue.h"
 #include <iterator>
 
 template<class T>
@@ -62,7 +62,7 @@ int main()
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
 
-	queue deq;
+	queue <int> deq;
 	ExecuteCommands(commands, values, &deq);
 	std::cout << deq.size() << std::endl;
 	while (!deq.empty())
