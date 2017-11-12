@@ -70,8 +70,8 @@ int main()
 		std::cout << deq.dequeue() << std::endl;
 	}
 
-
-/*	ExecuteCommands(commands, values, &cursor);
+	/*
+	ExecuteCommands(commands, values, &cursor);
 	std::cerr << "cursor finished" << std::endl;
 
 	ExecuteCommands(commands, values, &single);

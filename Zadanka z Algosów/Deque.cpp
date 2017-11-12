@@ -18,7 +18,7 @@ template<typename T>
 void deque<typename T>::increasePointer(int& pointer)
 {
 	pointer++;
-	if (pointer==sizeof arr /4)
+	if (pointer==sizeof arr / sizeof T)
 	{
 		pointer = 0;
 	}
@@ -30,7 +30,7 @@ void deque<typename T>::decreasePointer(int& pointer)
 	pointer--;
 	if (pointer == -1)
 	{
-		pointer = sizeof arr / 4 - 1;
+		pointer = sizeof arr / sizeof T - 1;
 	}
 }
 
@@ -141,7 +141,7 @@ int deque<typename T>::size()
 	{
 		return write - read;
 	}
-	return write + (sizeof arr / 4 - read);
+	return write + (sizeof arr / sizeof T - read);
 }
 
 template<typename T>
