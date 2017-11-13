@@ -8,10 +8,11 @@ template <typename T>
 class heap
 {
 	T arr[100000];
-	int length=0;
+	int length=1;
 	void heapify(T i);  //Metoda heapify(T i) umieszcza korzeñ i w odpowiednim miejscu 
 						//zak³adaj¹c, ¿e jego dzieci s¹ korzeniami prawid³owych kopców.
 	T getParent(int i);
+	T getMin();
 public:
 	heap();
 	~heap();

@@ -10,9 +10,20 @@ T heap<T>::getParent(int i)
 }
 
 template <typename T>
+T heap<T>::getMin()
+{
+	return arr[1];
+}
+
+
+template <typename T>
 void heap<T>::heapify(T i)
 {
-
+	T min = arr[i];
+	if (2a > min)
+	{
+		
+	}
 }
 
 template <typename T>
@@ -67,7 +78,7 @@ T& heap<T>::top()
 template <typename T>
 int heap<T>::size()
 {
-	return length;
+	return length-1;
 }
 
 template <typename T>
