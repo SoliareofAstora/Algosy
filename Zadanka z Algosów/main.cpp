@@ -5,6 +5,12 @@
 #include "stack.h"
 #include "queue.h"
 #include <iterator>
+#include <iostream>   
+#include <stdlib.h>  
+#include <string>
+#include <time.h>   
+
+typedef unsigned char byte;
 
 template<class T>
 void ExecuteCommands(std::string commands, int values[], T *t)
@@ -37,6 +43,96 @@ int main()
 {
 
 
+
+
+	//Nawiasiki 
+	/*
+	
+	srand(time(NULL));
+
+	long testSize = 18;
+
+	for (int x = 0; x < 1000000; x++) {
+		bool check = false;
+		std::string result = "";
+		stack<char> brackets;
+		for (int i = 0; i < testSize; i++)
+		{
+			long a = rand() % 4;
+			if (a == 0)
+			{
+				check = false;
+				brackets.push('(');
+				result += "(";
+			}
+			else if (a == 1)
+			{
+				check = false;
+				brackets.push('[');
+				result += "[";
+			}
+			else if (a == 2)
+			{
+				result += ")";
+				char temp = brackets.pop();
+
+				if (temp == '(' && temp != NULL )
+				{
+					//Jeśli nie liczy się to, że pierwszy i ostatni nawias ciągu
+					//muszą być takie same, to trzeba usunąć wszystkie warunki
+					//check = true;
+					if (i==testSize-1)
+					{
+						check = true;
+					}
+					else if (brackets.empty())
+					{
+						check = false;
+						break;
+					}
+				}
+				else
+				{
+					check = false;
+					break;
+				}
+			}
+			else
+			{
+				char temp = brackets.pop();
+				result += "]";
+				if (temp == '[' && temp != NULL)
+				{
+					if (i == testSize - 1)
+					{
+						check = true;
+					}
+					else if (brackets.empty())
+					{
+						check = false;
+						break;
+					}
+				}
+				else
+				{
+					check = false;
+					break;
+				}
+			}
+		}
+		if (check && brackets.empty())
+		{
+			
+			std::cout << result << " Good Combination!!!! \n";
+		}
+		else
+		{
+			//std::cerr << result << " Bad Combination \n";
+		}
+	}
+
+	/**/
+
 	/*
 	//Linux reading
 	int n;
@@ -56,8 +152,8 @@ int main()
 			values[i] = value;
 		}
 	}*/
-	
 
+	/*
 	//Test vlaues
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
@@ -69,6 +165,7 @@ int main()
 	{
 		std::cout << deq.dequeue() << std::endl;
 	}
+	*/
 
 	/*
 	ExecuteCommands(commands, values, &cursor);
@@ -107,6 +204,7 @@ int main()
 		}
 		std::cout << std::endl;
 	}*/
+
 	system("PAUSE");
 	return 0;
 }

@@ -16,8 +16,8 @@ public:
 	~stack();
 
 	void push(T x); // Dodaje element na stos
-	int pop();        // Usuwa element ze stosu
-	int& top();       // Zwraca referencjê do ostatniego elementu
+	T pop();        // Usuwa element ze stosu
+	T& top();       // Zwraca referencjê do ostatniego elementu
 	int size();       // Zwraca liczbê elementów na stosie
 	bool empty();     // Sprawdza czy stos jest pusty
 };

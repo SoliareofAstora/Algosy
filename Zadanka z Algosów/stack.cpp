@@ -1,6 +1,8 @@
 #include "stack.h"
 #include <iostream>
 
+template class stack<int>;
+template class stack<char>;
 
 template <typename T>
 stack<T>::stack()
@@ -26,9 +28,9 @@ void stack<T>::push(T x)
 }
 
 template <typename T>
-int stack<T>::pop()
+T stack<T>::pop()
 {
-	if (length != 0)
+	if (length > 0)
 	{
 		length--;
 		node* tempNode = last->prev;
@@ -37,13 +39,13 @@ int stack<T>::pop()
 		delete tempNode;
 		return temp;
 	}
-	std::cerr << "stack is empty pop()";
+	//std::cerr << "stack is empty pop()";
 	std::out_of_range("stack pop()");
-	return -1;
+	return NULL;
 }
 
 template <typename T>
-int& stack<T>::top()
+T& stack<T>::top()
 {
 	return last->prev->value;
 }
@@ -60,4 +62,4 @@ bool stack<T>::empty()
 	return length == 0;
 }
 
-template class stack<int>;
+
