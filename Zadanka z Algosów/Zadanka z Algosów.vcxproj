@@ -25,6 +25,7 @@
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="SortedArrayList.cpp" />
     <ClCompile Include="SortedLinkedList.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
     <ClCompile Include="stack.cpp" />
   </ItemGroup>
   <ItemGroup>

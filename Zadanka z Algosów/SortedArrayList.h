@@ -1,9 +1,10 @@
 #ifndef ArrayList_h
 #define ArrayList_h
 
+template <typename T>
 class SortedArrayList
 {
-	int tab[10000];
+	T tab[1000000];
 	int firstFree;
 
 public:
@@ -11,17 +12,17 @@ public:
 	~SortedArrayList();
 
 
-	void push(int value);
-	void pushSorted(int value);
-	int pop();
-	int erase(int i);
-	int find(int value);
+	void push(T value);
+	void pushSorted(T value);
+	T pop();
+	T erase(int i);
+	int find(T value);
 	int size() const;
 	void remove(int value);
 	void print();
 	void unique();
-	int getValue(int i) const;
-	int maxElements() const { return sizeof tab / 4; }
+	T getValue(int i) const;
+	int maxElements() const { return sizeof tab / sizeof T; }
 	static SortedArrayList merge(const SortedArrayList& a,
 	                             const SortedArrayList& b);
 };

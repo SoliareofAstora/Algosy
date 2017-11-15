@@ -2,8 +2,10 @@
 #include <algorithm>
 #include "SortedArrayList.h"
 
+template class SortedArrayList<int>;
 
-SortedArrayList::SortedArrayList()
+template <typename T>
+SortedArrayList<T>::SortedArrayList()
 {
 	firstFree = 0;
 	for (int i = 0; i < sizeof tab / 4; i++)
@@ -12,21 +14,23 @@ SortedArrayList::SortedArrayList()
 	}
 }
 
-SortedArrayList::~SortedArrayList()
+template <typename T>
+SortedArrayList<T>::~SortedArrayList()
 {
 }
 
-
-int SortedArrayList::pop()
+template <typename T>
+T SortedArrayList<T>::pop()
 {
 	return erase(0);
 }
 
-void SortedArrayList::push(int value)
+template <typename T>
+void SortedArrayList<T>::push(T value)
 {
-	if (sizeof tab / 4 > firstFree + 1)
+	if (sizeof tab / sizeof T > firstFree + 1)
 	{
-		int temp = value;
+		T temp = value;
 		firstFree++;
 		for (int i = 0; i < firstFree; i++)
 		{
@@ -42,9 +46,10 @@ void SortedArrayList::push(int value)
 	}
 }
 
-void SortedArrayList::pushSorted(int value)
+template <typename T>
+void SortedArrayList<T>::pushSorted(T value)
 {
-	if (sizeof tab / 4 > firstFree)
+	if (sizeof tab / sizeof T > firstFree)
 	{
 		tab[firstFree] = value;
 		firstFree++;
@@ -55,7 +60,8 @@ void SortedArrayList::pushSorted(int value)
 	}
 }
 
-int SortedArrayList::erase(int i)
+template <typename T>
+T SortedArrayList<T>::erase(int i)
 {
 	if (firstFree > 0)
 	{
@@ -76,7 +82,8 @@ int SortedArrayList::erase(int i)
 	return -1;
 }
 
-int SortedArrayList::find(int value)
+template <typename T>
+int SortedArrayList<T>::find(T value)
 {
 	for (int i = 0; i < firstFree; i++)
 	{
@@ -88,7 +95,8 @@ int SortedArrayList::find(int value)
 	return -1;
 }
 
-void SortedArrayList::remove(int value)
+template <typename T>
+void SortedArrayList<T>::remove(int value)
 {
 	for (int i = 0; i < firstFree; i++)
 	{
@@ -100,12 +108,14 @@ void SortedArrayList::remove(int value)
 	}
 }
 
-int SortedArrayList::size() const
+template <typename T>
+int SortedArrayList<T>::size() const
 {
 	return firstFree;
 }
 
-int SortedArrayList::getValue(int i) const
+template <typename T>
+T SortedArrayList<T>::getValue(int i) const
 {
 	if (i > firstFree)
 	{
@@ -116,7 +126,8 @@ int SortedArrayList::getValue(int i) const
 }
 
 //O(2N)
-SortedArrayList SortedArrayList::merge(
+template <typename T>
+SortedArrayList<T> SortedArrayList<T>::merge(
 	const SortedArrayList& a,
 	const SortedArrayList& b)
 {
@@ -171,9 +182,9 @@ SortedArrayList SortedArrayList::merge(
 	return output;
 }
 
-void SortedArrayList::print()
+template <typename T>
+void SortedArrayList<T>::print()
 {
-	std::cout << std::endl;
 	for (int i = 0; i < firstFree; i++)
 	{
 		std::cout << tab[i] << " ";// << std::endl;
@@ -182,7 +193,8 @@ void SortedArrayList::print()
 }
 
 //O(N)
-void SortedArrayList::unique()
+template <typename T>
+void SortedArrayList<T>::unique()
 {
 	int distance = 1;
 	for (int i=0;i<firstFree-distance;i++)

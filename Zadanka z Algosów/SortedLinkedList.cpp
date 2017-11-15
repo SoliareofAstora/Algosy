@@ -2,17 +2,22 @@
 #include <codecvt>
 #include <iostream>
 
-SortedLinkedList::SortedLinkedList()
+template class SortedLinkedList<int>;
+
+template <typename T>
+SortedLinkedList<T>::SortedLinkedList()
 {
 	head = new node;
 	head->next = head->prev = head;
 }
 
-SortedLinkedList::~SortedLinkedList()
+template <typename T>
+SortedLinkedList<T>::~SortedLinkedList()
 {
 }
 
-void SortedLinkedList::push(int value)
+template <typename T>
+void SortedLinkedList<T>::push(T value)
 {
 	node* next = head->next;
 	{
@@ -41,8 +46,8 @@ void SortedLinkedList::push(int value)
 	}
 }
 
-
-void SortedLinkedList::push_front(int value)
+template <typename T>
+void SortedLinkedList<T>::push_front(T value)
 {
 	node *temp = new node;
 	temp->value = value;
@@ -52,7 +57,8 @@ void SortedLinkedList::push_front(int value)
 	temp->prev->next = temp;
 }
 
-int SortedLinkedList::pop  ()const
+template <typename T>
+T SortedLinkedList<T>::pop  ()const
 {
 	node *temp = head->next;
 	temp->prev->next = temp->next;
@@ -62,7 +68,8 @@ int SortedLinkedList::pop  ()const
 	return value;
 }
 
-void SortedLinkedList::push_back(int value)
+template <typename T>
+void SortedLinkedList<T>::push_back(T value)
 {
 	node *temp = new node;
 	temp->value = value;
@@ -72,7 +79,8 @@ void SortedLinkedList::push_back(int value)
 	temp->prev->next = temp;
 }
 
-int SortedLinkedList::pop_back() 
+template <typename T>
+T SortedLinkedList<T>::pop_back() 
 {
 	node *temp = head->prev;
 	temp->prev->next = temp->next;
@@ -82,7 +90,8 @@ int SortedLinkedList::pop_back()
 	return value;
 }
 
-int SortedLinkedList::find(int value)
+template <typename T>
+int SortedLinkedList<T>::find(T value)
 {
 	node* temp = head->next;
 	int result = 0;
@@ -101,7 +110,8 @@ int SortedLinkedList::find(int value)
 	return result;
 }
 
-int SortedLinkedList::size() const
+template <typename T>
+int SortedLinkedList<T>::size() const
 {
 	int size = 0;
 	node *current = head->next;
@@ -113,17 +123,20 @@ int SortedLinkedList::size() const
 	return size;
 }
 
-void SortedLinkedList::print()
+template <typename T>
+void SortedLinkedList<T>::print()
 {
 	node *current = head->next;
 	while (current != head)
 	{
-		std::cout << current->value << std::endl;	
+		std::cerr << current->value<<" " ;	
 		current = current->next;
 	}
+	std::cerr << std::endl;
 }
 
-int SortedLinkedList::getValue(int i)
+template <typename T>
+T SortedLinkedList<T>::getValue(int i)
 {
 	node *temp = head->next;
 	int x = 0;
@@ -132,7 +145,6 @@ int SortedLinkedList::getValue(int i)
 		if (x == i)
 		{
 			return temp->value;
-
 		}
 		temp = temp->next;
 		x++;
@@ -140,7 +152,8 @@ int SortedLinkedList::getValue(int i)
 	return -1;
 }
 
-void SortedLinkedList::unique()
+template <typename T>
+void SortedLinkedList<T>::unique()
 {
 	node* next= head->next;
 	while (next != head )
@@ -157,7 +170,8 @@ void SortedLinkedList::unique()
 	}
 }
 
-int SortedLinkedList::erase(int i)
+template <typename T>
+T SortedLinkedList<T>::erase(int i)
 {
 	node *temp = head->next;
 	int x = 0;
@@ -176,7 +190,8 @@ int SortedLinkedList::erase(int i)
 	return -1;
 }
 
-void SortedLinkedList::remove(int value)
+template <typename T>
+void SortedLinkedList<T>::remove(T value)
 {
 	node* next = head->next;
 	while (true)
@@ -196,7 +211,8 @@ void SortedLinkedList::remove(int value)
 	}
 }
 
-SortedLinkedList SortedLinkedList::merge(const SortedLinkedList& a, SortedLinkedList& b)
+template <typename T>
+SortedLinkedList<T> SortedLinkedList<T>::merge(const SortedLinkedList& a, SortedLinkedList& b)
 {
 	SortedLinkedList output;
 	int sizea = a.size();
