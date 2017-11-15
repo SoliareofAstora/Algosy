@@ -1,0 +1,10 @@
+﻿  deque.cpp
+  heap_min.cpp
+  main.cpp
+main.cpp(44): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  queue.cpp
+  stack.cpp
+  Generating code
+  All 43 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Release\Zadanka z Algosów.exe

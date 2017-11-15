@@ -10,14 +10,14 @@ void heap_min<T>::heapify()
 	if (size() > 0)
 	{
 		for (int i = size(); i > 0; i--)
-			bubbleDown(i);
+			heapifyDown(i);
 		return;
 	}
 	std::out_of_range("heapify");
 }
 
 template <typename T>
-void heap_min<T>::bubbleDown(int i)
+void heap_min<T>::heapifyDown(int i)
 {
 	int left = 2 * i;
 	if (left >=length)
@@ -31,11 +31,11 @@ void heap_min<T>::bubbleDown(int i)
 	if (min == i)
 		return;
 	std::swap(arr[i], arr[min]);
-	bubbleDown(min);
+	heapifyDown(min);
 }
 
 template <typename T>
-void heap_min<T>::bubbleUp(int i)
+void heap_min<T>::heapifyUp(int i)
 {
 	if (i==1)
 		return;
@@ -43,7 +43,7 @@ void heap_min<T>::bubbleUp(int i)
 	if (arr[parent]>arr[i])
 	{
 		std::swap(arr[parent], arr[i]);
-		bubbleUp(parent);
+		heapifyUp(parent);
 	}
 }
 
@@ -67,7 +67,6 @@ void heap_min<T>::build(T a[], int n)
 			arr[length + i] = a[i];
 		}
 		length += n;
-		print();
 		heapify();
 	}
 	std::out_of_range("heap_min build");
@@ -79,9 +78,10 @@ void heap_min<T>::push(T x)
 	if (length < sizeof arr / sizeof T)
 	{
 		arr[length] = x;
+		heapifyUp(length);
 		length++;
-		heapify();
 		
+		return;
 	}
 	std::out_of_range("heap_min push");
 }

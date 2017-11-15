@@ -1,15 +1,11 @@
 ﻿//Linux compilation command 
 //  g++ -std=c++11 main.cpp 
-#include <iostream>
-#include "deque.h"
-#include "stack.h"
-#include "queue.h"
-#include <iterator>
-#include <iostream>   
+#include <iostream> 
 #include <stdlib.h>  
 #include <string>
 #include <time.h>   
 #include "heap_min.h"
+#include <chrono>
 
 typedef unsigned char byte;
 
@@ -43,13 +39,11 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 int main()
 {
-
-
+	
+	std::cout << "ftw" << std::endl;
+	srand(time(NULL));
 	//Nawiasiki 
 	/*
-	
-	srand(time(NULL));
-
 	long testSize = 18;
 
 	for (int x = 0; x < 1000000; x++) {
@@ -122,7 +116,7 @@ int main()
 		}
 		if (check && brackets.empty())
 		{
-			
+
 			std::cout << result << " Good Combination!!!! \n";
 		}
 		else
@@ -133,8 +127,8 @@ int main()
 
 	/**/
 
-	/*
 	//Linux reading
+	/*
 	int n;
 	std::cin >> n;
 	std::string commands;
@@ -153,23 +147,46 @@ int main()
 		}
 	}*/
 
-	
-	//Test vlaues
-	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-	int values[] = {50,23,3,54,2,54,12,7,8,100};
 
-	heap_min <int> deq;
-	//ExecuteCommands(commands, values, &deq);
-	deq.build(values, sizeof values / 4);
-	deq.print();
-	deq.check();
-//	deq.check();
-	std::cout <<std::endl <<"SIZE: "<< deq.size() << std::endl;
-	while (!deq.empty())
-	{
-		std::cout << deq.pop() << std::endl;
-		deq.check();
+	//Test vlaues
+	//	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+	//int values[] = {50,23,3,54,2,54,12,7,8,100};
+std::cout << "ftw" << std::endl;
+	int const testSize = 1000000;
+	static int values[testSize];
+
+	for (int i = 0; i < testSize; i++) {
+		values[i] = rand();
 	}
+	std::cout <<"first HEAP" << std::endl;
+	static 	heap_min <int> deq;
+	{
+		auto start = std::chrono::high_resolution_clock::now();
+
+		deq.build(values, testSize);
+
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed = end - start;
+		std::cerr << "Elapsed time[s] = " << elapsed.count() << std::endl;
+	}
+	std::cout << "second HEAP" << std::endl;
+
+	static heap_min <int> deq2;
+	{
+		auto start = std::chrono::high_resolution_clock::now();
+
+		for (int i = 0; i < testSize; i++) {
+			deq2.push(values[i]); 
+		}
+
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed = end - start;
+		std::cerr << "Elapsed time[s] = " << elapsed.count() << std::endl;
+	}
+	
+
+	std::cout <<std::endl <<"SIZE1: "<< deq.size() << std::endl;
+	std::cout << std::endl << "SIZE2: " << deq2.size() << std::endl;
 	
 
 	/*

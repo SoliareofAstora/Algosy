@@ -7,12 +7,12 @@ template <typename T>
  */
 class heap_min
 {
-	T arr[100000];
+	T arr[1000002] = {};
 	int length=1;
 	void heapify();  //Metoda heapify(T i) umieszcza korzeñ i w odpowiednim miejscu 
 					 //zak³adaj¹c, ¿e jego dzieci s¹ korzeniami prawid³owych kopców.
-	void bubbleDown(int i);
-	void bubbleUp(int i);
+	void heapifyDown(int i);
+	void heapifyUp(int i);
 
 public:
 	heap_min();
