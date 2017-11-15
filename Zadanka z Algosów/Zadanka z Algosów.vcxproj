@@ -20,14 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="deque.cpp" />
-    <ClCompile Include="heap.cpp" />
+    <ClCompile Include="heap_min.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deque.h" />
-    <ClInclude Include="heap.h" />
+    <ClInclude Include="heap_min.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="stack.h" />
   </ItemGroup>

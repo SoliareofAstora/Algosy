@@ -9,19 +9,21 @@
 #include <stdlib.h>  
 #include <string>
 #include <time.h>   
+#include "heap_min.h"
 
 typedef unsigned char byte;
 
 template<class T>
 void ExecuteCommands(std::string commands, int values[], T *t)
 {
-	for (int i = 0; i <5; i++)
+	for (int i = 0; i <10; i++)
 	{
 		char command = commands[i];
 
 		if (command == 'A')
 		{
-			t->enqueue(values[i]);
+			//t->enqueue(values[i]);
+			t->push(values[i]);
 		}
 		else if (command == 'F')
 		{
@@ -41,8 +43,6 @@ void ExecuteCommands(std::string commands, int values[], T *t)
 
 int main()
 {
-
-
 
 
 	//Nawiasiki 
@@ -153,19 +153,24 @@ int main()
 		}
 	}*/
 
-	/*
+	
 	//Test vlaues
 	std::string commands = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-	int values[30] = {1,1,3,4,5,2,3,4,5,2,3,4,5,6,1,2,3,6,7,8,2,3,1,3,5,3,1,3,3,2};
+	int values[] = {50,23,3,54,2,54,12,7,8,100};
 
-	queue <int> deq;
-	ExecuteCommands(commands, values, &deq);
-	std::cout << deq.size() << std::endl;
+	heap_min <int> deq;
+	//ExecuteCommands(commands, values, &deq);
+	deq.build(values, sizeof values / 4);
+	deq.print();
+	deq.check();
+//	deq.check();
+	std::cout <<std::endl <<"SIZE: "<< deq.size() << std::endl;
 	while (!deq.empty())
 	{
-		std::cout << deq.dequeue() << std::endl;
+		std::cout << deq.pop() << std::endl;
+		deq.check();
 	}
-	*/
+	
 
 	/*
 	ExecuteCommands(commands, values, &cursor);
