@@ -8,6 +8,7 @@
 #include "SortedArrayList.h"
 #include "SortedLinkedList.h"
 #include <chrono>
+#include "stack.h"
 #include "QuickSort.cpp"
 
 typedef unsigned char byte;
@@ -47,10 +48,10 @@ void MakeTest(std::string name,T *t)
 
 int main()
 {
-	
+
 	srand(time(NULL));
 	//Nawiasiki 
-	/*
+
 	long testSize = 18;
 
 	for (int x = 0; x < 1000000; x++) {
@@ -59,7 +60,7 @@ int main()
 		stack<char> brackets;
 		for (int i = 0; i < testSize; i++)
 		{
-			long a = rand() % 4;
+			long a = rand() / (RAND_MAX/4);
 			if (a == 0)
 			{
 				check = false;
@@ -77,12 +78,12 @@ int main()
 				result += ")";
 				char temp = brackets.pop();
 
-				if (temp == '(' && temp != NULL )
+				if (temp == '(' && temp != NULL)
 				{
 					//Jeśli nie liczy się to, że pierwszy i ostatni nawias ciągu
 					//muszą być takie same, to trzeba usunąć wszystkie warunki
 					//check = true;
-					if (i==testSize-1)
+					if (i == testSize - 1)
 					{
 						check = true;
 					}
@@ -132,17 +133,17 @@ int main()
 		}
 	}
 
-	/**/
+	/*
 
 
 
 	std::cout << "test array preparation";
-	int const testSize = 10000;
+	int const testSize = 1000;
 	static int values[testSize];
 	for (int i = 0; i < testSize; i++) {
 		values[i] = rand();
 	}
-	 std::cerr<<"complete" << std::endl;
+	std::cerr<<"complete" << std::endl;
 
 	std::cout << "HEAP push ";
 	static heap_min <int> heap;
@@ -218,7 +219,6 @@ int main()
 			if (heap.pop()!=values[i])
 			{
 				std::cerr << "HEAP ERROR!" << std::endl;
-				
 			}
 			
 		}
@@ -259,7 +259,7 @@ int main()
 		std::chrono::duration<double> elapsed = end - start;
 		std::cerr << "Elapsed time[s] = " << elapsed.count() << std::endl;
 	}
-
+	*/
 	system("PAUSE");
 	return 0;
 }

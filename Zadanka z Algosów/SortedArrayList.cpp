@@ -30,15 +30,21 @@ void SortedArrayList<T>::push(T value)
 {
 	if (sizeof tab / sizeof T > firstFree + 1)
 	{
-		T temp = value;
-		firstFree++;
-		for (int i = 0; i < firstFree; i++)
+		//tab[firstFree] = value;
+		
+		for (int i = firstFree-1; i < 0; i--)
 		{
-			if (tab[i] > temp)
+			if (tab[i]>value)
 			{
-				std::swap(temp, tab[i]);
+				tab[i + 1] = tab[i];
+			}
+			else
+			{
+				tab[i + 1] = value;
 			}
 		}
+		firstFree++;
+		
 	}
 	else
 	{

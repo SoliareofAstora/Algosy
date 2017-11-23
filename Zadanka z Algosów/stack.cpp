@@ -1,8 +1,7 @@
 #include "stack.h"
-#include <iostream>
+#include <cstdint>
 
-template class stack<int>;
-template class stack<char>;
+template class stack<uint8_t>;
 
 template <typename T>
 stack<T>::stack()
@@ -15,6 +14,11 @@ stack<T>::stack()
 template <typename T>
 stack<T>::~stack()
 {
+	while (!empty())
+	{
+		pop();
+	}
+	delete last;
 }
 
 template <typename T>
@@ -30,18 +34,12 @@ void stack<T>::push(T x)
 template <typename T>
 T stack<T>::pop()
 {
-	if (length > 0)
-	{
-		length--;
-		node* tempNode = last->prev;
-		T temp = tempNode->value;
-		last->prev = tempNode->prev;
-		delete tempNode;
-		return temp;
-	}
-	//std::cerr << "stack is empty pop()";
-	std::out_of_range("stack pop()");
-	return NULL;
+	length--;
+	node* tempNode = last->prev;
+	T temp = tempNode->value;
+	last->prev = tempNode->prev;
+	delete tempNode;
+	return temp;
 }
 
 template <typename T>
