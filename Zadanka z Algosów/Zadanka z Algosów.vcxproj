@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="genRandom.cpp" />
+    <ClCompile Include="genReverse.cpp" />
+    <ClCompile Include="genSorted.cpp" />
+    <ClCompile Include="genSortedFirst.cpp" />
+    <ClCompile Include="genSortedLast.cpp" />
+    <ClCompile Include="heap_min.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="sortTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="heap_min.h" />
+    <ClInclude Include="sortTest.h" />
+    <ClInclude Include="Stopwatch.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E67BB115-653E-40DC-8C33-9B07708CFF71}</ProjectGuid>
