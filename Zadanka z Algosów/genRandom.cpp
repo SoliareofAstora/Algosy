@@ -13,7 +13,7 @@ static int* genRandom(int size)
 	
 	std::default_random_engine generator(
 		std::chrono::system_clock::now().time_since_epoch().count());
-	std::uniform_int_distribution<int> distribution(0, INT_MAX);
+	std::uniform_int_distribution<int> distribution(0, 100);
 
 	for (int i = 0; i < size; i++)
 	{

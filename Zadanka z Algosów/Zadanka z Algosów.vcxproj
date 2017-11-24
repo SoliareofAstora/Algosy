@@ -24,13 +24,15 @@
     <ClCompile Include="genSorted.cpp" />
     <ClCompile Include="genSortedFirst.cpp" />
     <ClCompile Include="genSortedLast.cpp" />
-    <ClCompile Include="heap_min.cpp" />
+    <ClCompile Include="HeapSort.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MergeSort.cpp" />
+    <ClCompile Include="QSort.cpp" />
     <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="RadxSort.cpp" />
     <ClCompile Include="sortTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="heap_min.h" />
     <ClInclude Include="sortTest.h" />
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>

@@ -1,25 +1,24 @@
-#include <iostream>
-
-static void QuickSort( int tab[], int left, int right)
+#include <algorithm>
+static void QuickSort( int *arr, int left, int right)
 {
 	int i = left;
 	int j = right;
-	int x = tab[(left + right) / 2];
+	int x = arr[(left + right) / 2];
 	do
 	{
-		while (tab[i] < x)
+		while (arr[i] < x)
 			i++;
 
-		while (tab[j] > x)
+		while (arr[j] > x)
 			j--;
 
 		if (i <= j)
 		{
-			std::swap(tab[i++], tab[j--]);
+			std::swap(arr[i++], arr[j--]);
 		}
 	} while (i <= j);
 
-	if (left < j) QuickSort(tab, left, j);
+	if (left < j) QuickSort(arr, left, j);
 
-	if (right > i) QuickSort(tab, i, right);
+	if (right > i) QuickSort(arr, i, right);
 }
