@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="deque.cpp" />
     <ClCompile Include="genRandom.cpp" />
     <ClCompile Include="genReverse.cpp" />
     <ClCompile Include="genSorted.cpp" />
@@ -28,11 +29,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="QSort.cpp" />
+    <ClCompile Include="queue.cpp" />
     <ClCompile Include="QuickSort.cpp" />
     <ClCompile Include="RadxSort.cpp" />
     <ClCompile Include="sortTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deque.h" />
+    <ClInclude Include="queue.h" />
     <ClInclude Include="sortTest.h" />
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>

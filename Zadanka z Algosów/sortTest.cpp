@@ -44,14 +44,16 @@ void sortTest::beginTest()
 		ofs <<Labels<<"\n";
 		ofs.close();
 	}
-	for (int i = 10; i < 20; i += 2)
+	//for (int i = 1000; i < 1000000; i += 200000)
 	{
+		int i = 10000;
 		testRandom(i);
 		testSorted(i);
 		testReverse(i);
 		testSortedFirst(i);
 		testSortedLast(i);
 	}
+	system("PAUSE");
 }
 
 void sortTest::testRandom(int size)
@@ -96,32 +98,37 @@ void sortTest::testAllAlgorithms(int *sourceArray, int size, int fileNameID)
 	ofs << size << ", ";
 	int *arrCopy = new int[size];
 
+	//MergeSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
 	MergeSort(arrCopy,0,size-1);
-	displayArray(arrCopy,size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
+	//QuickSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
 	QuickSort(arrCopy, 0, size - 1);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
+	//HeapSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
 	HeapSort(arrCopy,size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
+	//RadxSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	RadxSort();
+	RadxSort(arrCopy,size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
+	//std::sort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
 	std::sort(&arrCopy[0], &arrCopy[size - 1]);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
+	//qsort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
 	QSort(arrCopy, size);
@@ -129,5 +136,4 @@ void sortTest::testAllAlgorithms(int *sourceArray, int size, int fileNameID)
 
 	ofs.close();
 	delete[] arrCopy;
-	//system("PAUSE");
 }

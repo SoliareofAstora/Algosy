@@ -1,14 +1,9 @@
-﻿  sortTest.cpp
-  genSortedLast.cpp
-  genSortedFirst.cpp
-  genSorted.cpp
-  genReverse.cpp
-  genRandom.cpp
-  RadxSort.cpp
-  QuickSort.cpp
-  QSort.cpp
-  MergeSort.cpp
-  HeapSort.cpp
+﻿  RadxSort.cpp
+  Generating Code...
+  Compiling...
+  sortTest.cpp
+  queue.cpp
+  deque.cpp
   Generating Code...
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.pdb (Partial PDB)
