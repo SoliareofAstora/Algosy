@@ -2,7 +2,7 @@
 template<typename T>
 class deque
 {
-	T arr[10000];
+	T arr[100000];
 	int read;
 	int write;
 

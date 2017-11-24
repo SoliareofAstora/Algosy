@@ -9,7 +9,7 @@ class sortTest
 	sortTest(){}
 	static void copyArray(int *source, int *output, int size);
 	static void displayArray(int *arr, int size);
-
+	void prepareFiles();
 	std::string fileNames[5] = {
 		"Random.txt",
 		"Sorted.txt",

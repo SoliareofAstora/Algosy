@@ -1,57 +1,57 @@
-static void merge(int *arr, int l, int m, int r)
+static void merge(int *arr, int leftIndex, int splitIndex, int rightIndex)
 {
 	int i, j;
-	int n1 = m - l + 1;
-	int n2 = r - m;
+	int leftSize = splitIndex - leftIndex + 1;
+	int rightSize = rightIndex - splitIndex;
 
-	int *L = new int[n1];
-	int *R= new int[n2];
+	int *left = new int[leftSize];
+	int *right= new int[rightSize];
 
-	for (i = 0; i < n1; i++)
-		L[i] = arr[l + i];
-	for (j = 0; j < n2; j++)
-		R[j] = arr[m + 1 + j];
+	for (i = 0; i < leftSize; i++)
+		left[i] = arr[leftIndex + i];
+	for (j = 0; j < rightSize; j++)
+		right[j] = arr[splitIndex + 1 + j];
 
-	i = 0; 
-	j = 0; 
-	int k = l; 
-	while (i < n1 && j < n2)
+	i = 0; //left index
+	j = 0; //right index
+	int k = leftIndex; //output array index 
+	while (i < leftSize && j < rightSize)
 	{
-		if (L[i] <= R[j])
+		if (left[i] <= right[j])
 		{
-			arr[k] = L[i];
+			arr[k] = left[i];
 			i++;
 		}
 		else
 		{
-			arr[k] = R[j];
+			arr[k] = right[j];
 			j++;
 		}
 		k++;
 	}
 
-	while (i < n1)
+	while (i < leftSize)
 	{
-		arr[k++] = L[i++];
+		arr[k++] = left[i++];
 	}
 
-	while (j < n2)
+	while (j < rightSize)
 	{
-		arr[k++] = R[j++];
+		arr[k++] = right[j++];
 	}
-	delete[] R;
-	delete[] L;
+	delete[] right;
+	delete[] left;
 }
 
-static void MergeSort(int* arr, int l, int r)
+static void MergeSort(int* arr, int begin, int end)
 {
-	if (l < r)
+	if (begin < end)
 	{
-		int m = l + (r - l) / 2;
+		int splitPoint = begin + (end - begin) / 2;
 
-		MergeSort(arr, l, m);
-		MergeSort(arr, m + 1, r);
+		MergeSort(arr, begin, splitPoint);
+		MergeSort(arr, splitPoint + 1, end);
 
-		merge(arr, l, m, r);
+		merge(arr, begin, splitPoint, end);
 	}
 }
