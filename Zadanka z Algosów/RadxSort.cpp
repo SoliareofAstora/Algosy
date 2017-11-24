@@ -7,7 +7,7 @@ static int remainder(int number, int divider)
 	return number / divider % 10;
 }
 
-static void RadxSort(int *a, int length) {
+static void RadxSort(int *arr, int length) {
 
 	const int MAX_DIGIT = static_cast<int>(log10(INT_MAX))+1;
 	const int radxStep = 10;
@@ -20,13 +20,13 @@ static void RadxSort(int *a, int length) {
 		divider *= radxStep, ++numberLength) 
 	{
 		for (int i = 0; i < length; ++i) {
-			numbers[remainder(a[i], divider)].push(a[i]);
+			numbers[remainder(arr[i], divider)].push(arr[i]);
 		}
 
 		int a_pos = 0;
 		for (int i = 0; i < radxStep; ++i) {
 			while (!numbers[i].empty()) {
-				a[a_pos++] = numbers[i].front();
+				arr[a_pos++] = numbers[i].front();
 				numbers[i].pop();
 			}
 		}
