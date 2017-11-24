@@ -1,2 +1,1 @@
 n, MergeSort, QuickSort, HeapSort, RadxSort, std::sort, qsort
-10000, 5.69204900, 1.31871600, 15.47930800, 23.32246900, 7.32167900, 7.11111100

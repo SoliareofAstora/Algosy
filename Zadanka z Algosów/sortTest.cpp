@@ -48,10 +48,10 @@ void sortTest::beginTest()
 	{
 		int i = 10000;
 		testRandom(i);
-		testSorted(i);
-		testReverse(i);
-		testSortedFirst(i);
-		testSortedLast(i);
+	//	testSorted(i);
+		//testReverse(i);
+		//testSortedFirst(i);
+		//testSortedLast(i);
 	}
 	system("PAUSE");
 }
@@ -107,31 +107,31 @@ void sortTest::testAllAlgorithms(int *sourceArray, int size, int fileNameID)
 	//QuickSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	QuickSort(arrCopy, 0, size - 1);
+	//QuickSort(arrCopy, 0, size - 1);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
 	//HeapSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	HeapSort(arrCopy,size);
+	//HeapSort(arrCopy,size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
 	//RadxSort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	RadxSort(arrCopy,size);
+	//RadxSort(arrCopy,size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
 	//std::sort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	std::sort(&arrCopy[0], &arrCopy[size - 1]);
+	//std::sort(&arrCopy[0], &arrCopy[size - 1]);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << ", ";
 
 	//qsort
 	copyArray(sourceArray, arrCopy, size);
 	watch.startCounting();
-	QSort(arrCopy, size);
+	//QSort(arrCopy, size);
 	ofs << std::fixed << std::setprecision(8) << watch.stopCounting() << "\n";
 
 	ofs.close();

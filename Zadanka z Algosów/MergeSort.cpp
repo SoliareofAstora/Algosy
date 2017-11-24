@@ -39,6 +39,8 @@ static void merge(int *arr, int l, int m, int r)
 	{
 		arr[k++] = R[j++];
 	}
+	delete[] R;
+	delete[] L;
 }
 
 static void MergeSort(int* arr, int l, int r)
