@@ -9,9 +9,10 @@ public:
 		start = std::chrono::high_resolution_clock::now();
 	}
 
-	double stopCounting(){
+	double stopCounting() const
+	{
 		auto end = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> output = end - start;
-		 return output.count();
+		return output.count();
 	}
 };

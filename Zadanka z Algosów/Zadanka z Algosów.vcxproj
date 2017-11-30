@@ -19,9 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Assigment6.cpp" />
+    <ClCompile Include="genSquare.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assigment6.h" />
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
