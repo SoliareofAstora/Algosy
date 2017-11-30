@@ -19,27 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="deque.cpp" />
-    <ClCompile Include="genRandom.cpp" />
-    <ClCompile Include="genReverse.cpp" />
-    <ClCompile Include="genSorted.cpp" />
-    <ClCompile Include="genSortedFirst.cpp" />
-    <ClCompile Include="genSortedLast.cpp" />
-    <ClCompile Include="HeapSort.cpp" />
-    <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MergeSort.cpp" />
-    <ClCompile Include="QSort.cpp" />
-    <ClCompile Include="queue.cpp" />
-    <ClCompile Include="QuickSort.cpp" />
-    <ClCompile Include="RadxSort.cpp" />
-    <ClCompile Include="sortTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="deque.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="queue.h" />
-    <ClInclude Include="sortTest.h" />
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
