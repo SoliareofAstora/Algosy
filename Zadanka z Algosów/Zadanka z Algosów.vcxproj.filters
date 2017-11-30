@@ -21,10 +21,13 @@
     <ClCompile Include="Assigment6.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuickSort.cpp">
+    <ClCompile Include="genSquare.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genSquare.cpp">
+    <ClCompile Include="Closest_Pair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -20,9 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assigment6.cpp" />
+    <ClCompile Include="Closest_Pair.cpp" />
     <ClCompile Include="genSquare.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="pair.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assigment6.h" />
