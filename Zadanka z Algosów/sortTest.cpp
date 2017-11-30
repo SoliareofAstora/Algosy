@@ -49,8 +49,10 @@ sortTest::~sortTest()
 void sortTest::beginTest()
 {
 	prepareFiles();
-	int max_tests = 1000;
-	for (int i = 10; i < max_tests; i += 100)
+	int max_tests = 5000;
+	int step = 100;
+	std::cerr << "0% \n";
+	for (int i = step; i < max_tests; i += step)
 	{
 		//int i = 10000;//test value
 		std::cerr << static_cast<int>(i*100 / max_tests)<<"% \n";
@@ -61,6 +63,7 @@ void sortTest::beginTest()
 		testSortedLast(i);
 
 	}
+	std::cerr << "100% \n";
 	system("PAUSE");
 }
 
