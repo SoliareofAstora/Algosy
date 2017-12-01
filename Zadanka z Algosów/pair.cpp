@@ -1,8 +1,13 @@
+#include <string>
+
 struct pair
 {
 	float x, y;
 	bool operator<(pair a) {
 		return x < a.x;
+	}
+	bool operator<=(pair a) {
+		return x <= a.x;
 	}
 	bool operator>(pair a) {
 		return x > a.x;
@@ -12,7 +17,22 @@ struct pair
 		y = a.y;
 		return *this;
 	}
+	float operator-(pair a){
+		return x - a.x;
+	}
+
+	friend std::ostream& operator<<(std::ostream& stream, const pair & a){
+		stream << a.x << " x " << a.y;
+		return stream;
+	}
 };
+
+static float distance(pair *a, pair* b)
+{
+	return sqrt(
+		(a->x - b->x)*(a->x - b->x) +
+		(a->y - b->y)*(a->y - b->y));
+}
 
 static int compareX(const void* a, const void* b)
 {
