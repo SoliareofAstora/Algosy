@@ -11,7 +11,7 @@ public:
 	{
 		PierwszeZadanie();
 		system("PAUSE");
-	};
+	}
 	Assigment6(){};
 	~Assigment6(){};
 };

@@ -1,6 +1,5 @@
 #include "genSquare.cpp"
 #include "pair.cpp"
-#include <cfloat>
 #include "Stopwatch.h"
 #include <iostream>
 #include <iomanip>
@@ -66,7 +65,7 @@ static outputData bruteForce(pair* arr, int size)
 static outputData closestToStrip(pair* arr, int size, outputData minimum_d)
 {
 	outputData minimum = minimum_d;
-	for(int i =0;i<size;i++)
+	for(int i =0;i<size;++i)
 	{
 		for (int j = i + 1; j < size && (arr[j].y - arr[i].y) < minimum.d; ++j)
 		{
@@ -106,29 +105,36 @@ static outputData closestPair(pair* arrx, pair* arry, int size)
 	}
 
 	outputData lmin = closestPair(arrx, newArryL, middleIndex);
-	outputData rmin = closestPair(arrx, newArryR, size - middleIndex);
+
+	static pair* temp = new pair[size];
+	int j = 0;
+	for (int i = middleIndex + 1; i < size; i++)
+		temp[j++] = arrx[i];
+	outputData rmin = closestPair(temp, newArryR, size - middleIndex);
 
 	outputData minimum = min(lmin, rmin);
 
 	static pair* strip = new pair[size];
-	int j = 0;
+	j = 0;
 	for (int i =0;i<size;i++)
 	{
-		if (abs(arry[i]-middlePair) < minimum.d)
+		if (abs(arry[i].x-middlePair.x) < minimum.d)
 		{
 			strip[j++] = arry[i];
 		}
 	}
 	minimum = min(minimum, closestToStrip(strip, j, minimum));
 
-	//delete[] strip, newArryL, newArryR;
+	//delete[] strip;
+	//delete[] newArryL;
+	//delete[] newArryR;
 	return minimum;
 }
 
 static void displayOutput(outputData out,Stopwatch watch)
 {
-	std::cout << " took " << watch.stopCounting() << " miliseconds\n";
-	std::cout  << "Found " << out;
+	std::cerr << " took " << watch.stopCounting() << " miliseconds\n";
+	std::cerr  << "Found " << out;
 }
 
 static void PierwszeZadanie()
@@ -145,20 +151,19 @@ static void PierwszeZadanie()
 	copyArray<pair>(arr, arrSortedByY, testSize);
 	qsort(arrSortedByX, testSize, sizeof pair, compareX);
 	qsort(arrSortedByY, testSize, sizeof pair, compareY);
-	
-	outputData out;
-	
-	watch.startCounting();
-	out = closestPair(arrSortedByX, arrSortedByY, testSize);
-	std::cout << "\nRecurrent";
-	displayOutput(out, watch);
-	//delete[] arrSortedByX;
-	//delete[] arrSortedByY;
 
 	watch.startCounting();
-	out = bruteForce(arr, testSize);
-	std::cout << "\nBruteForce";
+	static outputData out = closestPair(arrSortedByX, arrSortedByY, testSize);
+	static outputData out2 = bruteForce(arr, testSize);
+	std::cerr << "\nRecurrent";
+
 	displayOutput(out, watch);
 
-	//delete[] arr;
+
+	watch.startCounting();
+	
+	std::cerr << "\nBruteForce";
+	displayOutput(out, watch);
+
+	//delete arr;
 }

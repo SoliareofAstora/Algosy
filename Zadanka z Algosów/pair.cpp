@@ -3,22 +3,23 @@
 struct pair
 {
 	float x, y;
-	bool operator<(pair a) {
+	bool operator<(pair a) const
+	{
 		return x < a.x;
 	}
-	bool operator<=(pair a) {
+	bool operator<=(pair a) const
+	{
 		return x <= a.x;
 	}
-	bool operator>(pair a) {
+	bool operator>(pair a) const
+	{
 		return x > a.x;
 	}
-	pair& operator =(pair a) {
+	pair& operator =(pair a) 
+	{
 		x = a.x;
 		y = a.y;
 		return *this;
-	}
-	float operator-(pair a){
-		return x - a.x;
 	}
 
 	friend std::ostream& operator<<(std::ostream& stream, const pair & a){
