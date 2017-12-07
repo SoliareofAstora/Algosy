@@ -1,5 +1,6 @@
 #pragma once
 #include "Closest_Pair.cpp"
+#include "PermutationCount.cpp"
 #include <iostream>
 #include <iomanip>
 
@@ -9,7 +10,12 @@ public:
 	static Assigment6 &instance() { static Assigment6 as6; return as6; };
 	void RunAll()
 	{
-		PierwszeZadanie();
+		std::cerr << "ClosestPair\n";
+		//PierwszeZadanie();
+		std::cerr << "\nPermutation Count\n";
+		DrugieZadanie();
+
+
 		system("PAUSE");
 	}
 	Assigment6(){};

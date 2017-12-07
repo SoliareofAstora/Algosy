@@ -142,22 +142,17 @@ static void PierwszeZadanie()
 	const int testSize = 10003;
 	pair* arr = genSquare<pair>(testSize);
 	
-	
-
-	pair* arrSortedByX = new pair[testSize];
-	copyArray<pair>(arr, arrSortedByX, testSize);
-	qsort(arrSortedByX, testSize, sizeof pair, compareX);
-
+	qsort(arr, testSize, sizeof pair, compareX);
 	watch.startCounting();
-	static outputData out = closestPair(arrSortedByX, testSize);
+	static outputData out = closestPair(arr, testSize);
 	std::cerr << "\nRecurrent";
 	displayOutput(out, watch);
-
 
 	watch.startCounting();
 	static outputData out2 = bruteForce(arr, testSize);
 	std::cerr << "\nBruteForce";
 	displayOutput(out2, watch);
 
-	//delete arr;
+
+	delete arr;
 }

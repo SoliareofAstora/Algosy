@@ -27,6 +27,15 @@
     <ClCompile Include="pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PermutationCount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="genSorted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="knuthShuffle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">
