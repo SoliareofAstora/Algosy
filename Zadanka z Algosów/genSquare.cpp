@@ -10,9 +10,10 @@ static T* genSquare(int size) {
 		std::chrono::system_clock::now().time_since_epoch().count());
 	std::uniform_int_distribution<int> distribution(1, INT_MAX-2);
 
+	//TODO distribution double
 	for (int i = 0; i < size; i++)
 	{
-		arr[i].x = (float)distribution(generator)/(float) INT_MAX;
+		arr[i].x = (float)distribution(generator) / (float)INT_MAX;
 		arr[i].y = (float)distribution(generator) / (float)INT_MAX;
 	}
 	return arr;

@@ -48,9 +48,9 @@ static outputData min(outputData a, outputData b)
 static outputData bruteForce(pair* arr, int size)
 {
 	outputData minimum;
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = i + 1; j < size; ++j)
+		for (int j = i + 1; j < size; j++)
 		{
 			float dist = distance(&arr[i], &arr[j]);
 			if (dist < minimum.d)
@@ -62,24 +62,30 @@ static outputData bruteForce(pair* arr, int size)
 	return minimum;
 }
 
-static outputData closestToStrip(pair* arr, int size, outputData minimum_d)
+static float abs(pair a, pair b)
 {
-	outputData minimum = minimum_d;
-	for(int i =0;i<size;++i)
+	float out = a.x - b.x;
+	return out<0 ? out*-1 : out;
+}
+
+static outputData stripClosest(pair* arr, int size, outputData currentmin)
+{
+	outputData out = currentmin;
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = i + 1; j < size && (arr[j].y - arr[i].y) < minimum.d; ++j)
+		for (int j = i; i < size && arr[i].y - arr[j].y < out.d; ++j)
 		{
-			float dist = distance(&arr[i], &arr[j]);
-			if (dist < minimum.d)
+			float d = distance(&arr[i], &arr[j]);
+			if (d<out.d)
 			{
-				minimum = outputData(dist, arr[i], arr[j]);
+				out = outputData(d, arr[i], arr[j]);
 			}
 		}
 	}
-	return minimum;
+	return out;
 }
 
-static outputData closestPair(pair* arrx, pair* arry, int size)
+static outputData closestPair(pair* arrx, int size)
 {
 	if (size < 4)
 	{
@@ -89,46 +95,35 @@ static outputData closestPair(pair* arrx, pair* arry, int size)
 	int middleIndex = size / 2;
 	pair middlePair = arrx[middleIndex];
 
-	static pair* newArryL = new pair[middleIndex + 1];
-	static pair* newArryR = new pair[size - middleIndex - 1];
-	int rindex = 0, lindex = 0;
+	pair *larray = new pair[middleIndex];
+	pair *rarray = new pair[size - middleIndex];
+	
+	for (int i = 0;i<size;i++)
+	{
+		if (i <middleIndex)
+		{
+			larray[i] = arrx[i];
+		}else
+		{
+			rarray[i - middleIndex] = arrx[i];
+		}
+	}
+	outputData lout = closestPair(larray, middleIndex);
+	outputData rout = closestPair(rarray, size - middleIndex);
+	
+	outputData minimmum= min(lout, rout);
+
+	pair *strip = new pair[size];
+	int j = 0;
 	for (int i = 0; i < size; i++)
 	{
-		if (arry[i] <= middlePair)
+		if (abs(middlePair,arrx[i])<minimmum.d)
 		{
-			newArryL[lindex++] = arrx[i];
-		}
-		else
-		{
-			newArryR[rindex++] = arrx[i];
+			strip[j++] = arrx[i];
 		}
 	}
 
-	outputData lmin = closestPair(arrx, newArryL, middleIndex);
-
-	static pair* temp = new pair[size];
-	int j = 0;
-	for (int i = middleIndex + 1; i < size; i++)
-		temp[j++] = arrx[i];
-	outputData rmin = closestPair(temp, newArryR, size - middleIndex);
-
-	outputData minimum = min(lmin, rmin);
-
-	static pair* strip = new pair[size];
-	j = 0;
-	for (int i =0;i<size;i++)
-	{
-		if (abs(arry[i].x-middlePair.x) < minimum.d)
-		{
-			strip[j++] = arry[i];
-		}
-	}
-	minimum = min(minimum, closestToStrip(strip, j, minimum));
-
-	//delete[] strip;
-	//delete[] newArryL;
-	//delete[] newArryR;
-	return minimum;
+	return min(minimmum, stripClosest(strip, size, minimmum));
 }
 
 static void displayOutput(outputData out,Stopwatch watch)
@@ -146,24 +141,19 @@ static void PierwszeZadanie()
 
 
 	pair* arrSortedByX = new pair[testSize];
-	pair* arrSortedByY = new pair[testSize];
 	copyArray<pair>(arr, arrSortedByX, testSize);
-	copyArray<pair>(arr, arrSortedByY, testSize);
 	qsort(arrSortedByX, testSize, sizeof pair, compareX);
-	qsort(arrSortedByY, testSize, sizeof pair, compareY);
 
 	watch.startCounting();
-	static outputData out = closestPair(arrSortedByX, arrSortedByY, testSize);
-	static outputData out2 = bruteForce(arr, testSize);
+	static outputData out = closestPair(arrSortedByX, testSize);
 	std::cerr << "\nRecurrent";
-
 	displayOutput(out, watch);
 
 
 	watch.startCounting();
-	
+	static outputData out2 = bruteForce(arr, testSize);
 	std::cerr << "\nBruteForce";
-	displayOutput(out, watch);
+	displayOutput(out2, watch);
 
 	//delete arr;
 }
