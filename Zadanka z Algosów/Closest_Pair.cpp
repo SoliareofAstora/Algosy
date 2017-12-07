@@ -73,7 +73,7 @@ static outputData stripClosest(pair* arr, int size, outputData currentmin)
 	outputData out = currentmin;
 	for (int i = 0; i < size; i++)
 	{
-		for (int j = i; i < size && arr[i].y - arr[j].y < out.d; ++j)
+		for (int j = i+1; j < size && arr[i].y - arr[j].y < out.d; j++)
 		{
 			float d = distance(&arr[i], &arr[j]);
 			if (d<out.d)
@@ -122,8 +122,12 @@ static outputData closestPair(pair* arrx, int size)
 			strip[j++] = arrx[i];
 		}
 	}
+	outputData output = min(minimmum, stripClosest(strip, j, minimmum));
+	delete[] strip;
+	delete[] larray;
+	delete[] rarray;
 
-	return min(minimmum, stripClosest(strip, size, minimmum));
+	return output;
 }
 
 static void displayOutput(outputData out,Stopwatch watch)
@@ -135,10 +139,10 @@ static void displayOutput(outputData out,Stopwatch watch)
 static void PierwszeZadanie()
 {
 	Stopwatch watch;
-	const int testSize = 10000;
+	const int testSize = 10003;
 	pair* arr = genSquare<pair>(testSize);
 	
-
+	
 
 	pair* arrSortedByX = new pair[testSize];
 	copyArray<pair>(arr, arrSortedByX, testSize);
