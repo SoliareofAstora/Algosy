@@ -24,8 +24,11 @@
     <ClCompile Include="genSquare.cpp" />
     <ClCompile Include="knuthShuffle.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="pair.cpp" />
     <ClCompile Include="PermutationCount.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assigment6.h" />

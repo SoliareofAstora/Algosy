@@ -1,14 +1,9 @@
 #include "genSorted.cpp"
 #include <iostream>
 #include "knuthShuffle.cpp"
-static void displayIntArray(int *arr, int size)
-{
-	for (int i = 0; i<size; i++)
-	{
-		std::cerr << arr[i] << " ";
-	}
-	std::cerr << "\n";
-}
+#include "utils.cpp"
+#include "MergeSort.cpp"
+
 
 static int simpleCounter(int *arr, int size)
 {
@@ -33,9 +28,18 @@ static int simpleCounter(int *arr, int size)
 static void DrugieZadanie()
 {
 	int testsize = 6;
-	int* arr = genSorted(testsize);
-	knuthShuffle(arr, arr + testsize);
-	displayIntArray(arr, testsize);
+
+	int* source = genSorted(testsize);
+	knuthShuffle(source, source + testsize);
+	displayArray(source, testsize);
+
+	int *arr = new int[testsize];
+
+	copyArray(source, arr,testsize);
 	std::cerr<<simpleCounter(arr, testsize)<<"\t";
-	displayIntArray(arr, testsize);
+	displayArray(arr, testsize);
+
+	copyArray(source, arr, testsize);
+	std::cerr << MergeSort(arr, 0,testsize-1) << "\t";
+	displayArray(arr, testsize);
 }

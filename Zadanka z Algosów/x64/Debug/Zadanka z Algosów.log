@@ -1,11 +1,15 @@
-﻿  PermutationCount.cpp
+﻿  utils.cpp
+  QuickSort.cpp
+  PermutationCount.cpp
 e:\studia\algosy\zadanka z algosów\knuthshuffle.cpp(6): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
-  e:\studia\algosy\zadanka z algosów\permutationcount.cpp(37): note: see reference to function template instantiation 'void knuthShuffle<int*>(RandomAccessIterator,RandomAccessIterator)' being compiled
+  e:\studia\algosy\zadanka z algosów\permutationcount.cpp(33): note: see reference to function template instantiation 'void knuthShuffle<int*>(RandomAccessIterator,RandomAccessIterator)' being compiled
           with
           [
               RandomAccessIterator=int *
           ]
+e:\studia\algosy\zadanka z algosów\knuthshuffle.cpp(8): warning C4244: 'argument': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
   pair.cpp
+  MergeSort.cpp
   main.cpp
   knuthShuffle.cpp
   genSquare.cpp
