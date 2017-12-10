@@ -3,6 +3,7 @@
 
 template class stack<uint8_t>;
 template class stack<int*>;
+template class stack<int>;
 
 template <typename T>
 stack<T>::stack()
