@@ -1,6 +1,7 @@
 #pragma once
 #include "Closest_Pair.cpp"
 #include "PermutationCount.cpp"
+#include "BigSquare.cpp"
 #include <iostream>
 #include <iomanip>
 
@@ -13,8 +14,9 @@ public:
 		std::cerr << "ClosestPair\n";
 		//PierwszeZadanie();
 		std::cerr << "\nPermutation Count\n";
-		DrugieZadanie();
-
+		//DrugieZadanie();
+		std::cerr << "\nBiggest Square\n";
+		TrzecieZadanie();
 
 		system("PAUSE");
 	}

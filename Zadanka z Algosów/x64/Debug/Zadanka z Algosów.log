@@ -1,4 +1,5 @@
 ﻿  utils.cpp
+  stack.cpp
   QuickSort.cpp
   PermutationCount.cpp
 e:\studia\algosy\zadanka z algosów\knuthshuffle.cpp(6): warning C4244: 'initializing': conversion from '__int64' to 'unsigned int', possible loss of data
@@ -15,6 +16,7 @@ e:\studia\algosy\zadanka z algosów\knuthshuffle.cpp(8): warning C4244: 'argumen
   genSquare.cpp
   genSorted.cpp
   Closest_Pair.cpp
+  BigSquare.cpp
   Generating Code...
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.pdb (Partial PDB)

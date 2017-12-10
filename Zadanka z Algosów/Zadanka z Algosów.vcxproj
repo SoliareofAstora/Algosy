@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BigSquare.cpp" />
     <ClCompile Include="Closest_Pair.cpp" />
     <ClCompile Include="genSorted.cpp" />
     <ClCompile Include="genSquare.cpp" />
@@ -28,10 +29,12 @@
     <ClCompile Include="pair.cpp" />
     <ClCompile Include="PermutationCount.cpp" />
     <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="stack.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assigment6.h" />
+    <ClInclude Include="stack.h" />
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
