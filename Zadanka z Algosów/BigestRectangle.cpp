@@ -52,6 +52,9 @@ static void TrzecieZadanie()
 		}
 		histograms.push(onerow);
 	}
+
+
+
 	while(!histograms.empty())
 	{
 		int *prevrow = histograms.pop();

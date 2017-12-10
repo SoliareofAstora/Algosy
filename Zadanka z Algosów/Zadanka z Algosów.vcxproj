@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BigSquare.cpp" />
+    <ClCompile Include="BigestRectangle.cpp" />
     <ClCompile Include="Closest_Pair.cpp" />
     <ClCompile Include="genSorted.cpp" />
     <ClCompile Include="genSquare.cpp" />
