@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="BigestRectangle.cpp" />
     <ClCompile Include="Closest_Pair.cpp" />
+    <ClCompile Include="FinsingSum.cpp" />
+    <ClCompile Include="genRandom.cpp" />
     <ClCompile Include="genSorted.cpp" />
     <ClCompile Include="genSquare.cpp" />
     <ClCompile Include="knuthShuffle.cpp" />

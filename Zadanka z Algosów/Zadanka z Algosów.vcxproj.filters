@@ -51,6 +51,12 @@
     <ClCompile Include="BigestRectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FinsingSum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="genRandom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">

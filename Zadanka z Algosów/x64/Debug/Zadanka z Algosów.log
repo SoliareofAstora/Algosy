@@ -1,4 +1,5 @@
-﻿  utils.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : Access to the path 'e:\studia\algosy\x64\debug\zadanka z algosów.exe' is denied.
+  utils.cpp
   stack.cpp
   QuickSort.cpp
   PermutationCount.cpp
@@ -15,6 +16,8 @@ e:\studia\algosy\zadanka z algosów\knuthshuffle.cpp(8): warning C4244: 'argumen
   knuthShuffle.cpp
   genSquare.cpp
   genSorted.cpp
+  genRandom.cpp
+  FinsingSum.cpp
   Closest_Pair.cpp
   BigestRectangle.cpp
   Generating Code...

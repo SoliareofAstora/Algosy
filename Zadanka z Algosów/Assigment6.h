@@ -2,6 +2,7 @@
 #include "Closest_Pair.cpp"
 #include "PermutationCount.cpp"
 #include "BigestRectangle.cpp"
+#include "FinsingSum.cpp"
 #include <iostream>
 #include <iomanip>
 
@@ -16,7 +17,9 @@ public:
 		std::cerr << "\nPermutation Count\n";
 		//DrugieZadanie();
 		std::cerr << "\nBiggest Square\n";
-		TrzecieZadanie();
+		//TrzecieZadanie();
+		std::cerr << "\nFinding Sum\n";
+		FindSum();
 
 		system("PAUSE");
 	}
