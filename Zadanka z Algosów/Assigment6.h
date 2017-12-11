@@ -19,11 +19,11 @@ public:
 		std::cerr << "\nBiggest Square\n";
 		//TrzecieZadanie();
 		std::cerr << "\nFinding Sum\n";
-		FindSum();
+		//FindSum();
 
 		system("PAUSE");
 	}
-	Assigment6(){};
-	~Assigment6(){};
+	Assigment6(){}
+	~Assigment6(){}
 };
 
