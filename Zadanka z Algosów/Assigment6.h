@@ -5,6 +5,7 @@
 #include "FinsingSum.cpp"
 #include <iostream>
 #include <iomanip>
+#include "FindingLeader.cpp"
 
 class Assigment6
 {
@@ -13,13 +14,15 @@ public:
 	void RunAll()
 	{
 		std::cerr << "ClosestPair\n";
-		//PierwszeZadanie();
+		PierwszeZadanie();
 		std::cerr << "\nPermutation Count\n";
-		//DrugieZadanie();
+		DrugieZadanie();
 		std::cerr << "\nBiggest Square\n";
-		//TrzecieZadanie();
+		TrzecieZadanie();
 		std::cerr << "\nFinding Sum\n";
-		//FindSum();
+		FindSum();
+		std::cerr << "\nFinding Leader\n";
+		FindLeader();
 
 		system("PAUSE");
 	}

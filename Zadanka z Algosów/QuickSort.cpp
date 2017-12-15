@@ -1,4 +1,5 @@
 #include <algorithm>
+
 static void QuickSort( int *arr, int left, int right)
 {
 	int i = left;
@@ -22,3 +23,4 @@ static void QuickSort( int *arr, int left, int right)
 
 	if (right > i) QuickSort(arr, i, right);
 }
+

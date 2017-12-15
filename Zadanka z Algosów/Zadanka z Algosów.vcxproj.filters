@@ -57,6 +57,12 @@
     <ClCompile Include="genRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FindingLeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickSort2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stopwatch.h">

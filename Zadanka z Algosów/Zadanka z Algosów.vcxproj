@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="BigestRectangle.cpp" />
     <ClCompile Include="Closest_Pair.cpp" />
+    <ClCompile Include="FindingLeader.cpp" />
     <ClCompile Include="FinsingSum.cpp" />
     <ClCompile Include="genRandom.cpp" />
     <ClCompile Include="genSorted.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="pair.cpp" />
     <ClCompile Include="PermutationCount.cpp" />
     <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="QuickSort2.cpp" />
     <ClCompile Include="stack.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>

@@ -13,7 +13,7 @@ static void FindSum()
 	int summax = 30;
 
 
-	for (int i = 0; i <= testsize; i++)
+	for (int i = 0; i < testsize; i++)
 	{
 		std::cerr << arra[i] << " ";
 	}
@@ -24,14 +24,14 @@ static void FindSum()
 	}
 	std::cerr << "\n";
 	
-	for (int sum = 0; sum<summax;sum++)
+	for (int sum = 0; sum <= summax; sum++)
 	{
 		int a = 0;
 		int b = 0;
 		//Go with A index to the end or the value higher than it should be
-		while (a+1 < testsize)
+		while (a + 1 < testsize)
 		{
-			if (arra[a]+arrb[b]<sum)
+			if (arra[a] + arrb[b] < sum)
 			{
 				a++;
 			}
@@ -49,9 +49,9 @@ static void FindSum()
 			}
 			if (arra[a] + arrb[b] > sum || b == testsize - 1)
 			{
-				if (a == 0 || arra[a] + arrb[b]<sum)
+				if (a == 0 || arra[a] + arrb[b] < sum)
 				{
-					std::cerr << "Sum "<<sum<<" not found\n";
+					std::cerr << "Sum " << sum << " not found\n";
 					break;
 				}
 				a--;

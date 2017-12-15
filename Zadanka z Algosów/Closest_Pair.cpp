@@ -1,5 +1,6 @@
 #include "genSquare.cpp"
 #include "pair.cpp"
+#include "QuickSort2.cpp"
 #include "Stopwatch.h"
 #include <iostream>
 #include <iomanip>
@@ -123,7 +124,9 @@ static void PierwszeZadanie()
 	const int testSize = 10003;
 	pair* arr = genSquare<pair>(testSize);
 	
-	qsort(arr, testSize, sizeof pair, compareX);
+	//qsort(arr, testSize, sizeof pair, compareX);
+	auto f = [](pair& a, pair& b) { return a.x < b.x; };
+	QuickSort2(arr,0,testSize-1,f);
 	watch.startCounting();
 	static outputData out = closestPair(arr, testSize);
 	std::cerr << "\nRecurrent";
