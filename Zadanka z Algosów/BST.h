@@ -16,7 +16,6 @@ public:
 	node * root;
 	int Size = 0;
 
-	BST(){};
 	BST(int item)
 	{
 		root = newNode(item);
@@ -90,47 +89,6 @@ public:
 			return nextNode;
 		}
 		return minimumNode(nextNode->right);
-	}
-
-	/* displaying stuff*/
-	void inorder()
-	{
-		inorder(root);
-	}
-	void inorder( node *nextNode)
-	{
-		if (nextNode != nullptr)
-		{
-			inorder(nextNode->left);
-			printf("%d ", nextNode->key);
-			inorder(nextNode->right);
-		}
-	}
-	void preorder()
-	{
-		preorder(root);
-	}
-	void preorder( node *nextNode)
-	{
-		if (nextNode != nullptr)
-		{
-			printf("%d ", nextNode->key);
-			preorder(nextNode->left);
-			preorder(nextNode->right);
-		}
-	}
-	void postorder()
-	{
-		postorder(root);
-	}
-	void postorder( node *nextNode)
-	{
-		if (nextNode != nullptr)
-		{
-			postorder(nextNode->right);
-			postorder(nextNode->left);
-			printf("%d ", nextNode->key);
-		}
 	}
 	
 	void insert(int key)
@@ -223,4 +181,44 @@ public:
 		return nullptr;
 	}*/
 	
+	/* displaying stuff*/
+	 void inorder()
+	 {
+		 inorder(root);
+	 }
+	 void inorder(node *nextNode)
+	 {
+		 if (nextNode != nullptr)
+		 {
+			 inorder(nextNode->left);
+			 printf("%d ", nextNode->key);
+			 inorder(nextNode->right);
+		 }
+	 }
+	 void preorder()
+	 {
+		 preorder(root);
+	 }
+	 void preorder(node *nextNode)
+	 {
+		 if (nextNode != nullptr)
+		 {
+			 printf("%d ", nextNode->key);
+			 preorder(nextNode->left);
+			 preorder(nextNode->right);
+		 }
+	 }
+	 void postorder()
+	 {
+		 postorder(root);
+	 }
+	 void postorder(node *nextNode)
+	 {
+		 if (nextNode != nullptr)
+		 {
+			 postorder(nextNode->right);
+			 postorder(nextNode->left);
+			 printf("%d ", nextNode->key);
+		 }
+	 }
 };

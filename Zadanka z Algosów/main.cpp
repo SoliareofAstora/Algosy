@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "BST.h"
-
+#include "AVL.h"
 
 void testBST()
 {
@@ -69,13 +69,60 @@ void testBST()
 }
 void testAVL()
 {
-	
+	AVL tree("mama");
+
+	tree.insert("pawe³");	std::cerr << "p\n";
+	tree.insert("abecadlo");	std::cerr << "c\n";
+	tree.insert("tree"); std::cerr << "t\n";
+	tree.insert("given"); std::cerr << "g\n";
+	tree.insert("in");	std::cerr << "i\n";
+	tree.insert("tata");	std::cerr << "a\n";
+	std::cerr << tree.depth() << std::endl;
+
+
+	tree.inorder();
+	std::cerr << std::endl;
+	tree.preorder();
+	std::cerr << std::endl;
+	tree.postorder();
+	std::cerr << std::endl;
+	Node* tmp;
+	tmp = tree.search("mama");
+	if (tmp == nullptr)
+	{
+		std::cerr << "nie ma takiej wartoœci\n";
+	}
+	else
+	{
+		std::cerr << "znaleziono\n";
+	}
+	tmp = tree.search("in");
+	if (tmp == nullptr)
+	{
+		std::cerr << "nie ma takiej wartoœci\n";
+	}
+	else
+	{
+		std::cerr << "znaleziono\n";
+	}
+	tmp = tree.search("tree");
+	if (tmp == nullptr)
+	{
+		std::cerr << "nie ma takiej wartoœci\n";
+	}
+	else
+	{
+		std::cerr << "znaleziono\n";
+	}
+
+
+	system("pause");
 }
 
 int main()
 {
 
-	testBST();
-
+	//testBST();
+	testAVL();
 	return 0;
 }
