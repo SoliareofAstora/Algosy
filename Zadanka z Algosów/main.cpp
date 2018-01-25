@@ -1,12 +1,12 @@
-// C program to demonstrate insert operation in binary search tree
 #include <stdlib.h>
 #include <iostream>
 #include "BST.h"
 
-// Driver Program to test above functions
-int main()
+
+void testBST()
 {
-	BST tree=BST(10);
+
+	BST tree = BST(10);
 	tree.insert(35);
 	std::cerr << tree.depth() << std::endl;
 	tree.insert(50);
@@ -20,6 +20,7 @@ int main()
 	tree.insert(80);
 	tree.insert(51);
 	std::cerr << tree.depth() << std::endl;
+	tree.deleteNode(80);
 
 	// print inoder traversal of the BST
 	tree.inorder();
@@ -33,7 +34,7 @@ int main()
 	tmp = tree.search(30);
 	if (tmp == nullptr)
 	{
-		std::cerr <<"nie ma takiej wartoœci\n";
+		std::cerr << "nie ma takiej wartoœci\n";
 	}
 	else
 	{
@@ -65,7 +66,16 @@ int main()
 
 
 	system("pause");
+}
+void testAVL()
+{
+	
+}
 
+int main()
+{
+
+	testBST();
 
 	return 0;
 }

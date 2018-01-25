@@ -22,6 +22,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AVL.h" />
     <ClInclude Include="BST.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -32,7 +32,7 @@ public:
 		int out = 0;
 		return depth(root,out);
 	}
-	int depth(struct node* nextNode, int out)
+	int depth( node* nextNode, int out)
 	{
 		if (nextNode == nullptr)
 		{
@@ -47,10 +47,10 @@ public:
 		}
 	}
 
-	struct node *newNode(int item)
+	 node *newNode(int item)
 	{
 		Size++;
-		struct node *temp = static_cast<struct node *>(malloc(sizeof(struct node)));
+		 node *temp =new node;
 		temp->key = item;
 		temp->left = temp->right = nullptr;
 		return temp;
@@ -65,7 +65,7 @@ public:
 		return maximum(root);
 	}
 
-	int minimum(struct node *nextNode)
+	int minimum( node *nextNode)
 	{
 		if (nextNode->left==nullptr)
 		{
@@ -74,7 +74,7 @@ public:
 		return minimum(nextNode->left);
 	}
 
-	int maximum(struct node *nextNode)
+	int maximum( node *nextNode)
 	{
 		if (nextNode->right == nullptr)
 		{
@@ -83,12 +83,21 @@ public:
 		return maximum(nextNode->right);
 	}
 
+	node* minimumNode( node *nextNode)
+	{
+		if (nextNode->right == nullptr)
+		{
+			return nextNode;
+		}
+		return minimumNode(nextNode->right);
+	}
+
 	/* displaying stuff*/
 	void inorder()
 	{
 		inorder(root);
 	}
-	void inorder(struct node *nextNode)
+	void inorder( node *nextNode)
 	{
 		if (nextNode != nullptr)
 		{
@@ -101,7 +110,7 @@ public:
 	{
 		preorder(root);
 	}
-	void preorder(struct node *nextNode)
+	void preorder( node *nextNode)
 	{
 		if (nextNode != nullptr)
 		{
@@ -114,7 +123,7 @@ public:
 	{
 		postorder(root);
 	}
-	void postorder(struct node *nextNode)
+	void postorder( node *nextNode)
 	{
 		if (nextNode != nullptr)
 		{
@@ -129,7 +138,7 @@ public:
 		insert(root, key);
 	}
 	
-	struct node* insert(struct node* node, int key)
+	 node* insert( node* node, int key)
 	{
 		if (node == nullptr) return newNode(key);
 
@@ -142,29 +151,76 @@ public:
 		return node;
 	}
 
-	struct node* searchRecursive(int key)
+	 node* deleteNode(int key)
 	{
-		return searchRecursive(root, key);
+		return deleteNode(root, key);
 	}
 
-	struct node* searchRecursive(struct node*nextNode, int key)
+	 node* deleteNode( node* nextNode, int key)
+	{
+		if (nextNode == NULL) return nextNode;
+
+		if (key < nextNode->key)
+			nextNode->left = deleteNode(nextNode->left, key);
+
+		else if (key > nextNode->key)
+			nextNode->right = deleteNode(nextNode->right, key);
+
+		else
+		{
+			if (nextNode->left == NULL)
+			{
+				 node *temp = nextNode->right;
+				delete nextNode;
+				return temp;
+			}
+			else if (nextNode->right == NULL)
+			{
+				 node *temp = nextNode->left;
+				delete nextNode;
+				return temp;
+			}
+
+			 node* temp = minimumNode(nextNode->right);
+
+			nextNode->key = temp->key;
+
+			nextNode->right = deleteNode(nextNode->right, temp->key);
+		}
+		return nextNode;
+	}
+
+	 node* search(int key)
+	{
+		return search(root, key);
+	}
+
+	 node* search( node*nextNode, int key)
 	{
 		if (nextNode == nullptr || nextNode->key == key)
 			return nextNode;
 
 		if (nextNode->key < key)
-			return searchRecursive(nextNode->right, key);
+			return search(nextNode->right, key);
 
-		return searchRecursive(nextNode->left, key);
+		return search(nextNode->left, key);
 	}
 
-	struct node* search(int key)
+	/*//notworking
+	 node* searcht(int key)
 	{
-		node* out = root;
+		 node* out = root;
 		do
 		{
-			
-		} while (false);
+			if (out->key == key)
+				return out;
+			if (out->key < key)
+				out = out->right;
+			if (out->key > key)
+				out = out->left;
+
+		} while (!(out == nullptr));
 		return nullptr;
-	}
+	}*/
+	
 };
