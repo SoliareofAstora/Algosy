@@ -122,7 +122,8 @@ void testAVL()
 int main()
 {
 
-	//testBST();
+	testBST();
+	std::cerr << std::endl;
 	testAVL();
 	return 0;
 }
