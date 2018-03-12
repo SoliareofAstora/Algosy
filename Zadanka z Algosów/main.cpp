@@ -1,129 +1,55 @@
 #include <stdlib.h>
 #include <iostream>
-#include "BST.h"
-#include "AVL.h"
-
-void testBST()
+#include <chrono>
+int recurentFibonachi(int n)
 {
-
-	BST tree = BST(10);
-	tree.insert(35);
-	std::cerr << tree.depth() << std::endl;
-	tree.insert(50);
-	tree.insert(30);
-	tree.insert(20);
-	std::cerr << tree.depth() << std::endl;
-	tree.insert(40);
-	tree.insert(70);
-	tree.insert(60);
-	std::cerr << tree.depth() << std::endl;
-	tree.insert(80);
-	tree.insert(51);
-	std::cerr << tree.depth() << std::endl;
-	tree.deleteNode(80);
-
-	// print inoder traversal of the BST
-	tree.inorder();
-	std::cerr << std::endl;
-	tree.preorder();
-	std::cerr << std::endl;
-	tree.postorder();
-	std::cerr << std::endl;
-
-	node* tmp = nullptr;
-	tmp = tree.search(30);
-	if (tmp == nullptr)
+	if (n==0)
 	{
-		std::cerr << "nie ma takiej wartoœci\n";
+		return 0;
 	}
-	else
+	if (n==1)
 	{
-		std::cerr << "znaleziono\n";
+		return 1;
 	}
-	tmp = tree.search(20);
-	if (tmp == nullptr)
-	{
-		std::cerr << "nie ma takiej wartoœci\n";
-	}
-	else
-	{
-		std::cerr << "znaleziono\n";
-	}
-	tmp = tree.search(80);
-	if (tmp == nullptr)
-	{
-		std::cerr << "nie ma takiej wartoœci\n";
-	}
-	else
-	{
-		std::cerr << "znaleziono\n";
-	}
-
-	std::cerr << tree.depth() << std::endl;
-	std::cerr << tree.size() << std::endl;
-	std::cerr << tree.minimum() << std::endl;
-	std::cerr << tree.maximum() << std::endl;
-
-
-	system("pause");
+	return recurentFibonachi(n - 1) + recurentFibonachi(n - 2);
 }
-void testAVL()
+
+
+int IterFibonachi(int n)
 {
-	AVL tree("mama");
-
-	tree.insert("pawe³");	std::cerr << "p\n";
-	tree.insert("abecadlo");	std::cerr << "c\n";
-	tree.insert("tree"); std::cerr << "t\n";
-	tree.insert("given"); std::cerr << "g\n";
-	tree.insert("in");	std::cerr << "i\n";
-	tree.insert("tata");	std::cerr << "a\n";
-	std::cerr << tree.depth() << std::endl;
-
-
-	tree.inorder();
-	std::cerr << std::endl;
-	tree.preorder();
-	std::cerr << std::endl;
-	tree.postorder();
-	std::cerr << std::endl;
-	Node* tmp;
-	tmp = tree.search("mama");
-	if (tmp == nullptr)
+	
+	if (n<3)
 	{
-		std::cerr << "nie ma takiej wartoœci\n";
+		if (n==0)
+		{
+			return 0;
+		}
+		else { return 1; }
 	}
-	else
+	int a = 0, b = 1;
+	for (int i=1;i<n;i++)
 	{
-		std::cerr << "znaleziono\n";
+		a = a + b;
+		b = a - b;
 	}
-	tmp = tree.search("in");
-	if (tmp == nullptr)
-	{
-		std::cerr << "nie ma takiej wartoœci\n";
-	}
-	else
-	{
-		std::cerr << "znaleziono\n";
-	}
-	tmp = tree.search("tree");
-	if (tmp == nullptr)
-	{
-		std::cerr << "nie ma takiej wartoœci\n";
-	}
-	else
-	{
-		std::cerr << "znaleziono\n";
-	}
-
-
-	system("pause");
+	return a;
 }
+
 
 int main()
 {
+	auto start = std::chrono::high_resolution_clock::now();
+	int lo = recurentFibonachi(5);
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed = end - start;
+	std::cerr << lo << " recurentFibonachi(50) " << elapsed.count() << std::endl;
 
-	testBST();
-	std::cerr << std::endl;
-	testAVL();
-	return 0;
+	start = std::chrono::high_resolution_clock::now();
+	lo = IterFibonachi(5);
+	end = std::chrono::high_resolution_clock::now();
+	elapsed = end - start;
+	std::cerr << lo << " IterFibonachi(50) " << elapsed.count() << std::endl;
+
+	std::cin;
+	system("PAUSE");
 }
