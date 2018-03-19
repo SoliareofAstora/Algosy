@@ -14,7 +14,8 @@
  *	 
  *	 public:
  *		lista inicjalizacyjna
- *		zwraca adres elementu który zosta³ dodany T* insert(const T &value) //const referencja - przekazuje wskaŸnik do biektu zamiast go kopiowaæ !!
+ *		zwraca adres elementu który zosta³ dodany 
+ *		T* insert(const T &value) //const referencja - przekazuje wskaŸnik do biektu zamiast go kopiowaæ !!
  *		const T* find(const T &value) const; //Przekazywanie argumentów do funkcji za pomoc¹ const referencji 
  *		T* find (const T &value)
  *		bool remove(const T &value)

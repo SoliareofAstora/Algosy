@@ -8,7 +8,7 @@
 template<typename T>
 struct Node
 {
-	T key;
+	T value;
 	Node<T>*left;
 	Node<T>*right;
 	int depth;
@@ -21,20 +21,19 @@ class AVL
 	int Size = 0;
 
 	int max(const int &a,const  int &b);
-	Node<T>* newNode(T key);
-	Node<T>* insert(Node<T>* nextNode, T key);
-	Node<T>* rightRotate(Node<T>* node);
-	Node<T>* leftRotate(Node<T>* node);
+	Node<T>* newNode(const T &value);
+	Node<T>* insert(Node<T>* nextNode,const T &value);
+	Node<T>* rightRotate(Node<T>* value);
+	Node<T>* leftRotate(Node<T>* value);
 
 public:
 	AVL();
-	AVL(T item);
 	int size();
 	int depth();
 	int depth(Node<T>* node);
 
 	int getBalance(Node<T>* node);
-	void insert(T key);
+	void insert(const T &value);
 	Node<T>* search(T key);
 	Node<T>* search(Node<T>* nextNode, T key);
 	
@@ -48,7 +47,7 @@ public:
 		if (nextNode != nullptr)
 		{
 			inorder(nextNode->left);
-			printf("%s \n", nextNode->key.c_str());
+			printf("%s \n", nextNode->value.c_str());
 			inorder(nextNode->right);
 		}
 	}
@@ -60,7 +59,7 @@ public:
 	{
 		if (nextNode != nullptr)
 		{
-			printf("%s \n", nextNode->key.c_str());
+			printf("%s \n", nextNode->value.c_str());
 			preorder(nextNode->left);
 			preorder(nextNode->right);
 		}
@@ -75,17 +74,11 @@ public:
 		{
 			postorder(nextNode->right);
 			postorder(nextNode->left);
-			printf("%s \n", nextNode->key.c_str());
+			printf("%s \n", nextNode->value.c_str());
 		}
 	}
 	*/
 };
-
-template <typename T>
-AVL<T>::AVL(T item)
-{
-	root = newNode(item);
-}
 
 template <typename T>
 int AVL<T>::size()
@@ -114,10 +107,10 @@ int AVL<T>::max(const int& a, const int& b)
 }
 
 template <typename T>
-Node<T>* AVL<T>::newNode(T key)
+Node<T>* AVL<T>::newNode(const T &value)
 {
 	Node<T>* node = new Node<T>;
-	node->key = key;
+	node->value = value;
 	node->left = nullptr;
 	node->right = nullptr;
 	node->depth = 1;
@@ -125,15 +118,15 @@ Node<T>* AVL<T>::newNode(T key)
 }
 
 template <typename T>
-Node<T>* AVL<T>::insert(Node<T>* nextNode, T key)
+Node<T>* AVL<T>::insert(Node<T>* nextNode,const T &value)
 {
 	if (nextNode == nullptr)
-		return newNode(key);
+		return newNode(value);
 
-	if (key < nextNode->key)
-		nextNode->left = insert(nextNode->left, key);
-	else if (key > nextNode->key)
-		nextNode->right = insert(nextNode->right, key);
+	if (value < nextNode->value)
+		nextNode->left = insert(nextNode->left, value);
+	else if (value > nextNode->value)
+		nextNode->right = insert(nextNode->right, value);
 	else
 		return nextNode;
 
@@ -142,22 +135,22 @@ Node<T>* AVL<T>::insert(Node<T>* nextNode, T key)
 	int balance = getBalance(nextNode);
 
 	// Left Left 
-	if (balance > 1 && key < nextNode->left->key)
+	if (balance > 1 && value < nextNode->left->value)
 		return rightRotate(nextNode);
 
 	// Right Right 
-	if (balance < -1 && key > nextNode->right->key)
+	if (balance < -1 && value > nextNode->right->value)
 		return leftRotate(nextNode);
 
 	// Left Right 
-	if (balance > 1 && key > nextNode->left->key)
+	if (balance > 1 && value > nextNode->left->value)
 	{
 		nextNode->left = leftRotate(nextNode->left);
 		return rightRotate(nextNode);
 	}
 
 	// Right Left 
-	if (balance < -1 && key < nextNode->right->key)
+	if (balance < -1 && value < nextNode->right->value)
 	{
 		nextNode->right = rightRotate(nextNode->right);
 		return leftRotate(nextNode);
@@ -209,10 +202,10 @@ int AVL<T>::getBalance(Node<T>* node)
 }
 
 template <typename T>
-void AVL<T>::insert(T key)
+void AVL<T>::insert(const T &value)
 {
 	Size++;
-	root = insert(root, key);
+	root = insert(root, value);
 }
 
 template <typename T>
@@ -224,10 +217,10 @@ Node<T>* AVL<T>::search(T key)
 template <typename T>
 Node<T>* AVL<T>::search(Node<T>* nextNode, T key)
 {
-	if (nextNode == nullptr || nextNode->key == key)
+	if (nextNode == nullptr || nextNode->value == key)
 		return nextNode;
 
-	if (nextNode->key < key)
+	if (nextNode->value < key)
 		return search(nextNode->right, key);
 
 	return search(nextNode->left, key);
