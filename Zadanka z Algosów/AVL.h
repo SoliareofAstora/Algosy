@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 template<typename T>
 struct Node
 {
@@ -22,7 +22,7 @@ class AVL
 	Node<T>* rightRotate(Node<T>* value);
 	Node<T>* leftRotate(Node<T>* value);
 	Node<T>* minNode(Node<T>* parent);
-	Node<T>* remove(Node<T>* parent, T &value);
+	Node<T>* remove(Node<T>* parent, const T &value);
 
 public:
 	AVL();
@@ -197,11 +197,11 @@ Node<T>* AVL<T>::leftRotate(Node<T>* node)
 template <typename T>
 Node<T>* AVL<T>::minNode(Node<T>* parent)
 {
-	Node<T> temp = parent;
+	Node<T> *temp = parent;
 
-	while (temp.right!= nullptr)
+	while (temp->right!= nullptr)
 	{
-		temp = temp.left;
+		temp = temp->left;
 	}
 	return temp;
 }
@@ -271,28 +271,30 @@ template <typename T>
 bool AVL<T>::remove(const T& value)
 {
 	succesfullyDeleted = false;
-	remove(root, value);
+	root = remove(root, value);
 	return succesfullyDeleted;
 }
 
 
 template <typename T>
-Node<T>* AVL<T>::remove(Node<T>* parent, T &value)
+Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 {
 	if (parent == nullptr)
 		return nullptr;
 
 	if (value < parent->value)
-		parent->left = deleteNode(parent->left, value);
+		parent->left = remove(parent->left, value);
 
 	else if (value > parent->value)
-		parent->right = deleteNode(parent->right, value);
+		parent->right = remove(parent->right, value);
 
 	else
 	{
+		
 		// node with only one child or no child
 		if ((parent->left == nullptr) || (parent->right == nullptr))
 		{
+			std::cout << "kasujemy niepe³ny wêze³\n";
 			Node<T>* temp = parent->left ? parent->left :
 				parent->right;
 
@@ -307,19 +309,20 @@ Node<T>* AVL<T>::remove(Node<T>* parent, T &value)
 		}
 		else
 		{
-			Node<T>* temp = minValueNode(parent->right);
+			std::cout << "kasujemy pe³ny node \n";
+			Node<T>* temp = minNode(parent->right);
 
 			parent->value = temp->value;
 
-			parent->right = deleteNode(parent->right, temp->value);
+			parent->right = remove(parent->right, temp->value);
 		}
 	}
 
+	std::cout << "kasowanie skoñczone\n";
 	if (parent == nullptr)
 		return nullptr;
 
-	parent->height = 1 + max(height(parent->left),
-		height(parent->right));
+	parent->depth = 1 + max(depth(parent->left),depth(parent->right));
 
 	int balance = getBalance(parent);
 
