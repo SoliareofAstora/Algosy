@@ -4,11 +4,12 @@ int main(int argc, char* argv[])
 {
 	AVL<int> avl;
 	avl.insert(10);
-	avl.insert(9);
-	avl.insert(14);
 	avl.insert(11);
-	avl.insert(16);
-	if (avl.search(10)!=nullptr)
+	avl.insert(12);
+	avl.insert(13);
+	avl.insert(14);
+	avl.insert(15);
+	if (avl.find(14)!=nullptr)
 	{
 		std::cout << "znaleziono";
 	}

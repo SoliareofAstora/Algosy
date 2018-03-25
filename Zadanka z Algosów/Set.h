@@ -3,11 +3,11 @@
  *template<typename T>
  *korzystaæ z unique pointer do node
  *public: 
-* Set();
-* Set(const Set& source);
-* Set& operator=(const Set &source);
-* Set(Set &&source):
-* Set& operator = (Set &&source):
+ * Set();
+ * Set(const Set& source);
+ * Set& operator=(const Set &source);
+ * Set(Set &&source):
+ * Set& operator = (Set &&source):
  * 
  *private:
  *	 BST<T> bst;
