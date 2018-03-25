@@ -139,22 +139,22 @@ Node<T>* AVL<T>::insert(Node<T>* parent,const T &value)
 
 	int balance = getBalance(parent);
 
-	// Left Left 
+	// Left Left case
 	if (balance > 1 && value < parent->left->value)
 		return rightRotate(parent);
 
-	// Right Right 
+	// Right Right case
 	if (balance < -1 && value > parent->right->value)
 		return leftRotate(parent);
 
-	// Left Right 
+	// Left Right case
 	if (balance > 1 && value > parent->left->value)
 	{
 		parent->left = leftRotate(parent->left);
 		return rightRotate(parent);
 	}
 
-	// Right Left 
+	// Right Left case
 	if (balance < -1 && value < parent->right->value)
 	{
 		parent->right = rightRotate(parent->right);
@@ -198,8 +198,7 @@ template <typename T>
 Node<T>* AVL<T>::minNode(Node<T>* parent)
 {
 	Node<T> *temp = parent;
-
-	while (temp->right!= nullptr)
+	while (temp->left!= nullptr)
 	{
 		temp = temp->left;
 	}
@@ -290,11 +289,8 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 
 	else
 	{
-		
-		// node with only one child or no child
 		if ((parent->left == nullptr) || (parent->right == nullptr))
 		{
-			std::cout << "kasujemy niepe³ny wêze³\n";
 			Node<T>* temp = parent->left ? parent->left :
 				parent->right;
 
@@ -309,16 +305,12 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 		}
 		else
 		{
-			std::cout << "kasujemy pe³ny node \n";
 			Node<T>* temp = minNode(parent->right);
-
 			parent->value = temp->value;
-
 			parent->right = remove(parent->right, temp->value);
 		}
 	}
 
-	std::cout << "kasowanie skoñczone\n";
 	if (parent == nullptr)
 		return nullptr;
 
@@ -326,7 +318,7 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 
 	int balance = getBalance(parent);
 
-	// Left Left Case
+	//Left Left case
 	if (balance > 1 && getBalance(parent->left) >= 0)
 		return rightRotate(parent);
 

@@ -10,14 +10,14 @@ int main(int argc, char* argv[])
 	avl.insert(14);
 	avl.insert(15);
 	avl.remove(13);
-	if (avl.find(14)!=nullptr)
+	if (avl.find(13)!=nullptr)
 	{
 		std::cout << "znaleziono";
 	}
 	else { std::cout << "nie znaleziono"; }
 
 	AVL<int> avl2(avl);
-	if (avl2.find(14) != nullptr)
+	if (avl2.find(13) != nullptr)
 	{
 		std::cout << "znaleziono";
 	}
