@@ -20,8 +20,8 @@ public:
 	AVL();
 	AVL(const AVL& source);
 	AVL& operator =(const AVL& source);
-	AVL(AVL&& source);
-	AVL& operator =(AVL&& source);
+	AVL(AVL&& source) noexcept;
+	AVL& operator =(AVL&& source) noexcept;
 	~AVL();
 
 	Node<T>* insert(const T& value);
@@ -199,7 +199,7 @@ AVL<T>::AVL(const AVL<T>& source) : root(nullptr), Size(source.Size)
 }
 
 template <typename T>
-AVL<T>::AVL(AVL<T>&& source) : root(source.root), Size(source.Size)
+AVL<T>::AVL(AVL<T>&& source) noexcept : root(source.root), Size(source.Size)
 {
 	source.reset();
 }
@@ -217,7 +217,7 @@ AVL<T>& AVL<T>::operator=(const AVL<T>& source)
 }
 
 template <typename T>
-AVL<T>& AVL<T>::operator=(AVL<T>&& source)
+AVL<T>& AVL<T>::operator=(AVL<T>&& source) noexcept
 {
 	if (source != this)
 	{
