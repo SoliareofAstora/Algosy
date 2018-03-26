@@ -1,87 +1,56 @@
 #pragma once
-#include <iostream>
-template<typename T>
+template <typename T>
 struct Node
 {
 	T value;
-	Node<T>*left;
-	Node<T>*right;
+	Node<T>* left;
+	Node<T>* right;
 	int depth;
 };
 
-template<typename T>
+template <typename T>
 class AVL
 {
 	Node<T>* root;
 	int Size = 0;
 	bool succesfullyDeleted = false;
-
-	int max(const int &a,const  int &b);
-	Node<T>* addNode(const T &value);
-	Node<T>* insert(Node<T>* parent,const T &value);
-	Node<T>* rightRotate(Node<T>* value);
-	Node<T>* leftRotate(Node<T>* value);
-	Node<T>* minNode(Node<T>* parent);
-	Node<T>* remove(Node<T>* parent, const T &value);
+	Node<T>* itemadded;
 
 public:
 	AVL();
 	AVL(const AVL& source);
-	AVL& operator =(const AVL&source);
+	AVL& operator =(const AVL& source);
 	AVL(AVL&& source);
-	AVL& operator =(AVL&&source);
-	
+	AVL& operator =(AVL&& source);
+	~AVL();
+
+	Node<T>* insert(const T& value);
+	bool remove(const T& value);
+	Node<T>* find(T value);
+	const Node<T>* find(T value) const;
+	void deleteAll();
+
 	int size();
 	int depth();
+
+private:
+	Node<T>* addNode(const T& value);
+	Node<T>* insert(Node<T>* parent, const T& value);
+	Node<T>* remove(Node<T>* parent, const T& value);
+	Node<T>* copy(Node<T>* parent, Node<T>* toCopy);
+	Node<T>* find(Node<T>* nextNode, T value);
+	const Node<T>* find(Node<T>* nextNode, T value) const;
+
+	Node<T>* minNode(Node<T>* parent);
+	int getBalance(Node<T>* node);
 	int depth(Node<T>* node);
 
-	int getBalance(Node<T>* node);
-	void insert(const T &value);
-	Node<T>* find(T value);
-	Node<T>* find(Node<T>* nextNode, T value);
-	bool remove(const T &value);
-	
-	/*
-	void inorder()
-	{
-		inorder(root);
-	}
-	void inorder(Node<T>*parent)
-	{
-		if (parent != nullptr)
-		{
-			inorder(parent->left);
-			printf("%s \n", parent->value.c_str());
-			inorder(parent->right);
-		}
-	}
-	void preorder()
-	{
-		preorder(root);
-	}
-	void preorder(Node<T>*parent)
-	{
-		if (parent != nullptr)
-		{
-			printf("%s \n", parent->value.c_str());
-			preorder(parent->left);
-			preorder(parent->right);
-		}
-	}
-	void postorder()
-	{
-		postorder(root);
-	}
-	void postorder(Node<T>*parent)
-	{
-		if (parent != nullptr)
-		{
-			postorder(parent->right);
-			postorder(parent->left);
-			printf("%s \n", parent->value.c_str());
-		}
-	}
-	*/
+	Node<T>* rightRotate(Node<T>* value);
+	Node<T>* leftRotate(Node<T>* value);
+
+	void reset();
+	void deleteAll(Node<T>* parent);
+	int max(const int& a, const int& b);
 };
 
 template <typename T>
@@ -111,9 +80,10 @@ int AVL<T>::max(const int& a, const int& b)
 }
 
 template <typename T>
-Node<T>* AVL<T>::addNode(const T &value)
+Node<T>* AVL<T>::addNode(const T& value)
 {
 	Node<T>* node = new Node<T>;
+	itemadded = node;
 	node->value = value;
 	node->left = nullptr;
 	node->right = nullptr;
@@ -122,9 +92,8 @@ Node<T>* AVL<T>::addNode(const T &value)
 }
 
 template <typename T>
-Node<T>* AVL<T>::insert(Node<T>* parent,const T &value)
+Node<T>* AVL<T>::insert(Node<T>* parent, const T& value)
 {
-
 	if (parent == nullptr)
 		return addNode(value);
 
@@ -160,7 +129,6 @@ Node<T>* AVL<T>::insert(Node<T>* parent,const T &value)
 		parent->right = rightRotate(parent->right);
 		return leftRotate(parent);
 	}
-
 	return parent;
 }
 
@@ -197,8 +165,8 @@ Node<T>* AVL<T>::leftRotate(Node<T>* node)
 template <typename T>
 Node<T>* AVL<T>::minNode(Node<T>* parent)
 {
-	Node<T> *temp = parent;
-	while (temp->left!= nullptr)
+	Node<T>* temp = parent;
+	while (temp->left != nullptr)
 	{
 		temp = temp->left;
 	}
@@ -207,30 +175,63 @@ Node<T>* AVL<T>::minNode(Node<T>* parent)
 
 
 template <typename T>
-AVL<T>::AVL(): root(nullptr)
+AVL<T>::AVL(): root(nullptr),Size(0)
 {
 }
 
 template <typename T>
-AVL<T>::AVL(const AVL<T>& source):root(source.root),Size(source.Size)
+Node<T>* AVL<T>::copy(Node<T>* parent, Node<T>* toCopy)
 {
+	if (toCopy != nullptr)
+	{
+		parent = new Node<T>;
+		parent->value = toCopy->value;
+		parent->left = copy(parent->left, toCopy->left);
+		parent->right = copy(parent->right, toCopy->right);
+	}
+	return parent;
 }
 
 template <typename T>
-AVL<T>::AVL(AVL<T>&& source): root(source.root), Size(source.Size)
+AVL<T>::AVL(const AVL<T>& source) : root(nullptr), Size(source.Size)
 {
+	root = copy(nullptr, source.root);
+}
+
+template <typename T>
+AVL<T>::AVL(AVL<T>&& source) : root(source.root), Size(source.Size)
+{
+	source.reset();
+}
+
+
+template <typename T>
+AVL<T>& AVL<T>::operator=(const AVL<T>& source)
+{
+	if (source != this)
+	{
+		deleteAll(root);
+		root = copy(nullptr, source.root);
+	}
+	return this;
 }
 
 template <typename T>
 AVL<T>& AVL<T>::operator=(AVL<T>&& source)
 {
-	return {};
+	if (source != this)
+	{
+		deleteAll(root);
+		root = copy(nullptr, source.root);
+	}
+	return this;
 }
 
 template <typename T>
-AVL<T>& AVL<T>::operator=(const AVL<T>& source)
+AVL<T>::~AVL()
 {
-	return {};
+	deleteAll();
+	reset();
 }
 
 template <typename T>
@@ -242,10 +243,12 @@ int AVL<T>::getBalance(Node<T>* node)
 }
 
 template <typename T>
-void AVL<T>::insert(const T &value)
+Node<T>* AVL<T>::insert(const T& value)
 {
 	Size++;
+	itemadded = nullptr;
 	root = insert(root, value);
+	return itemadded;
 }
 
 template <typename T>
@@ -267,6 +270,50 @@ Node<T>* AVL<T>::find(Node<T>* nextNode, T value)
 }
 
 template <typename T>
+const Node<T>* AVL<T>::find(T value) const
+{
+	return find(root, value);
+}
+
+template <typename T>
+void AVL<T>::deleteAll()
+{
+	deleteAll(root);
+}
+
+template <typename T>
+const Node<T>* AVL<T>::find(Node<T>* nextNode, T value) const
+{
+	if (nextNode == nullptr || nextNode->value == value)
+		return nextNode;
+
+	if (nextNode->value < value)
+		return find(nextNode->right, value);
+
+	return find(nextNode->left, value);
+}
+
+template <typename T>
+void AVL<T>::reset()
+{
+	root = nullptr;
+	Size = 0;
+	succesfullyDeleted = false;
+	itemadded = nullptr;
+}
+
+template <typename T>
+void AVL<T>::deleteAll(Node<T>* parent)
+{
+	if (parent != nullptr)
+	{
+		deleteAll(parent->left);
+		deleteAll(parent->right);
+		delete parent;
+	}
+}
+
+template <typename T>
 bool AVL<T>::remove(const T& value)
 {
 	succesfullyDeleted = false;
@@ -276,7 +323,7 @@ bool AVL<T>::remove(const T& value)
 
 
 template <typename T>
-Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
+Node<T>* AVL<T>::remove(Node<T>* parent, const T& value)
 {
 	if (parent == nullptr)
 		return nullptr;
@@ -292,7 +339,7 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 		if ((parent->left == nullptr) || (parent->right == nullptr))
 		{
 			Node<T>* temp = parent->left ? parent->left :
-				parent->right;
+				                parent->right;
 
 			if (temp == nullptr)
 			{
@@ -300,7 +347,7 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 				parent = nullptr;
 			}
 			else
-				*parent = *temp; 
+				*parent = *temp;
 			delete temp;
 		}
 		else
@@ -314,7 +361,7 @@ Node<T>* AVL<T>::remove(Node<T>* parent,const  T &value)
 	if (parent == nullptr)
 		return nullptr;
 
-	parent->depth = 1 + max(depth(parent->left),depth(parent->right));
+	parent->depth = 1 + max(depth(parent->left), depth(parent->right));
 
 	int balance = getBalance(parent);
 
