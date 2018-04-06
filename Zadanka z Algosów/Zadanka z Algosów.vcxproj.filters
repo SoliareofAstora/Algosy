@@ -21,7 +21,7 @@
     <ClInclude Include="UnorderedSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AVL.h">
+    <ClInclude Include="avl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 template<typename T>
 class Set
 {
-	AVL<T> tree;
+	avl<T> tree;
 
 	Set();
 	Set(const Set& source);

@@ -1,27 +1,27 @@
 #include <iostream>
-#include "AVL.h"
+#include "avl.h"
 int main(int argc, char* argv[])
 {
-	AVL<int> avl;
-	avl.insert(10);
-	avl.insert(11);
-	avl.insert(12);
-	avl.insert(13);
-	avl.insert(14);
-	avl.insert(15);
-	if (avl.find(13)!=nullptr)
+	avl<int> AvlTree;
+	AvlTree.insert(10);
+	AvlTree.insert(11);
+	AvlTree.insert(12);
+	AvlTree.insert(13);
+	AvlTree.insert(14);
+	AvlTree.insert(15);
+	int temp = 13;
+	if (AvlTree.find(temp)!=nullptr)
 	{
-		std::cout << "znaleziono";
+		std::cout << "znaleziono\n";
 	}
-	else { std::cout << "nie znaleziono"; }
+	else { std::cout << "nie znaleziono!!\n"; }
 
-	AVL<int> avl2=std::move(avl);
-	if (avl2.find(13) != nullptr)
+	avl<int> avl2=std::move(AvlTree);
+	if (avl2.find(temp) != nullptr)
 	{
-		std::cout << "znaleziono";
+		std::cout << "znaleziono\n";
 	}
-	else { std::cout << "nie znaleziono"; }
-
+	else { std::cout << "nie znaleziono!!!\n"; }
 
 	char b;
 	std::cin>>b;
