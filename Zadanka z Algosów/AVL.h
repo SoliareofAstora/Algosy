@@ -9,7 +9,7 @@ struct node
 };
 
 template <typename T>
-class avl
+class avl 
 {
 	node<T>* root_;
 	int size_ = 0;
@@ -28,8 +28,25 @@ public:
 	void remove(const T& value);
 	void delete_all();
 
+	T& operator[] (const int index);
+
 	int size();
 	int depth();
+
+	class iterator
+	{
+		node<T> current_;
+	public:
+		iterator(node<T>* node);
+		bool operator ==(const iterator& i);;
+		bool operator !=(const iterator& i);
+		iterator& operator++();
+		iterator operator ++(int);
+		node<T>& operator*();
+
+	};
+	iterator begin();
+	iterator end();
 
 private:
 	node<T>* create_node(const T& value);
@@ -43,10 +60,13 @@ private:
 	void delete_all(node<T>* parent);
 	int max(const int& a, const int& b);
 	node<T>* min_node(node<T>* parent);
+	node<T>* max_node(node<T>* parent);
 	int get_balance(node<T>* node);
 	int depth(node<T>* node);
 	node<T>* right_rotate(node<T>* node);
 	node<T>* left_rotate(node<T>* node);
+	node<T>* find_parent(node<T>* node);
+	node<T>* in_order_successor(node<T>* child);
 };
 
 
@@ -125,6 +145,13 @@ void avl<T>::delete_all()
 {
 	delete_all(root_);
 }
+
+template <typename T>
+T& avl<T>::operator[](const int index)
+{
+
+}
+
 template <typename T>
 int avl<T>::size()
 {
@@ -135,6 +162,54 @@ template <typename T>
 int avl<T>::depth()
 {
 	return depth(root_);
+}
+
+template <typename T>
+avl<T>::iterator::iterator(node<T>* node):current_(node)
+{
+}
+
+template <typename T>
+bool avl<T>::iterator::operator==(const iterator& i)
+{
+}
+
+template <typename T>
+bool avl<T>::iterator::operator!=(const iterator& i)
+{
+}
+
+//postincrementacja
+template <typename T>
+typename avl<T>::iterator& avl<T>::iterator::operator++()
+{
+
+}
+
+//postincrementacja
+template <typename T>
+typename avl<T>::iterator avl<T>::iterator::operator++(int)
+{
+	auto temp = current_;
+
+}
+
+template <typename T>
+node<T>& avl<T>::iterator::operator*()
+{
+	return current_;
+}
+
+template <typename T>
+typename avl<T>::iterator avl<T>::begin()
+{
+	return iterator(min_node(root_));
+}
+
+template <typename T>
+typename avl<T>::iterator avl<T>::end()
+{
+	return iterator(max_node(root_));
 }
 
 template <typename T>
@@ -260,7 +335,6 @@ node<T>* avl<T>::remove(node<T>* parent, const T& value)
 	return parent;
 }
 
-
 template <typename T>
 node<T>* avl<T>::copy(node<T>* parent, node<T>* toCopy)
 {
@@ -286,7 +360,6 @@ node<T>* avl<T>::find(node<T>* next_node, T &value)
 	return find(next_node->left, value);
 }
 
-
 template <typename T>
 const node<T>* avl<T>::find(node<T>* next_node, T value) const
 {
@@ -306,7 +379,6 @@ void avl<T>::reset()
 	size_ = 0;
 }
 
-
 template <typename T>
 void avl<T>::delete_all(node<T>* parent)
 {
@@ -318,7 +390,6 @@ void avl<T>::delete_all(node<T>* parent)
 	}
 }
 
-
 template <typename T>
 int avl<T>::max(const int& a, const int& b)
 {
@@ -329,10 +400,23 @@ int avl<T>::max(const int& a, const int& b)
 template <typename T>
 node<T>* avl<T>::min_node(node<T>* parent)
 {
+	//TODO possible data leak
 	node<T>* temp = parent;
 	while (temp->left != nullptr)
 	{
 		temp = temp->left;
+	}
+	return temp;
+}
+
+template <typename T>
+node<T>* avl<T>::max_node(node<T>* parent)
+{
+	//TODO possible data leak
+	node<T>* temp = parent;
+	while (temp->right != nullptr)
+	{
+		temp = temp->right;
 	}
 	return temp;
 }
@@ -345,19 +429,12 @@ int avl<T>::get_balance(node<T>* node)
 	return depth(node->left) - depth(node->right);
 }
 
-
-
-
-
 template <typename T>
 int avl<T>::depth(node<T>* node)
 {
 	if (node == nullptr) return 0;
 	return node->depth;
 }
-
-
-
 
 template <typename T>
 node<T>* avl<T>::right_rotate(node<T>* node)
@@ -389,12 +466,46 @@ node<T>* avl<T>::left_rotate(node<T>* node)
 	return right;
 }
 
+template <typename T>
+node<T>* avl<T>::find_parent(node<T>* child)
+{
+	node<T>* parent = nullptr;
+	node<T>* current = root_;
+	while (current->value!=child->value)
+	{
+		parent = current;
+		if (current->value>child->value)
+		{
+			
+		}
 
+	}
 
+	//if (value < parent->value)
+	//	parent->left = insert(parent->left, value);
+	//else if (value > parent->value)
+	//	parent->right = insert(parent->right, value);
+	//else
+	//	return parent;
 
+	return parent;
+}
 
+template <typename T>
+node<T>* avl<T>::in_order_successor(node<T>* node)
+{
+	if (node->right!=nullptr)
+	{
+		return min_node(node->right);
+	}
 
-
-
+	struct node<T> *p = node->parent;
+	while (p != nullptr && node == p->right)
+	{
+		node = p;
+		p = p->parent;
+	}
+	return p;
+}
 
 #pragma once

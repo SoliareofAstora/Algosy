@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 		std::cout << "znaleziono\n";
 	}
 	else { std::cout << "nie znaleziono!!!\n"; }
-
+	
 	char b;
 	std::cin>>b;
 	return 0;

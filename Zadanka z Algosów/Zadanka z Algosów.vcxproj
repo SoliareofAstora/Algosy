@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avl.h" />
-    <ClInclude Include="Set.h" />
+    <ClInclude Include="set.h" />
     <ClInclude Include="UnorderedSet.h" />
   </ItemGroup>
   <ItemGroup>
