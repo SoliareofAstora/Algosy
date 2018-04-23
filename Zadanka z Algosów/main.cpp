@@ -1,29 +1,29 @@
+#include <vector>
+#include <chrono>
 #include <iostream>
-#include "avl.h"
+#include "map.h"
+
 int main(int argc, char* argv[])
 {
-	avl<int> AvlTree;
-	AvlTree.insert(10);
-	AvlTree.insert(11);
-	AvlTree.insert(12);
-	AvlTree.insert(13);
-	AvlTree.insert(14);
-	AvlTree.insert(15);
-	int temp = 13;
-	if (AvlTree.find(temp)!=nullptr)
-	{
-		std::cout << "znaleziono\n";
-	}
-	else { std::cout << "nie znaleziono!!\n"; }
 
-	avl<int> avl2=std::move(AvlTree);
-	if (avl2.find(temp) != nullptr)
+	std::vector<std::vector<int>> tabl;
+	std::vector<int> val;
+	val.push_back(10);
+	tabl.push_back(val);
+	map<int,int> struktura;
+	int temp = 10;
+	do
 	{
-		std::cout << "znaleziono\n";
+		temp++;
+		struktura.insert_vertex(temp);
 	}
-	else { std::cout << "nie znaleziono!!!\n"; }
-	
-	char b;
-	std::cin>>b;
+	while (temp<100);
+	struktura.insert_vertex(temp);
+	struktura.insert_vertex(temp);
+	struktura.insert_vertex(temp);
+	struktura.insert_vertex(temp);
+	struktura.printSize();
+	char a;
+	std::cin>>a;
 	return 0;
 }

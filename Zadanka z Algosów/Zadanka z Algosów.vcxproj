@@ -20,8 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avl.h" />
-    <ClInclude Include="set.h" />
-    <ClInclude Include="UnorderedSet.h" />
+    <ClInclude Include="map.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
