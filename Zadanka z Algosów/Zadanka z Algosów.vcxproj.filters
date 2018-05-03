@@ -18,6 +18,9 @@
     <ClInclude Include="avl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>

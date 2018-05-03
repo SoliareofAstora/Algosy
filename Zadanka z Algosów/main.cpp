@@ -2,11 +2,17 @@
 #include <chrono>
 #include <iostream>
 #include "graph.h"
+#include "map.h"
+#include <string>
 
 int main(int argc, char* argv[])
 {
+	map<int, std::string> Map;
+	Map.insert(10, "alibaba");
+	std::cout<<Map.find(10);
 
-
+	char a;
+	std::cin >> a;
 
 
 

@@ -1,12 +1,61 @@
 #pragma once
 #include "avl.h"
-template  <typename key, typename value>
+#include <utility>
+
+template  <typename K, typename T>
 class map
 {
-	
+	struct dataElement
+	{
+		std::pair<K, T> value;
+		dataElement() = default;
+		dataElement(std::pair<K, T> v):value(v){}
+		dataElement(K k, T v) :value(std::pair<K, T>(k,v)) {}
+		dataElement(K k)
+		{
+			value.first = k;
+		}
+		bool operator == (dataElement& right) const;
+		bool operator > (dataElement& right) const;
+		bool operator < (dataElement& right) const;
+	};
+
+	avl<dataElement> tree;
+public:
+	void insert(K key,T value)
+	{
+		tree.insert(dataElement(key, value));
+
+	}
+
+	T find(K key)
+	{
+		auto temp = dataElement(key);
+		return tree.find(temp)->value.value.second;
+	}
+
+
 };
 
 
+template <typename K, typename T>
+bool map<K, T>::dataElement::operator==(dataElement& right) const
+{
+	return value.first == right.value.first ?  true :  false;
+}
+
+template <typename K, typename T>
+bool map<K, T>::dataElement::operator>(dataElement& right) const
+{
+	return value.first > right.value.first ? true : false;
+}
+
+
+template <typename K, typename T>
+bool map<K, T>::dataElement::operator<(dataElement& right) const
+{
+	return value.first < right.value.first ? true : false;
+}
 
 
 
@@ -33,3 +82,5 @@ Trzeba upakowaæ parê w klasê i przeci¹¿yæ operator porównania :
 Jakby coœ by³o niejasne to pisz : )
 Pozdrawiam,
 Kasia*/
+
+
