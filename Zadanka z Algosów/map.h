@@ -1,66 +1,35 @@
 #pragma once
-#include <vector>
-
-template <typename T,typename edge> 
+#include "avl.h"
+template  <typename key, typename value>
 class map
 {
-	struct edge_info
-	{
-		edge name;
-		bool connection;
-		edge_info():connection(false){}
-	};
-
-	std::vector<std::vector<edge_info>> adjacency_matrix;
-	std::vector<T> table;
-	int size;
 	
-public:
-	bool insert_edge(int& from_index,int& destination_index, bool& overwrite);
-	bool insert_vertex(T& value);
-
-	void printSize()
-	{
-		std::cout << size<<std::endl;
-		std::cout << table.size() << std::endl;
-		std::cout <<"matrix "<< adjacency_matrix.size()<<" "<< adjacency_matrix[0].size();
-	}
-	map():size(0){}
 };
 
 
-template <typename T, typename edge>
-bool map<T, edge>::insert_edge(int& from_index, int& destination_index, bool& overwrite)
-{
-	if (from_index>=size||destination_index>=size)
-	{
-		return false;
+
+
+
+/*Hej!
+
+Opiszê Ci, co straci³eœ : generalnie na pocz¹tku opowiada³ o s³owniku
+(po ang.map).Wiadomo, elementy s¹ przechowywane jako pary klucza i wartoœci, 
+a szuka siê po kluczach, które musz¹ byæ unikatowe.
+
+Na zad.dom.które liczy siê do kolokwium mamy na max.za 
+2 tyg.zaimplementowaæ tak¹ mapê na naszym drzewie BST, 
+które robiliœmy do zbioru.Mo¿na skorzystaæ z 
+std::pair do tworzenia elementów.Najlepiej ¿eby to by³o to samo drzewo 
+z iteratorami i chodzi o to by jak najmniej zmieniaæ funkcje z tego drzewa.
+Jako przyk³ad zastanawialiœmy siê, jak zrobiæ Find'a bez zmiany funkcji z BST: 
+Trzeba upakowaæ parê w klasê i przeci¹¿yæ operator porównania :
+	class TreeData {
+	std::pair<K, V> p;
+	bool operator==(const TreeData & td) {
+		return p.first == td.first;
 	}
+};
 
-
-
-}
-
-template <typename T, typename edge>
-bool map<T, edge>::insert_vertex(T& value)
-{
-
-	table.push_back(value);
-
-	adjacency_matrix.push_back();
-	for(auto &v : adjacency_matrix)
-	{
-		v.push_back();
-	}
-	for (int i = 0; i < size; i++)
-		adjacency_matrix[i].resize(size+1);
-
-	size++;
-	std::vector<edge_info>temp;
-	temp.resize(size);
-	adjacency_matrix.push_back(temp);
-
-
-	return false;
-}
-
+Jakby coœ by³o niejasne to pisz : )
+Pozdrawiam,
+Kasia*/

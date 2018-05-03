@@ -1,16 +1,22 @@
 #include <vector>
 #include <chrono>
 #include <iostream>
-#include "map.h"
+#include "graph.h"
 
 int main(int argc, char* argv[])
 {
 
+
+
+
+
+
+	/*Zabawa z grafem
 	std::vector<std::vector<int>> tabl;
 	std::vector<int> val;
 	val.push_back(10);
 	tabl.push_back(val);
-	map<int,int> struktura;
+	graph<int,int> struktura;
 	int temp = 10;
 	do
 	{
@@ -25,5 +31,5 @@ int main(int argc, char* argv[])
 	struktura.printSize();
 	char a;
 	std::cin>>a;
-	return 0;
+	return 0;*/
 }
