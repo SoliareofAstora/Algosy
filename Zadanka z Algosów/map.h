@@ -1,62 +1,143 @@
 #pragma once
 #include "avl.h"
-#include <utility>
+
+
+template  <typename K, typename T>
+struct mapElement
+{
+	std::pair<K, T> value;
+	mapElement() = default;
+	mapElement(std::pair<K, T>& p) :value(p) {}
+	mapElement(K& k, T& v) :value(k, v) {}
+	bool operator == (const mapElement& right) const;
+	bool operator > (const mapElement& right) const;
+	bool operator < (const mapElement& right) const;
+};
 
 template  <typename K, typename T>
 class map
 {
-	struct dataElement
-	{
-		std::pair<K, T> value;
-		dataElement() = default;
-		dataElement(std::pair<K, T> v):value(v){}
-		dataElement(K k, T v) :value(std::pair<K, T>(k,v)) {}
-		dataElement(K k)
-		{
-			value.first = k;
-		}
-		bool operator == (dataElement& right) const;
-		bool operator > (dataElement& right) const;
-		bool operator < (dataElement& right) const;
-	};
 
-	avl<dataElement> tree;
+
+	avl<mapElement<K, T>> tree_;
 public:
-	void insert(K key,T value)
+	void insert(K& key, T& value);
+	mapElement<K, T>* find(K& key);
+	void remove(K& key);
+
+	class iterator
 	{
-		tree.insert(dataElement(key, value));
-
-	}
-
-	T find(K key)
-	{
-		auto temp = dataElement(key);
-		return tree.find(temp)->value.value.second;
-	}
-
-
+		mapElement<K, T>* current_;
+	public:
+		iterator();
+		iterator(mapElement<K, T>* element);
+		bool operator ==(const iterator& i);;
+		bool operator !=(const iterator& i);
+		iterator& operator++();
+		iterator operator ++(int);
+		T& operator*();
+	};
+	iterator begin();
+	iterator end();
 };
 
 
 template <typename K, typename T>
-bool map<K, T>::dataElement::operator==(dataElement& right) const
+bool mapElement<K, T>::operator==(const mapElement<K, T>& right) const
 {
-	return value.first == right.value.first ?  true :  false;
+	return value.first == right.value.first;
 }
 
 template <typename K, typename T>
-bool map<K, T>::dataElement::operator>(dataElement& right) const
+bool mapElement<K, T>::operator>(const mapElement<K, T>& right) const
 {
 	return value.first > right.value.first ? true : false;
 }
 
 
 template <typename K, typename T>
-bool map<K, T>::dataElement::operator<(dataElement& right) const
+bool mapElement<K, T>::operator<(const mapElement<K, T>& right) const
 {
-	return value.first < right.value.first ? true : false;
+	return value.first < right.value.first;
 }
 
+template <typename K, typename T>
+void map<K, T>::insert(K& key, T& value)
+{
+	if (find(key) == nullptr)
+		tree_.insert(mapElement<K,T>(key, value));
+}
+
+template <typename K, typename T>
+typename mapElement<K, T>* map<K, T>::find(K& key)
+{
+	mapElement<K, T> temp = mapElement<K, T>();
+	temp.value.first = key;
+	return &tree_.find(temp)->value;
+}
+
+template <typename K, typename T>
+void map<K, T>::remove(K& key)
+{
+	mapElement<K, T> temp = mapElement<K, T>();
+	temp.value.first = key;
+	tree_.remove(temp);
+}
+
+
+
+template <typename K, typename T>
+map<K, T>::iterator::iterator()
+{
+}
+
+template <typename K, typename T>
+map<K, T>::iterator::iterator(mapElement<K, T>* node):current_(node)
+{
+}
+
+template <typename K, typename T>
+bool map<K, T>::iterator::operator==(const iterator& i)
+{
+	return i.current_ == current_;
+}
+
+template <typename K, typename T>
+bool map<K, T>::iterator::operator!=(const iterator& i)
+{
+	return i.current_ != current_;
+}
+
+template <typename K, typename T>
+typename map<K, T>::iterator& map<K, T>::iterator::operator++()
+{
+	return *this;
+}
+
+template <typename K, typename T>
+typename map<K, T>::iterator map<K, T>::iterator::operator++(int step)
+{
+	return this;
+}
+
+template <typename K, typename T>
+T& map<K, T>::iterator::operator*()
+{
+	return current_->value.second;
+}
+
+
+template <typename K, typename T>
+typename map<K, T>::iterator map<K, T>::begin()
+{
+	return iterator(tree_.min_node()->value);
+}
+
+template <typename K, typename T>
+typename map<K, T>::iterator map<K, T>::end()
+{
+	return iterator(nullptr);
+}
 
 
 /*Hej!

@@ -4,19 +4,41 @@
 #include "graph.h"
 #include "map.h"
 #include <string>
+#include <memory>
 
 int main(int argc, char* argv[])
 {
 	map<int, std::string> Map;
-	Map.insert(10, "alibaba");
-	std::cout<<Map.find(10);
+	std::string tekst[] = { 
+		".","kota","ma","a", "kot","Ala", "ma", "Ale"};
+	int klucz[]={ 88, 23,65,21,34,11,66,70};
+	for (int i = 0; i < 8; i++)
+	{
+		Map.insert(klucz[i], tekst[i]);
+	}
 
+	for(auto &a: Map)
+	{
+		std::cout << a<< " ";
+	}
+
+	/*
+	avl<int> tree;
+	tree.insert(1);
+	tree.insert(2);
+	tree.insert(3);
+	tree.insert(4);
+	tree.insert(5);
+	tree.insert(6);
+	tree.insert(7);
+
+	for (auto &a: tree)
+	{
+		std::cout << a.value<<" ";
+	}
+	*/
 	char a;
 	std::cin >> a;
-
-
-
-
 	/*Zabawa z grafem
 	std::vector<std::vector<int>> tabl;
 	std::vector<int> val;

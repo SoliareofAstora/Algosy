@@ -1,2 +1,10 @@
 ﻿  main.cpp
-  Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
+e:\studia\algosy\zadanka z algosów\map.h(133): error C2663: 'avl<mapElement<K,T>>::min_node': 2 overloads have no legal conversion for 'this' pointer
+          with
+          [
+              K=int,
+              T=std::string
+          ]
+  e:\studia\algosy\zadanka z algosów\map.h(132): note: while compiling class template member function 'map<int,std::string>::iterator map<int,std::string>::begin(void) const'
+  e:\studia\algosy\zadanka z algosów\main.cpp(20): note: see reference to function template instantiation 'map<int,std::string>::iterator map<int,std::string>::begin(void) const' being compiled
+  e:\studia\algosy\zadanka z algosów\main.cpp(11): note: see reference to class template instantiation 'map<int,std::string>' being compiled
