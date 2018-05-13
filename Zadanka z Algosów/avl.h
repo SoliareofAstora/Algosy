@@ -43,7 +43,7 @@ public:
 		bool operator !=(const iterator& i);
 		iterator& operator++();
 		iterator operator ++(int);
-		node<T>& operator*();
+		T& operator*();
 
 		node<T>* find_parent(node<T>* children);
 		node<T>* in_order_successor(node<T>* n);
@@ -67,12 +67,11 @@ private:
 	node<T>* max_node(node<T>* parent);
 	int get_balance(node<T>* node);
 	int depth(node<T>* node);
-	node<T>* right_rotate(node<T>* node);
-	node<T>* left_rotate(node<T>* node);
+	node<T>* right_rotate(node<T>* n);
+	node<T>* left_rotate(node<T>* n);
 
 
 };
-
 
 template <typename T>
 avl<T>::avl() : root_(nullptr), size_(0)
@@ -150,7 +149,6 @@ void avl<T>::delete_all()
 	delete_all(root_);
 }
 
-
 template <typename T>
 int avl<T>::size()
 {
@@ -196,15 +194,15 @@ typename avl<T>::iterator& avl<T>::iterator::operator++()
 template <typename T>
 typename avl<T>::iterator avl<T>::iterator::operator++(int)
 {
-	auto* temp = this;
+	iterator temp = iterator(tree,current_);
 	current_ = in_order_successor(current_);
-	return &temp;
+	return temp;
 }
 
 template <typename T>
-node<T>& avl<T>::iterator::operator*()
+T& avl<T>::iterator::operator*()
 {
-	return *current_;
+	return current_->value;
 }
 
 template <typename T>
@@ -275,7 +273,6 @@ node<T>* avl<T>::create_node(const T& value)
 	return new_node;
 }
 
-
 template <typename T>
 node<T>* avl<T>::insert(node<T>* parent, const T& value)
 {
@@ -316,8 +313,6 @@ node<T>* avl<T>::insert(node<T>* parent, const T& value)
 	}
 	return parent;
 }
-
-
 
 template <typename T>
 node<T>* avl<T>::remove(node<T>* parent, const T& value)
@@ -523,6 +518,5 @@ node<T>* avl<T>::left_rotate(node<T>* n)
 
 	return right;
 }
-
 
 #pragma once
