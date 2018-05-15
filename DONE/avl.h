@@ -1,4 +1,5 @@
 #pragma once
+
 template <typename T>
 struct node
 {
@@ -13,7 +14,6 @@ class avl
 {
 	node<T>* root_;
 	int size_ = 0;
-
 public:
 	avl();
 	avl(const avl& source);
@@ -27,23 +27,26 @@ public:
 	node<T>* find(T &value);
 	void remove(const T& value);
 	void delete_all();
-
-	T& operator[] (const int index);
+	node<T>* min_node();
 
 	int size();
 	int depth();
 
 	class iterator
 	{
-		node<T> current_;
+		avl<T>* tree;
+		node<T>* current_;
 	public:
-		iterator(node<T>* node);
+		iterator();
+		iterator(avl<T>* tree, node<T>* node);
 		bool operator ==(const iterator& i);;
 		bool operator !=(const iterator& i);
 		iterator& operator++();
 		iterator operator ++(int);
-		node<T>& operator*();
+		T& operator*();
 
+		node<T>* find_parent(node<T>* children);
+		node<T>* in_order_successor(node<T>* n);
 	};
 	iterator begin();
 	iterator end();
@@ -59,16 +62,16 @@ private:
 	void reset();
 	void delete_all(node<T>* parent);
 	int max(const int& a, const int& b);
+	
 	node<T>* min_node(node<T>* parent);
 	node<T>* max_node(node<T>* parent);
 	int get_balance(node<T>* node);
 	int depth(node<T>* node);
-	node<T>* right_rotate(node<T>* node);
-	node<T>* left_rotate(node<T>* node);
-	node<T>* find_parent(node<T>* node);
-	node<T>* in_order_successor(node<T>* child);
-};
+	node<T>* right_rotate(node<T>* n);
+	node<T>* left_rotate(node<T>* n);
 
+
+};
 
 template <typename T>
 avl<T>::avl() : root_(nullptr), size_(0)
@@ -147,12 +150,6 @@ void avl<T>::delete_all()
 }
 
 template <typename T>
-T& avl<T>::operator[](const int index)
-{
-
-}
-
-template <typename T>
 int avl<T>::size()
 {
 	return size_;
@@ -165,64 +162,116 @@ int avl<T>::depth()
 }
 
 template <typename T>
-avl<T>::iterator::iterator(node<T>* node):current_(node)
+avl<T>::iterator::iterator()
 {
+	current_ = min_node(root_);
 }
+
+template <typename T>
+avl<T>::iterator::iterator(avl<T>* tree ,node<T>* node):tree(tree), current_(node){}
 
 template <typename T>
 bool avl<T>::iterator::operator==(const iterator& i)
 {
+	return i.current_ == current_;
 }
 
 template <typename T>
 bool avl<T>::iterator::operator!=(const iterator& i)
 {
+	return i.current_ != current_;
 }
 
-//postincrementacja
+//pre
 template <typename T>
 typename avl<T>::iterator& avl<T>::iterator::operator++()
 {
-
+	current_ = in_order_successor(current_);
+	return *this;
 }
 
-//postincrementacja
+//post
 template <typename T>
 typename avl<T>::iterator avl<T>::iterator::operator++(int)
 {
-	auto temp = current_;
-
+	iterator temp = iterator(tree,current_);
+	current_ = in_order_successor(current_);
+	return temp;
 }
 
 template <typename T>
-node<T>& avl<T>::iterator::operator*()
+T& avl<T>::iterator::operator*()
 {
-	return current_;
+	return current_->value;
+}
+
+template <typename T>
+node<T>* avl<T>::iterator::find_parent(node<T>* children)
+{
+	auto* current =tree->root_;
+	
+	while (!(current->left == children || current->right == children))
+	{
+		if (children->value > current->value)
+		{
+			current = current->right;
+		}
+		else
+		{
+			current = current->left;
+		}
+	}
+	return current;
+}
+
+template <typename T>
+node<T>* avl<T>::iterator::in_order_successor(node<T>* n)
+{
+
+	if (n->right != nullptr || n == tree->root_)
+	{
+		return tree->min_node(n->right);
+	}
+	node<T>* parent = find_parent(n);
+
+	if (parent->right == n)
+	{
+		node<T>* temp;
+		do
+		{
+			temp = parent;
+			parent = find_parent(temp);
+			if (parent->right == temp && parent == tree->root_)
+			{
+				return nullptr;
+			}
+		} while (parent->left != temp);
+	}
+	return parent;
 }
 
 template <typename T>
 typename avl<T>::iterator avl<T>::begin()
 {
-	return iterator(min_node(root_));
+	return iterator(this,min_node(root_));
 }
 
 template <typename T>
 typename avl<T>::iterator avl<T>::end()
 {
-	return iterator(max_node(root_));
+	return iterator(this,nullptr);
 }
 
 template <typename T>
 node<T>* avl<T>::create_node(const T& value)
 {
-	auto* new_node = new node<T>;
+	node<T>* new_node = new node<T>;
 	new_node->value = value;
 	new_node->left = nullptr;
 	new_node->right = nullptr;
 	new_node->depth = 1;
 	return new_node;
 }
-
 
 template <typename T>
 node<T>* avl<T>::insert(node<T>* parent, const T& value)
@@ -264,8 +313,6 @@ node<T>* avl<T>::insert(node<T>* parent, const T& value)
 	}
 	return parent;
 }
-
-
 
 template <typename T>
 node<T>* avl<T>::remove(node<T>* parent, const T& value)
@@ -396,6 +443,12 @@ int avl<T>::max(const int& a, const int& b)
 	return a > b ? a : b;
 }
 
+template <typename T>
+node<T>* avl<T>::min_node()
+{
+	return min_node(root_);
+}
+
 
 template <typename T>
 node<T>* avl<T>::min_node(node<T>* parent)
@@ -437,75 +490,33 @@ int avl<T>::depth(node<T>* node)
 }
 
 template <typename T>
-node<T>* avl<T>::right_rotate(node<T>* node)
+node<T>* avl<T>::right_rotate(node<T>* n)
 {
-	auto left = node->left;
-	auto left_right = left->right;
+	node<T>* left = n->left;
+	node<T>* left_right = left->right;
 
-	left->right = node;
-	node->left = left_right;
+	left->right = n;
+	n->left = left_right;
 
-	node->depth = max(depth(node->left), depth(node->right)) + 1;
+	n->depth = max(depth(n->left), depth(n->right)) + 1;
 	left->depth = max(depth(left->left), depth(left->right)) + 1;
 
 	return left;
 }
 
 template <typename T>
-node<T>* avl<T>::left_rotate(node<T>* node)
+node<T>* avl<T>::left_rotate(node<T>* n)
 {
-	auto right = node->right;
-	auto right_left = right->left;
+	node<T>* right = n->right;
+	node<T>* right_left = right->left;
 
-	right->left = node;
-	node->right = right_left;
+	right->left = n;
+	n->right = right_left;
 
-	node->depth = max(depth(node->left), depth(node->right)) + 1;
+	n->depth = max(depth(n->left), depth(n->right)) + 1;
 	right->depth = max(depth(right->left), depth(right->right)) + 1;
 
 	return right;
-}
-
-template <typename T>
-node<T>* avl<T>::find_parent(node<T>* child)
-{
-	node<T>* parent = nullptr;
-	node<T>* current = root_;
-	while (current->value!=child->value)
-	{
-		parent = current;
-		if (current->value>child->value)
-		{
-			
-		}
-
-	}
-
-	//if (value < parent->value)
-	//	parent->left = insert(parent->left, value);
-	//else if (value > parent->value)
-	//	parent->right = insert(parent->right, value);
-	//else
-	//	return parent;
-
-	return parent;
-}
-
-template <typename T>
-node<T>* avl<T>::in_order_successor(node<T>* node)
-{
-	if (node->right!=nullptr)
-	{
-		return min_node(node->right);
-	}
-
-	struct node<T> *p = node->parent;
-	while (p != nullptr && node == p->right)
-	{
-		node = p;
-		p = p->parent;
-	}
-	return p;
 }
 
 #pragma once
