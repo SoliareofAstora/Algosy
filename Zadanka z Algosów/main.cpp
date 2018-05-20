@@ -62,7 +62,7 @@ int main()
 	}
 	std::cout << "\n\n";
 	
-	/*
+	
 	std::cout << "BFS vertices data from (begin from 0):" << std::endl;
 	for (auto bfs_it = test_graph.beginBFS(0); bfs_it != test_graph.endBFS(); ++bfs_it)
 	{
@@ -75,7 +75,7 @@ int main()
 		std::cout << *bfs_it << ", ";
 	}
 	std::cout << "\n\n";
-	*/
+	
 	char a;
 	std::cin >> a;
 	return 0;

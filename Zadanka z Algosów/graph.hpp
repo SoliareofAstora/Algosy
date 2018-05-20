@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include <future>
-#include <string>
-
+#include "avl.h"
+#include <stack>
+#include <queue>
 
 template <typename T,typename edge> 
 class graph
@@ -14,11 +15,10 @@ class graph
 		edge_info():connection(false){}
 		edge_info(edge& name) :name(name), connection(true) {}
 	};
-
+public:
 	std::vector<std::vector<edge_info>> adjacency_matrix;
 	std::vector<T> vertices;
-	
-public:
+
 	graph();
 
 	bool insertEdge(int from_index, int destination_index, edge name);
@@ -26,7 +26,7 @@ public:
 	void insertVertex(T value);
 	void removeVertex(int index);
 	void removeEdge(int from_index, int destination_index);
-
+	
 	size_t nrOfVertices();
 	int nrOfEdges();
 	void printNeighborhoodMatrix();
@@ -48,7 +48,7 @@ public:
 		bool operator!=(const EdgesIterator &i) const;
 		EdgesIterator& operator++();
 		EdgesIterator operator++(int);
-		std::string operator*();
+		edge operator*();
 		void findNextEdge();
 	};
 	EdgesIterator beginEdges();
@@ -56,32 +56,41 @@ public:
 
 	class DFSIterator
 	{
+		graph* source_;
 		int current_;
-
+		avl<int> visited_;
+		std::stack<int> stack_;
 	public:
-		DFSIterator(int start_at);
+		DFSIterator(graph* source, int start_at);
 		bool operator==(const DFSIterator &i) const;
 		bool operator!=(const DFSIterator &i) const;
 		DFSIterator& operator++();
 		DFSIterator operator++(int);
-		std::string operator*();
+		T operator*();
 		void findNextVertex();
 	};
 	DFSIterator beginDFS(int n);
 	DFSIterator endDFS();
-	/*
+	
 	class BFSIterator
 	{
+		graph* source_;
+		int current_;
+		int currentNeighbor_;
+		avl<int> visited_;
+		std::queue<int> queue_;
 	public:
+		BFSIterator(graph* source, int start_at);
 		bool operator==(const BFSIterator &i) const;
 		bool operator!=(const BFSIterator &i) const;
 		BFSIterator& operator++();
 		BFSIterator operator++(int);
-		std::string operator*();
+		T operator*();
+		void findNextVertex();
 	};
-	BFSIterator beginBFS(int n);
+	BFSIterator beginBFS(int start_at);
 	BFSIterator endBFS();
-	*/
+
 #pragma endregion 
 
 };
@@ -240,11 +249,9 @@ typename graph<T, edge>::EdgesIterator graph<T, edge>::EdgesIterator::operator++
 }
 
 template <typename T, typename edge>
-std::string graph<T, edge>::EdgesIterator::operator*()
+edge graph<T, edge>::EdgesIterator::operator*()
 {
-	return ""+source_->adjacency_matrix[current_.first][current_.second].name
-	+" from:"+ std::to_string(current_.first)
-	+" to:"+ std::to_string(current_.second);
+	return source_->adjacency_matrix[current_.first][current_.second].name;
 }
 
 template <typename T, typename edge>
@@ -288,93 +295,177 @@ typename graph<T, edge>::EdgesIterator graph<T, edge>::endEdges()
 #pragma region DFSIterator
 
 template <typename T, typename edge>
-graph<T, edge>::DFSIterator::DFSIterator(int start_at):current_(start_at)
+graph<T, edge>::DFSIterator::DFSIterator(graph* source, int start_at):source_(source),current_(start_at)
 {
+	visited_.insert(current_);
+	stack_.push(current_);
 }
 
 template <typename T, typename edge>
 bool graph<T, edge>::DFSIterator::operator==(const DFSIterator& i) const
 {
+	return current_ == i.current_ && source_ == i.source_;
 }
 
 template <typename T, typename edge>
 bool graph<T, edge>::DFSIterator::operator!=(const DFSIterator& i) const
 {
+	return current_ != i.current_ || source_ != i.source_;
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::DFSIterator& graph<T, edge>::DFSIterator::operator++()
 {
+	findNextVertex();
+	return *this;
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::DFSIterator graph<T, edge>::DFSIterator::operator++(int)
 {
+	DFSIterator temp = DFSIterator(source_,current_);
+	findNextVertex();
+	return temp;
 }
 
 template <typename T, typename edge>
-std::string graph<T, edge>::DFSIterator::operator*()
+T graph<T, edge>::DFSIterator::operator*()
 {
+	return source_->vertices[current_];
 }
 
 template <typename T, typename edge>
 void graph<T, edge>::DFSIterator::findNextVertex()
 {
 
+	for (int i = 0; i < source_->nrOfVertices(); i++)
+	{
+		if (source_->adjacency_matrix[current_][i].connection)
+		{
+			if (visited_.find(i)==nullptr)
+			{
+				current_ = i;
+				visited_.insert(current_);
+				stack_.push(current_);
+				return;
+			}
+		}
+	}
+	if (stack_.empty())
+	{
+		current_ = -1;
+		return;
+	}
+	current_ = stack_.top();
+	stack_.pop();
+	findNextVertex();
 }
 
 template <typename T, typename edge>
-typename graph<T, edge>::DFSIterator graph<T, edge>::beginDFS(int n)
+typename graph<T, edge>::DFSIterator graph<T, edge>::beginDFS(int start_at)
 {
+	if (start_at<0||start_at>=this->nrOfVertices())
+	{
+		return DFSIterator(this, -1);
+	}
+	return DFSIterator(this,start_at);
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::DFSIterator graph<T, edge>::endDFS()
 {
+	return DFSIterator(this, -1);
 }
 
 #pragma endregion 
 
-/*
+
 #pragma region BFSIterator
+
+template <typename T, typename edge>
+graph<T, edge>::BFSIterator::BFSIterator(graph* source, int start_at) :source_(source), current_(start_at), currentNeighbor_(-1)
+{
+	visited_.insert(start_at);
+}
 
 template <typename T, typename edge>
 bool graph<T, edge>::BFSIterator::operator==(const BFSIterator& i) const
 {
+	return current_ == i.current_ && source_ == i.source_;
 }
 
 template <typename T, typename edge>
 bool graph<T, edge>::BFSIterator::operator!=(const BFSIterator& i) const
 {
+	return current_ != i.current_ || source_ != i.source_;
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::BFSIterator& graph<T, edge>::BFSIterator::operator++()
 {
+	findNextVertex();
+	return *this;
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::BFSIterator graph<T, edge>::BFSIterator::operator++(int)
 {
+	BFSIterator temp = BFSIterator(source_, current_);
+	findNextVertex();
+	return temp;
 }
 
 template <typename T, typename edge>
-std::string graph<T, edge>::BFSIterator::operator*()
+T graph<T, edge>::BFSIterator::operator*()
 {
+	return source_->vertices[currentNeighbor_==-1?current_:currentNeighbor_];
 }
 
 template <typename T, typename edge>
-typename graph<T, edge>::BFSIterator graph<T, edge>::beginBFS(int n)
+void graph<T, edge>::BFSIterator::findNextVertex()
 {
+	for (int i = currentNeighbor_+1; i < source_->nrOfVertices(); i++)
+	{
+		if (source_->adjacency_matrix[current_][i].connection)
+		{
+			if (visited_.find(i) == nullptr)
+			{
+				currentNeighbor_ = i;
+				queue_.push(i);
+				visited_.insert(i);
+				return;
+			}
+		}
+	}
+	currentNeighbor_ = -1;
+	if (queue_.empty())
+	{
+		current_ = -1;
+		return;
+	}
+	current_ = queue_.front();
+	queue_.pop();
+	findNextVertex();
+}
+
+template <typename T, typename edge>
+typename graph<T, edge>::BFSIterator graph<T, edge>::beginBFS(int start_at)
+{
+	if (start_at<0 || start_at >= this->nrOfVertices())
+	{
+		return BFSIterator(this, -1);
+	}
+	return BFSIterator(this, start_at);
 }
 
 template <typename T, typename edge>
 typename graph<T, edge>::BFSIterator graph<T, edge>::endBFS()
 {
+	return BFSIterator(this, -1);
 }
 
 #pragma endregion 
-*/
+
 
 /*
 

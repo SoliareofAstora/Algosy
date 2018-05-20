@@ -1,6 +1,2 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\graph.hpp(327): error C4716: 'graph<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::beginDFS': must return a value
-e:\studia\algosy\zadanka z algosów\graph.hpp(306): error C4716: 'graph<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::DFSIterator::operator++': must return a value
-e:\studia\algosy\zadanka z algosów\graph.hpp(332): error C4716: 'graph<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::endDFS': must return a value
-e:\studia\algosy\zadanka z algosów\graph.hpp(301): error C4716: 'graph<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::DFSIterator::operator!=': must return a value
-e:\studia\algosy\zadanka z algosów\graph.hpp(316): error C4716: 'graph<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::DFSIterator::operator*': must return a value
+  Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
