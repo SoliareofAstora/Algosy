@@ -18,7 +18,6 @@ class graph
 public:
 	std::vector<std::vector<edge_info>> adjacency_matrix;
 	std::vector<T> vertices;
-
 	graph();
 
 	bool insertEdge(int from_index, int destination_index, edge name);
@@ -27,6 +26,8 @@ public:
 	void removeVertex(int index);
 	void removeEdge(int from_index, int destination_index);
 	
+	T& vertexData(int index);
+	edge& edgeLabel(int from_index, int destination_index);
 	size_t nrOfVertices();
 	int nrOfEdges();
 	void printNeighborhoodMatrix();
@@ -147,6 +148,26 @@ template <typename T, typename edge>
 void graph<T, edge>::removeEdge(int from_index, int destination_index)
 {
 	adjacency_matrix[from_index][destination_index] = edge_info();
+}
+
+template <typename T, typename edge>
+T& graph<T, edge>::vertexData(int index)
+{
+	if (index<0 || index >= this->nrOfVertices())
+	{
+		return nullptr;
+	}
+	return vertices[index];
+}
+
+template <typename T, typename edge>
+edge& graph<T, edge>::edgeLabel(int from_index, int destination_index)
+{
+	if (from_index<0 || from_index >= this->nrOfVertices()|| destination_index<0 || destination_index >= this->nrOfVertices())
+	{
+		return nullptr;
+	}
+	return adjacency_matrix[from_index][destination_index];
 }
 
 template <typename T, typename edge>
@@ -379,7 +400,6 @@ typename graph<T, edge>::DFSIterator graph<T, edge>::endDFS()
 
 #pragma endregion 
 
-
 #pragma region BFSIterator
 
 template <typename T, typename edge>
@@ -465,44 +485,3 @@ typename graph<T, edge>::BFSIterator graph<T, edge>::endBFS()
 }
 
 #pragma endregion 
-
-
-/*
-
-poni¿ej kod który przerabialiœmy
-
-public:
-    class VerticesIterator
-    {
-      public:
-        VerticesIterator(Graph<V,E> &graph, std::size_t current_vertex_id = 0u);
-      public:
-        bool operator==(const VerticesIterator &vi) const;
-        bool operator!=(const VerticesIterator &vi) const { return !(*this == vi);}
-        VerticesIterator& operator++();
-        VerticesIterator operator++(int);
-        V& operator*();
-    };
-    class EdgesIterator
-    {
-      private:
-        EdgesIterator(Graph<V,E> &graph, std::size_t nm_row, std::size_t mn_col);
-      public:
-        bool operator==(const EdgesIterator &ei) const;
-        bool operator!=(const EdgesIterator &ei) const { return !(*this == ei);}
-        EdgesIterator& operator++();
-        EdgesIterator operator++(int);
-        E& operator*();
-    };
-
-
-i metody:
-    std::size_t nrOfVertices() const;
-    std::size_t nrOfEdges() const;
-    void printNeighborhoodMarix() const;
-    VerticesIterator beginVertices();
-    VerticesIterator endVertices();
-    EdgesIterator beginEdges();
-    EdgesIterator endEdges();
-
-*/
