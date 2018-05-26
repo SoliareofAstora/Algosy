@@ -1,12 +1,9 @@
 ﻿  main.cpp
 e:\studia\algosy\zadanka z algosów\main.cpp(25): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-e:\studia\algosy\zadanka z algosów\dijkstra.hpp(8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  e:\studia\algosy\zadanka z algosów\main.cpp(113): note: see reference to function template instantiation 'std::pair<double,std::vector<T,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<T,double> &,int,int)' being compiled
+e:\studia\algosy\zadanka z algosów\dijkstra.hpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  e:\studia\algosy\zadanka z algosów\main.cpp(113): note: see reference to function template instantiation 'std::pair<double,std::deque<_Ty,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<std::string,double> &,int,int)' being compiled
           with
           [
-              T=std::string,
-              _Ty=std::string
+              _Ty=int
           ]
-  main_old.cpp
-  Generating Code...
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe

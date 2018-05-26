@@ -10,10 +10,10 @@ class graph
 {
 	struct edge_info
 	{
-		edge name;
+		edge label;
 		bool connection;
 		edge_info():connection(false){}
-		edge_info(edge& name) :name(name), connection(true) {}
+		edge_info(edge& label) :label(label), connection(true) {}
 	};
 public:
 	std::vector<std::vector<edge_info>> adjacency_matrix;
@@ -26,8 +26,9 @@ public:
 	void removeVertex(int index);
 	void removeEdge(int from_index, int destination_index);
 	
-	T& vertexData(int index);
-	edge& edgeLabel(int from_index, int destination_index);
+	T* vertexData(int index);
+	edge* edgeLabel(int from_index, int destination_index);
+	bool connection(int from_index, int destination_index);
 	size_t nrOfVertices();
 	int nrOfEdges();
 	void printNeighborhoodMatrix();
@@ -151,23 +152,29 @@ void graph<T, edge>::removeEdge(int from_index, int destination_index)
 }
 
 template <typename T, typename edge>
-T& graph<T, edge>::vertexData(int index)
+T* graph<T, edge>::vertexData(int index)
 {
 	if (index<0 || index >= this->nrOfVertices())
 	{
 		return nullptr;
 	}
-	return vertices[index];
+	return &vertices[index];
 }
 
 template <typename T, typename edge>
-edge& graph<T, edge>::edgeLabel(int from_index, int destination_index)
+edge* graph<T, edge>::edgeLabel(int from_index, int destination_index)
 {
 	if (from_index<0 || from_index >= this->nrOfVertices()|| destination_index<0 || destination_index >= this->nrOfVertices())
 	{
 		return nullptr;
 	}
-	return adjacency_matrix[from_index][destination_index];
+	return &adjacency_matrix[from_index][destination_index].label;
+}
+
+template <typename T, typename edge>
+bool graph<T, edge>::connection(int from_index, int destination_index)
+{
+	return adjacency_matrix[from_index][destination_index].connection;
 }
 
 template <typename T, typename edge>
@@ -272,7 +279,7 @@ typename graph<T, edge>::EdgesIterator graph<T, edge>::EdgesIterator::operator++
 template <typename T, typename edge>
 edge graph<T, edge>::EdgesIterator::operator*()
 {
-	return source_->adjacency_matrix[current_.first][current_.second].name;
+	return source_->adjacency_matrix[current_.first][current_.second].label;
 }
 
 template <typename T, typename edge>

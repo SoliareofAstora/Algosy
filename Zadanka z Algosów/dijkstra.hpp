@@ -2,35 +2,67 @@
 #include <utility>
 #include "graph.hpp"
 
+
 template <typename T, typename edge>
-std::pair<edge, std::vector<T>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
+std::pair<double, std::deque<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
 {
 	int size = graph.nrOfVertices();
 	std::vector<int> unvisited;
-	unvisited.reserve(size);
 	std::vector<double> distance;
+	std::vector<int> path;
+	unvisited.reserve(size);
 	distance.reserve(size);
-	std::vector<std::vector<int>> path;
 	path.reserve(size);
 	for(int i = 0; i<size; i++)
 	{
 		unvisited.push_back(i);
-		distance.push_back(DBL_MAX);
-		path.emplace_back();
+		distance.push_back(999999999);
+		path.push_back(-1);
 	}
 	distance[from_i] = 0;
 
 	while (!unvisited.empty())
 	{
-		
-	}
+		double minv = DBL_MAX;
+		int u = -1;
 
-	std::pair<edge, std::vector<T>> out;
-	out.first = 100;
-	out.second = std::vector<T>();
-	out.second.push_back("a");
-	out.second.push_back("a");
-	out.second.push_back("a");
-	out.second.push_back("a");
+		for (int i = 0; i < unvisited.size(); i++)
+		{
+			if (distance[unvisited[i]]<minv)
+			{
+				minv = distance[unvisited[i]];
+				u = i;
+			}
+		}
+		int temp = u;
+		u = unvisited[temp];
+		unvisited.erase(unvisited.begin() + temp);
+
+		for (int i = 0; i < unvisited.size(); i++)
+		{
+			if (graph.connection(u,unvisited[i]))
+			{
+				minv = distance[u] + *graph.edgeLabel(u, unvisited[i]);
+				if (minv<distance[unvisited[i]])
+				{
+					distance[unvisited[i]] = minv;
+					path[unvisited[i]] = u;
+				}
+			}
+		}
+	}
+	std::deque<int> S;
+	int u = des_i;
+	while (path[u]!=-1)
+	{
+		S.push_front(u);
+		u = path[u];
+	}
+	S.push_front(u);
+
+
+	std::pair<double, std::deque<int>> out;
+	out.first = distance[des_i];
+	out.second = S;
 	return out;
 };

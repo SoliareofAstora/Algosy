@@ -109,7 +109,7 @@ int main()
 
 	*/
 
-	//4 - 2,4
+	//4 24
     auto path = dijkstra<std::string, double>(test_graph, 2u, 4u);
     std::cout << "distance from 2 to 4: " << path.first << std::endl;
     std::cout << "path from 2 to 4:" << std::endl;
@@ -117,8 +117,8 @@ int main()
     {
         std::cout << v_id  << ", ";
     }
-    std::cout << std::endl;
-	/*
+    std::cout << std::endl << std::endl;
+	
 	//4 120
     path = dijkstra<std::string, double>(test_graph, 1u, 0u);
     std::cout << "distance from 1 to 0: " << path.first << std::endl;
@@ -127,8 +127,8 @@ int main()
     {
         std::cout << v_id  << ", ";
     }
-    std::cout << std::endl;
-	/*
+    std::cout << std::endl << std::endl;
+	
 	//5 320
     path = dijkstra<std::string, double>(test_graph, 3u, 0u);
     std::cout << "distance from 3 to 0: " << path.first << std::endl;
@@ -137,7 +137,7 @@ int main()
     {
         std::cout << v_id  << ", ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl;
 
 	//6 321
     path = dijkstra<std::string, double>(test_graph, 3u, 1u);
@@ -147,9 +147,8 @@ int main()
     {
         std::cout << v_id  << ", ";
     }
-    std::cout << std::endl;
-	*/
-
+    std::cout << std::endl << std::endl;
+	
 	std::cin.ignore();
     return 0;
 }
