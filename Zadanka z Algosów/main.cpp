@@ -75,6 +75,13 @@ int main()
 	std::cout << "\n\n";
 	//zwraca sługość ścieżki oraz wektor zawierający indeksy punktów
 	/*
+	 *	usunąć rekurencję 
+	 *	dodawać dane do wektorów od razu podczas deklarowania zmiennej 
+	 *	visited zmienić na tablicę bool
+	 *	AVL zmienić na implementacji listy tablic 
+	 *	wyrzucić queue i zamiast tego push back na wektor potem odwrócenie elementów przy zwracaniu 
+	 *
+
 	1  function Dijkstra(Graph, source):
 	2
 	3      create vertex set Q
@@ -111,8 +118,7 @@ int main()
 
 	//4 24
     auto path = dijkstra<std::string, double>(test_graph, 2u, 4u);
-    std::cout << "distance from 2 to 4: " << path.first << std::endl;
-    std::cout << "path from 2 to 4:" << std::endl;
+    std::cout << "distance from 2 to 4: " << path.first << " - ";
     for(auto &v_id : path.second)
     {
         std::cout << v_id  << ", ";
@@ -121,8 +127,7 @@ int main()
 	
 	//4 120
     path = dijkstra<std::string, double>(test_graph, 1u, 0u);
-    std::cout << "distance from 1 to 0: " << path.first << std::endl;
-    std::cout << "path from 1 to 0:" << std::endl;
+    std::cout << "distance from 1 to 0: " << path.first << " - ";
     for(auto &v_id : path.second)
     {
         std::cout << v_id  << ", ";
@@ -131,8 +136,7 @@ int main()
 	
 	//5 320
     path = dijkstra<std::string, double>(test_graph, 3u, 0u);
-    std::cout << "distance from 3 to 0: " << path.first << std::endl;
-    std::cout << "path from 3 to 0:" << std::endl;
+    std::cout << "distance from 3 to 0: " << path.first << " - ";
     for(auto &v_id : path.second)
     {
         std::cout << v_id  << ", ";
@@ -141,8 +145,7 @@ int main()
 
 	//6 321
     path = dijkstra<std::string, double>(test_graph, 3u, 1u);
-    std::cout << "distance from 3 to 1: " << path.first << std::endl;
-    std::cout << "path from 3 to 1:" << std::endl;
+    std::cout << "distance from 3 to 1: " << path.first << " - ";
     for(auto &v_id : path.second)
     {
         std::cout << v_id  << ", ";

@@ -4,64 +4,67 @@
 
 
 template <typename T, typename edge>
-std::pair<double, std::deque<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
+std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
 {
 	int size = graph.nrOfVertices();
-	std::vector<int> unvisited;
-	std::vector<double> distance;
-	std::vector<int> path;
-	unvisited.reserve(size);
-	distance.reserve(size);
-	path.reserve(size);
-	for(int i = 0; i<size; i++)
-	{
-		unvisited.push_back(i);
-		distance.push_back(999999999);
-		path.push_back(-1);
-	}
+
+	std::vector<bool> unvisited(size,true);
+	std::vector<double> distance(size,DBL_MAX);
+	std::vector<int> path(size,-1);
+
 	distance[from_i] = 0;
 
-	while (!unvisited.empty())
+	for (int j = 0; j < size; ++j)
 	{
+		if (!unvisited[des_i])
+		{
+			break;
+		}
 		double minv = DBL_MAX;
 		int u = -1;
 
-		for (int i = 0; i < unvisited.size(); i++)
+		for (int i = 0; i < size; i++)
 		{
-			if (distance[unvisited[i]]<minv)
+			if (unvisited[i])
 			{
-				minv = distance[unvisited[i]];
-				u = i;
+				if (distance[i] <= minv)
+				{
+					minv = distance[i];
+					u = i;
+				}
 			}
 		}
-		int temp = u;
-		u = unvisited[temp];
-		unvisited.erase(unvisited.begin() + temp);
 
-		for (int i = 0; i < unvisited.size(); i++)
+		unvisited[u] = false;
+
+		for (int i = 0; i < size; i++)
 		{
-			if (graph.connection(u,unvisited[i]))
+			if (unvisited[i])
 			{
-				minv = distance[u] + *graph.edgeLabel(u, unvisited[i]);
-				if (minv<distance[unvisited[i]])
+				if (graph.connection(u, i))
 				{
-					distance[unvisited[i]] = minv;
-					path[unvisited[i]] = u;
+					minv = distance[u] + *graph.edgeLabel(u, i);
+					if (minv < distance[i])
+					{
+						distance[i] = minv;
+						path[i] = u;
+					}
 				}
 			}
 		}
 	}
-	std::deque<int> S;
+
+	std::vector<int> S;
 	int u = des_i;
 	while (path[u]!=-1)
 	{
-		S.push_front(u);
+		S.push_back(u);
 		u = path[u];
 	}
-	S.push_front(u);
+	S.push_back(u);
+	std::reverse(S.begin(), S.end());
 
-
-	std::pair<double, std::deque<int>> out;
+	std::pair<double, std::vector<int>> out;
 	out.first = distance[des_i];
 	out.second = S;
 	return out;

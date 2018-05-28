@@ -1,7 +1,7 @@
 ﻿  main.cpp
 e:\studia\algosy\zadanka z algosów\main.cpp(25): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 e:\studia\algosy\zadanka z algosów\dijkstra.hpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  e:\studia\algosy\zadanka z algosów\main.cpp(113): note: see reference to function template instantiation 'std::pair<double,std::deque<_Ty,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<std::string,double> &,int,int)' being compiled
+  e:\studia\algosy\zadanka z algosów\main.cpp(120): note: see reference to function template instantiation 'std::pair<double,std::vector<int,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<std::string,double> &,int,int)' being compiled
           with
           [
               _Ty=int
