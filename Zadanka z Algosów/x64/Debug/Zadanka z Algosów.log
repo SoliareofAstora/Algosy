@@ -1,9 +1,17 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\main.cpp(25): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+e:\studia\algosy\zadanka z algosów\main.cpp(29): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 e:\studia\algosy\zadanka z algosów\dijkstra.hpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  e:\studia\algosy\zadanka z algosów\main.cpp(120): note: see reference to function template instantiation 'std::pair<double,std::vector<int,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<std::string,double> &,int,int)' being compiled
+  e:\studia\algosy\zadanka z algosów\main.cpp(83): note: see reference to function template instantiation 'std::pair<double,std::vector<int,std::allocator<_Ty>>> dijkstra<std::string,double>(graph<std::string,double> &,int,int)' being compiled
           with
           [
               _Ty=int
           ]
+e:\studia\algosy\zadanka z algosów\dijkstra.hpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+e:\studia\algosy\zadanka z algosów\astar.hpp(16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  e:\studia\algosy\zadanka z algosów\main.cpp(121): note: see reference to function template instantiation 'std::pair<double,std::vector<int,std::allocator<_Ty>>> astar<std::string,double>(graph<std::string,double> &,int,int,std::function<double (graph<std::string,double> &,int,int)>)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+e:\studia\algosy\zadanka z algosów\astar.hpp(16): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe

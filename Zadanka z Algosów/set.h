@@ -20,15 +20,8 @@ public:
 	T* find(const T &value);
 	void remove(const T &value);
 
-	class iterator 
-	{
-		bool operator ==(const iterator& i);;
-		bool operator !=(const iterator& i);
-		iterator& operator++();
-		iterator operator ++(int);
-		T& operator*();
-
-	};
+	typedef typename avl<T>::iterator iterator;
+	
 	iterator begin();
 	iterator end();
 };
@@ -81,43 +74,18 @@ void set<T>::remove(const T& value)
 	tree_.remove(value);
 }
 
-template <typename T>
-bool set<T>::iterator::operator==(const iterator& i)
-{
-	return this == i;
-}
 
-template <typename T>
-bool set<T>::iterator::operator!=(const iterator& i)
-{
-	return !(this == i);
-}
-
-template <typename T>
-typename set<T>::iterator& set<T>::iterator::operator++()
-{
-}
-
-template <typename T>
-typename set<T>::iterator set<T>::iterator::operator++(int)
-{
-}
-
-template <typename T>
-T& set<T>::iterator::operator*()
-{
-
-}
 
 template <typename T>
 typename set<T>::iterator set<T>::begin()
 {
-
+	return tree_.begin();
 }
 
 template <typename T>
 typename set<T>::iterator set<T>::end()
 {
+	return tree_.end();
 }
 
 

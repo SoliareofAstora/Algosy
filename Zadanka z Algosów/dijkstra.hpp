@@ -6,7 +6,7 @@
 template <typename T, typename edge>
 std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
 {
-	int size = graph.nrOfVertices();
+	const int size = graph.nrOfVertices();
 
 	std::vector<bool> unvisited(size,true);
 	std::vector<double> distance(size,DBL_MAX);

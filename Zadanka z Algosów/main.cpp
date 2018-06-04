@@ -2,6 +2,10 @@
 #include "graph.hpp"
 #include <string>
 #include "dijkstra.hpp"
+#include "astar.hpp"
+
+
+
 
 using namespace std;
 
@@ -73,49 +77,8 @@ int main()
 		std::cout << *bfs_it << ", ";
 	}
 	std::cout << "\n\n";
-	//zwraca sługość ścieżki oraz wektor zawierający indeksy punktów
-	/*
-	 *	usunąć rekurencję 
-	 *	dodawać dane do wektorów od razu podczas deklarowania zmiennej 
-	 *	visited zmienić na tablicę bool
-	 *	AVL zmienić na implementacji listy tablic 
-	 *	wyrzucić queue i zamiast tego push back na wektor potem odwrócenie elementów przy zwracaniu 
-	 *
 
-	1  function Dijkstra(Graph, source):
-	2
-	3      create vertex set Q
-	4
-	5      for each vertex v in Graph:             // Initialization
-	6          dist[v] ← INFINITY                  // Unknown distance from source to v
-	7          prev[v] ← UNDEFINED                 // Previous node in optimal path from source
-	8          add v to Q                          // All nodes initially in Q (unvisited nodes)
-	9
-	10      dist[source] ← 0                       // Distance from source to source
-	11
-	12      while Q is not empty:
-	13          u ← vertex in Q with min dist[u]    // Node with the least distance
-	14                                              // will be selected first
-	15          remove u from Q
-	16
-	17          for each neighbor v of u:           // where v is still in Q.
-	18              alt ← dist[u] + length(u, v)
-	19              if alt < dist[v]:               // A shorter path to v has been found
-	20                  dist[v] ← alt
-	21                  prev[v] ← u
-	22
-	23      return dist[], prev[]
-
-
-	1  S ← empty sequence
-	2  u ← target
-	3  while prev[u] is defined:                  // Construct the shortest path with a stack S
-	4      insert u at the beginning of S         // Push the vertex onto the stack
-	5      u ← prev[u]                            // Traverse from target to source
-	6  insert u at the beginning of S             // Push the source onto the stack
-
-	*/
-
+	std::cout << "\ndijkstra\n";
 	//4 24
     auto path = dijkstra<std::string, double>(test_graph, 2u, 4u);
     std::cout << "distance from 2 to 4: " << path.first << " - ";
@@ -152,6 +115,43 @@ int main()
     }
     std::cout << std::endl << std::endl;
 	
+
+	std::cout << "\nA star\n";
+	//4 24
+	path = astar<std::string, double>(test_graph, 2u, 4u,path_length_heuristic<std::string, double>);
+	std::cout << "distance from 2 to 4: " << path.first << " - ";
+	for (auto &v_id : path.second)
+	{
+		std::cout << v_id << ", ";
+	}
+	std::cout << std::endl << std::endl;
+
+	//4 120
+	path = astar<std::string, double>(test_graph, 1u, 0u, path_length_heuristic<std::string, double>);
+	std::cout << "distance from 1 to 0: " << path.first << " - ";
+	for (auto &v_id : path.second)
+	{
+		std::cout << v_id << ", ";
+	}
+	std::cout << std::endl << std::endl;
+
+	//5 320
+	path = astar<std::string, double>(test_graph, 3u, 0u, path_length_heuristic<std::string, double>);
+	std::cout << "distance from 3 to 0: " << path.first << " - ";
+	for (auto &v_id : path.second)
+	{
+		std::cout << v_id << ", ";
+	}
+	std::cout << std::endl << std::endl;
+
+	//6 321
+	path = astar<std::string, double>(test_graph, 3u, 1u, path_length_heuristic<std::string, double>);
+	std::cout << "distance from 3 to 1: " << path.first << " - ";
+	for (auto &v_id : path.second)
+	{
+		std::cout << v_id << ", ";
+	}
+	std::cout << std::endl << std::endl;
 	std::cin.ignore();
     return 0;
 }

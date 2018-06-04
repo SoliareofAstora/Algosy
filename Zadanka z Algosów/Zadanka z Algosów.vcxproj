@@ -23,6 +23,8 @@
     <ClInclude Include="dijkstra.hpp" />
     <ClInclude Include="graph.hpp" />
     <ClInclude Include="astar.hpp" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="set.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
