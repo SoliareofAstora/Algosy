@@ -32,5 +32,8 @@
     <ClInclude Include="dijkstra.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="astar.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

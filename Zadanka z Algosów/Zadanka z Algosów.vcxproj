@@ -22,6 +22,7 @@
     <ClInclude Include="avl.h" />
     <ClInclude Include="dijkstra.hpp" />
     <ClInclude Include="graph.hpp" />
+    <ClInclude Include="astar.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
