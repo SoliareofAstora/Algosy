@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avl.h" />
+    <ClInclude Include="betterAVL.h" />
     <ClInclude Include="dijkstra.hpp" />
     <ClInclude Include="graph.hpp" />
     <ClInclude Include="astar.hpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainPathfindingTest.cpp" />
     <ClCompile Include="main_old.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
