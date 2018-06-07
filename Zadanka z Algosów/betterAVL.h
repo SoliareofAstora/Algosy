@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <bitset>
+#include <iostream>
 
 
 template<typename T>
@@ -13,14 +14,35 @@ class AVL
 		node* left;
 		node* right;
 		int depth;
+		node() {}
+		node(const T& input):value(input),left(nullptr),right(nullptr),depth(0){}
 	};
 
-	static const int batchSize = 64;
-	std::vector < std::pair<char *, std::bitset<batchSize>>> arr;
+	static const int N = 64;
+	std::vector<std::pair<char *, std::bitset<N>>> arr;
 
-
-
-
-
+public:
+	AVL();
+	void insert(const T& value);
 
 };
+
+template <typename T>
+AVL<T>::AVL()
+{
+}
+
+template <typename T>
+void AVL<T>::insert(const T& value)
+{
+	arr.push_back(
+		std::pair<char *, std::bitset<N>>(
+			new char[sizeof(node<T>)*N],
+			std::bitset<N>())
+	);
+	int i = 0;
+	auto* wtf = new (arr[0].first) node<T>(value);
+	
+	std::cout << wtf->value;
+	
+}
