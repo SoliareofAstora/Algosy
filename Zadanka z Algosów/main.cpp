@@ -6,8 +6,10 @@
 
 int main(int argc, char* argv[])
 {
+	
 	avl<int> avl1;
 	AVL<int> avl2;
+	/*
 	int a = 10;
 	avl2.insert(a);
 	std::cout << "\n";
@@ -28,7 +30,7 @@ int main(int argc, char* argv[])
 	}
 	std::cout << "DONE\n";
 	system("PAUSE");
-	return 0;
+	return 0;*/
 }
 
 /*

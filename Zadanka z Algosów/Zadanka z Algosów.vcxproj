@@ -25,6 +25,8 @@
     <ClInclude Include="graph.hpp" />
     <ClInclude Include="astar.hpp" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="MemoryBlock.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="set.h" />
   </ItemGroup>
   <ItemGroup>
