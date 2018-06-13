@@ -1,7 +1,7 @@
 
 #include "betterAVL.h"
 #include "avl.h"
-
+#include <iostream>
 
 
 int main(int argc, char* argv[])
@@ -9,10 +9,14 @@ int main(int argc, char* argv[])
 	
 	avl<int> avl1;
 	AVL<int> avl2;
-	/*
 	int a = 10;
-	avl2.insert(a);
-	std::cout << "\n";
+	for (int i = 0; i < 100; ++i)
+	{
+		avl2.insert(a++);
+	}
+	std::cout << avl2.find(100)->value << "\n";
+	std::cout <<"root: " << avl2.root_node()->value<<"\n";
+	/*
 	for (int j = 0; j < 100; ++j)
 	{		
 		for (int i = 0; i < 10000; ++i)
@@ -28,9 +32,10 @@ int main(int argc, char* argv[])
 			avl1.remove(i);
 		}
 	}
+	*/
 	std::cout << "DONE\n";
 	system("PAUSE");
-	return 0;*/
+	return 0;
 }
 
 /*
