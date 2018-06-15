@@ -28,6 +28,7 @@ public:
 	void remove(const T& value);
 	void delete_all();
 	node<T>* min_node();
+	node<T>* root_node();
 
 	int size();
 	int depth();
@@ -447,6 +448,12 @@ template <typename T>
 node<T>* avl<T>::min_node()
 {
 	return min_node(root_);
+}
+
+template <typename T>
+node<T>* avl<T>::root_node()
+{
+	return root_;
 }
 
 

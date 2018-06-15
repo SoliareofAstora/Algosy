@@ -9,13 +9,15 @@ int main(int argc, char* argv[])
 	
 	avl<int> avl1;
 	AVL<int> avl2;
-	int a = 10;
-	for (int i = 0; i < 100; ++i)
+	int a[] = {0,1,2};
+	for (int i = 0; i < 12;i++)//sizeof(a)/sizeof(int); i++)
 	{
-		avl2.insert(a++);
+		avl2.insert(i);
+		avl1.insert(i);
 	}
-	std::cout << avl2.find(100)->value << "\n";
-	std::cout <<"root: " << avl2.root_node()->value<<"\n";
+	//std::cout << avl2.find(2)->value << "\n";
+	std::cout << "root: " << avl2.root_node()->value<<"\n";
+	std::cout << "root: " << avl1.root_node()->value << "\n";
 	/*
 	for (int j = 0; j < 100; ++j)
 	{		

@@ -13,7 +13,14 @@ class AVL
 		int parent;
 		size_t depth;
 		node(){};
-		node(const T& input,int&parent):value(input),left(-1),right(-1),parent(parent),depth(0){}
+		node(const T& input,int&parent):value(input),left(-1),right(-1),parent(parent),depth(1){}
+		void copy_except_value(node* from)
+		{
+			left = from->left;
+			right = from->right;
+			parent = from->parent;
+			depth = from->depth;
+		}
 	};
 
 	int root_ = -1;
@@ -21,16 +28,17 @@ class AVL
 
 	size_t depth(int index);
 	size_t get_balance(int index);
-	int rotate_right(int index);
-	int rotate_left(int index);
+	void rotate_right(int index,int parent);
+	void rotate_left(int index,int parent);
+	int find_index(const T& value);
+	int in_order_successor(int index);
 
 public:
-	void insert(const T& value);
+	node<T>* insert(const T& value);
 	node<T>* find(const T& value);
 	void remove(const T& value);
 	node<T>* root_node();
 };
-
 
 template <typename T>
 size_t AVL<T>::depth(int index)
@@ -46,41 +54,126 @@ size_t AVL<T>::get_balance(int index)
 	if (index == -1)
 		return 0;
 	return depth(memory_[index]->left) - depth(memory_[index]->right);
-
 }
 
 template <typename T>
-int AVL<T>::rotate_right(int index)
+void AVL<T>::rotate_right(int index, int parent)
 {
 	int left = memory_[index]->left;
 	int leftRight = memory_[left]->right;
 
 	memory_[left]->right = index;
+	memory_[left]->parent = parent;
 	memory_[index]->left = leftRight;
+	memory_[index]->parent = left;
+
+	if (leftRight!=-1)
+	{
+		memory_[leftRight]->parent = index;
+	}
 
 	memory_[index]->depth = 1 + std::max(depth(memory_[index]->left), depth(memory_[index]->right));
 	memory_[left] ->depth = 1 + std::max(depth(memory_[left]->left), depth(memory_[left]->right));
-	
-	return left;
+
+	if (parent == -1)
+	{
+		root_ = left;
+	}
+	else
+	{
+		if (memory_[left]->value > memory_[parent]->value)
+		{
+			memory_[parent]->right = left;
+		}
+		else
+		{
+			memory_[parent]->left = left;
+		}
+	}
 }
 
 template <typename T>
-int AVL<T>::rotate_left(int index)
+void AVL<T>::rotate_left(int index, int parent)
 {
 	int right = memory_[index]->right;
 	int rightLeft = memory_[right]->left;
 
 	memory_[right]->left = index;
+	memory_[right]->parent = parent;
 	memory_[index]->right = rightLeft;
+	memory_[index]->parent = right;
+
+	if (rightLeft != -1)
+	{
+		memory_[rightLeft]->parent = index;
+	}
+
 
 	memory_[index]->depth = 1 + std::max(depth(memory_[index]->left), depth(memory_[index]->right));
 	memory_[right]->depth = 1 + std::max(depth(memory_[right]->left), depth(memory_[right]->right));
 
-	return right;
+
+	if (parent == -1)
+	{
+		root_ = right;
+	}
+	else
+	{
+		if (memory_[right]->value > memory_[parent]->value)
+		{
+			memory_[parent]->right = right;
+		}
+		else
+		{
+			memory_[parent]->left = right;
+		}
+	}
 }
 
 template <typename T>
-void AVL<T>::insert(const T& value)
+int AVL<T>::find_index(const T& value)
+{
+	auto index = root_;
+	while (index != -1)
+	{
+		if (value < memory_[index]->value)
+			index = memory_[index]->left;
+		else if (value > memory_[index]->value)
+			index = memory_[index]->right;
+		else return index;
+	}
+	return -1;
+}
+
+template <typename T>
+int AVL<T>::in_order_successor(int index)
+{
+	int next = memory_[index]->right;
+	if (next ==-1)
+	{
+		return -1;
+	}
+
+	while (memory_[next]->left != -1)
+	{
+		next = memory_[next]->left;
+	}
+	return next;
+}
+
+template <typename T>
+typename AVL<T>::node<T>* AVL<T>::find(const T& value)
+{
+	auto temp = find_index(value);
+	if (temp == -1)
+	{
+		return nullptr;
+	}
+	return memory_[temp];
+}
+
+template <typename T>
+typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 {
 
 	int parentIndex = -1;
@@ -93,7 +186,7 @@ void AVL<T>::insert(const T& value)
 			currentIndex = memory_[currentIndex]->left;
 		else if (memory_[currentIndex]->value < value)
 			currentIndex = memory_[currentIndex]->right;
-		else return;
+		else return nullptr;
 	}
 
 	const std::pair<char*, int> newAddress = memory_.allocate();
@@ -111,70 +204,120 @@ void AVL<T>::insert(const T& value)
 		else 
 			memory_[parentIndex]->right = currentIndex;
 
-		while (parentIndex != -1)
+		while (parentIndex!=-1)
 		{
 			currentIndex = parentIndex;
 			parentIndex = memory_[parentIndex]->parent;
 
 			memory_[currentIndex]->depth = 1 + std::max(depth(memory_[currentIndex]->left), depth(memory_[currentIndex]->right));
 
-			size_t balance = get_balance(currentIndex);
+			//todo use smaller data
+			const int balance = get_balance(currentIndex);
 
-			// Left Left case
-			if (balance > 1 && value < memory_[memory_[currentIndex]->left]->value)
-				 
-
-			// Right Right case
-			if (balance < -1 && value > memory_[memory_[currentIndex]->right]->value)
-
-			// Left Right case
-			if (balance > 1 && value > memory_[memory_[currentIndex]->left]->value)
-
-
-			// Right Left case
-			if (balance < -1 && value < memory_[memory_[currentIndex]->right]->value)
-			{ }
-			//return;
-
+			if (balance > 1)
+			{
+				if (value < memory_[memory_[currentIndex]->left]->value)
+				{
+					// Left Left case
+					rotate_left(currentIndex, parentIndex);
+				}
+				else 
+				{
+					// Left Right case
+					rotate_left(memory_[currentIndex]->left, parentIndex);
+					rotate_right(currentIndex, parentIndex);
+				}
+			}
+			else
+			if (balance < -1)
+			{
+				if(value > memory_[memory_[currentIndex]->right]->value)
+				{
+					// Right Right case
+					rotate_left(currentIndex, parentIndex);
+				}
+				else
+				{
+					// Right Left case
+					rotate_right(memory_[currentIndex]->right, parentIndex);
+					rotate_left(currentIndex, parentIndex);
+				}
+			}
 		}
 
 	}
+	return tmp;
 }
 
-/*template <typename T>
-int avl<T>::get_balance(node<T>* node)
-{
-	if (node == nullptr)
-		return 0;
-	return depth(node->left) - depth(node->right);
-}
 
-template <typename T>
-int avl<T>::depth(node<T>* node)
-{
-	if (node == nullptr) return 0;
-	return node->depth;
-}*/
-
-template <typename T>
-typename AVL<T>::node<T>* AVL<T>::find(const T& value)
-{
-	
-	int index = root_;
-	while (index != -1)
-	{
-		if (value < memory_[index]->value)
-			index = memory_[index]->left;
-		else if (value > memory_[index]->value)
-			index = memory_[index]->right;
-		else return memory_[index];
-	}
-	return nullptr;
-}
 
 template <typename T>
 void AVL<T>::remove(const T& value)
 {
+	auto indexToDelete = find_index(value);
+	if (indexToDelete == -1)
+	{
+		return;
+	}
+	node<T>* toDelete = memory_[indexToDelete];
+	int parent = memory_[toDelete->parent];
+
+	if (std::min(toDelete->right, toDelete->left)==-1)
+	{
+		//one or no child
+		int child = memory_[indexToDelete]->left == -1 ? memory_[indexToDelete]->right : memory_[indexToDelete]->left;
+		if (parent!=-1)
+		{
+			if (toDelete->value >  memory_[parent]->value)
+			{
+				memory_[parent]->right = child;
+			}
+			else
+			{
+				memory_[parent]->left = child;
+			}
+			if (child!=-1)
+			{
+				memory_[child]->parent = parent;
+			}
+		}
+		else
+		{
+			root_ = child;
+		}
+	}
+	else
+	{
+		//2 childrens
+		int replaceIndex = in_order_successor(indexToDelete);
+		memory_[memory_[replaceIndex]->parent]->left = memory_[replaceIndex]->right;
+		if (memory_[replaceIndex]->right!=-1)
+		{
+			memory_[memory_[replaceIndex]->right]->parent = memory_[replaceIndex]->parent;
+		}
+		memory_[replaceIndex]->copy_except_value(toDelete);
+		
+		memory_[memory_[replaceIndex]->left]->parent = replaceIndex;
+		memory_[memory_[replaceIndex]->right]->parent = replaceIndex;
+
+		if (parent != -1)
+		{
+			if (toDelete->value >  memory_[parent]->value)
+			{
+				memory_[parent]->right = replaceIndex;
+			}
+			else
+			{
+				memory_[parent]->left = replaceIndex;
+			}
+		}
+		else
+		{
+			root_ = replaceIndex;
+		}
+	}
+	memory_.erase(indexToDelete);
+
 
 }
 

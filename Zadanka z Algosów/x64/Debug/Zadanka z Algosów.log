@@ -1,2 +1,18 @@
 ﻿  main.cpp
-  Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
+e:\studia\algosy\zadanka z algosów\betteravl.h(179): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  e:\studia\algosy\zadanka z algosów\betteravl.h(167): note: while compiling class template member function 'void AVL<int>::make_balance(int)'
+  e:\studia\algosy\zadanka z algosów\betteravl.h(256): note: see reference to function template instantiation 'void AVL<int>::make_balance(int)' being compiled
+  e:\studia\algosy\zadanka z algosów\betteravl.h(226): note: while compiling class template member function 'AVL<int>::node<T> *AVL<T>::insert(const T &)'
+          with
+          [
+              T=int
+          ]
+  e:\studia\algosy\zadanka z algosów\main.cpp(15): note: see reference to function template instantiation 'AVL<int>::node<T> *AVL<T>::insert(const T &)' being compiled
+          with
+          [
+              T=int
+          ]
+  e:\studia\algosy\zadanka z algosów\main.cpp(11): note: see reference to class template instantiation 'AVL<int>' being compiled
+e:\studia\algosy\zadanka z algosów\betteravl.h(179): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+e:\studia\algosy\zadanka z algosów\betteravl.h(183): error C2065: 'value': undeclared identifier
+e:\studia\algosy\zadanka z algosów\betteravl.h(198): error C2065: 'value': undeclared identifier
