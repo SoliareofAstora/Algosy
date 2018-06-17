@@ -18,6 +18,10 @@ int main(int argc, char* argv[])
 	//std::cout << avl2.find(2)->value << "\n";
 	std::cout << "root: " << avl2.root_node()->value<<"\n";
 	std::cout << "root: " << avl1.root_node()->value << "\n";
+	for (auto v_it = avl2.begin_memory_iterator(); v_it != avl2.end_memory_iterator(); ++v_it)
+	{
+		auto value = *v_it;
+	}
 	/*
 	for (int j = 0; j < 100; ++j)
 	{		

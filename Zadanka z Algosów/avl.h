@@ -460,7 +460,6 @@ node<T>* avl<T>::root_node()
 template <typename T>
 node<T>* avl<T>::min_node(node<T>* parent)
 {
-	//TODO possible data leak
 	node<T>* temp = parent;
 	while (temp->left != nullptr)
 	{
@@ -472,7 +471,6 @@ node<T>* avl<T>::min_node(node<T>* parent)
 template <typename T>
 node<T>* avl<T>::max_node(node<T>* parent)
 {
-	//TODO possible data leak
 	node<T>* temp = parent;
 	while (temp->right != nullptr)
 	{

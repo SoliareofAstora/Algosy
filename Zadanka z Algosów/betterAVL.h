@@ -27,7 +27,7 @@ class AVL
 	MemoryBlock<node<T>> memory_;
 
 	size_t depth(int index);
-	size_t get_balance(int index);
+	int get_balance(int index);
 	void rotate_right(int index,int parent);
 	void rotate_left(int index,int parent);
 	int find_index(const T& value);
@@ -38,6 +38,11 @@ public:
 	node<T>* find(const T& value);
 	void remove(const T& value);
 	node<T>* root_node();
+
+	typedef typename MemoryBlock<node<T>>::iterator memoryIterator;
+	memoryIterator begin_memory_iterator();
+	memoryIterator end_memory_iterator();
+
 };
 
 template <typename T>
@@ -49,7 +54,7 @@ size_t AVL<T>::depth(int index)
 }
 
 template <typename T>
-size_t AVL<T>::get_balance(int index)
+int AVL<T>::get_balance(int index)
 {
 	if (index == -1)
 		return 0;
@@ -67,13 +72,13 @@ void AVL<T>::rotate_right(int index, int parent)
 	memory_[index]->left = leftRight;
 	memory_[index]->parent = left;
 
-	if (leftRight!=-1)
+	if (leftRight != -1)
 	{
 		memory_[leftRight]->parent = index;
 	}
 
 	memory_[index]->depth = 1 + std::max(depth(memory_[index]->left), depth(memory_[index]->right));
-	memory_[left] ->depth = 1 + std::max(depth(memory_[left]->left), depth(memory_[left]->right));
+	memory_[left]->depth = 1 + std::max(depth(memory_[left]->left), depth(memory_[left]->right));
 
 	if (parent == -1)
 	{
@@ -325,5 +330,17 @@ template <typename T>
 typename AVL<T>::node<T>* AVL<T>::root_node()
 {
 	return memory_[root_];
+}
+
+template <typename T>
+typename AVL<T>::memoryIterator AVL<T>::begin_memory_iterator()
+{
+	return memory_.begin();
+}
+
+template <typename T>
+typename AVL<T>::memoryIterator AVL<T>::end_memory_iterator()
+{
+	return memory_.end();
 }
 
