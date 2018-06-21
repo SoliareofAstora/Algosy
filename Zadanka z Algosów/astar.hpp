@@ -9,6 +9,7 @@ double path_length_heuristic(graph<T, edge>& graph, int a, int b)
 	return graph.adjacency_matrix[a][b].label;
 }
 
+//przerobiæ na heurystykê 
 template <typename T, typename edge>
 std::pair<double, std::vector<int>> astar(graph<T, edge>& graph_, int from_i, int des_i,
 	std::function<double(graph<T, edge>& graph, int a, int b)> heuristic_distance)
@@ -22,7 +23,7 @@ std::pair<double, std::vector<int>> astar(graph<T, edge>& graph_, int from_i, in
 
 	openSet[from_i] = true;
 	gScore[from_i] = 0;
-	if (graph_.connection(from_i, des_i))
+	if (graph_.edgeExist(from_i, des_i))
 	{
 		fscore[from_i] = heuristic_distance(graph_, from_i, des_i);
 	}
@@ -54,7 +55,7 @@ std::pair<double, std::vector<int>> astar(graph<T, edge>& graph_, int from_i, in
 
 		for (int i = 0; i < size; ++i)
 		{
-			if (graph_.connection(current,i))
+			if (graph_.edgeExist(current,i))
 			{
 				if (closedSet[i])
 				{

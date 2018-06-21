@@ -1,5 +1,6 @@
 #pragma once
 #include "MemoryBlock.h"
+#include "MemoryPool.h"
 
 template<typename T>
 class AVL
@@ -14,13 +15,6 @@ class AVL
 		size_t depth;
 		node(){};
 		node(const T& input,int&parent):value(input),left(-1),right(-1),parent(parent),depth(1){}
-		void copy_except_value(node* from)
-		{
-			left = from->left;
-			right = from->right;
-			parent = from->parent;
-			depth = from->depth;
-		}
 	};
 
 	int root_ = -1;
@@ -32,12 +26,29 @@ class AVL
 	void rotate_left(int index,int parent);
 	int find_index(const T& value);
 	int in_order_successor(int index);
+	int min_node(int index);
 
 public:
 	node<T>* insert(const T& value);
 	node<T>* find(const T& value);
 	void remove(const T& value);
 	node<T>* root_node();
+
+	class iterator
+	{
+		AVL<T>* tree_;
+		int current_;
+	public:
+		iterator();
+		iterator(AVL<T>* tree, int node);
+		bool operator ==(const iterator& i);;
+		bool operator !=(const iterator& i);
+		iterator& operator++();
+		iterator operator ++(int);
+		T& operator*();
+	};
+	iterator begin();
+	iterator end();
 
 	typedef typename MemoryBlock<node<T>>::iterator memoryIterator;
 	memoryIterator begin_memory_iterator();
@@ -154,16 +165,43 @@ template <typename T>
 int AVL<T>::in_order_successor(int index)
 {
 	int next = memory_[index]->right;
-	if (next ==-1)
+	if (next !=-1)
 	{
-		return -1;
+		return min_node(next);
 	}
+	int tmp = next;
+	next = memory_[index]->parent;
 
-	while (memory_[next]->left != -1)
+	if (memory_[next]->right == index)
 	{
-		next = memory_[next]->left;
+		do
+		{
+			if (memory_[next]->right == tmp && next == root_)
+			{
+				return -1;
+			}
+			tmp = next;
+			next = memory_[next]->parent;
+
+		}
+		while (memory_[next]->left!=tmp);
 	}
 	return next;
+}
+
+template <typename T>
+int AVL<T>::min_node(int index)
+{
+	int current = index;
+	if (current != -1)
+	{
+		while (memory_[current]->left!=-1)
+		{
+			current = memory_[current]->left;
+		}
+		return current;
+	}
+	return -1;
 }
 
 template <typename T>
@@ -201,6 +239,7 @@ typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 	if (parentIndex==-1)
 	{
 		root_ = currentIndex;
+		memory_[currentIndex]->parent = -1;
 	}
 	else
 	{
@@ -224,12 +263,12 @@ typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 				if (value < memory_[memory_[currentIndex]->left]->value)
 				{
 					// Left Left case
-					rotate_left(currentIndex, parentIndex);
+					rotate_right(currentIndex, parentIndex);
 				}
 				else 
 				{
 					// Left Right case
-					rotate_left(memory_[currentIndex]->left, parentIndex);
+					rotate_left(memory_[currentIndex]->left, currentIndex);
 					rotate_right(currentIndex, parentIndex);
 				}
 			}
@@ -244,7 +283,7 @@ typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 				else
 				{
 					// Right Left case
-					rotate_right(memory_[currentIndex]->right, parentIndex);
+					rotate_right(memory_[currentIndex]->right, currentIndex);
 					rotate_left(currentIndex, parentIndex);
 				}
 			}
@@ -253,8 +292,6 @@ typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 	}
 	return tmp;
 }
-
-
 
 template <typename T>
 void AVL<T>::remove(const T& value)
@@ -265,7 +302,7 @@ void AVL<T>::remove(const T& value)
 		return;
 	}
 	node<T>* toDelete = memory_[indexToDelete];
-	int parent = memory_[toDelete->parent];
+	int parent = toDelete->parent;
 
 	if (std::min(toDelete->right, toDelete->left)==-1)
 	{
@@ -289,40 +326,95 @@ void AVL<T>::remove(const T& value)
 		else
 		{
 			root_ = child;
+			if (child!=-1)
+			{
+				memory_[child]->parent = -1;
+			}
+			
 		}
 	}
 	else
 	{
 		//2 childrens
 		int replaceIndex = in_order_successor(indexToDelete);
-		memory_[memory_[replaceIndex]->parent]->left = memory_[replaceIndex]->right;
+
+		if (replaceIndex!=toDelete->right)
+		{
+			memory_[memory_[replaceIndex]->parent]->left = memory_[replaceIndex]->right;
+			memory_[toDelete->right]->parent = replaceIndex;
+			memory_[replaceIndex]->right = toDelete->right;
+		}
+
 		if (memory_[replaceIndex]->right!=-1)
 		{
 			memory_[memory_[replaceIndex]->right]->parent = memory_[replaceIndex]->parent;
 		}
-		memory_[replaceIndex]->copy_except_value(toDelete);
 		
-		memory_[memory_[replaceIndex]->left]->parent = replaceIndex;
-		memory_[memory_[replaceIndex]->right]->parent = replaceIndex;
 
-		if (parent != -1)
+
+
+		memory_[replaceIndex]->parent = toDelete->parent;
+		memory_[replaceIndex]->left = toDelete->left;
+		memory_[toDelete->left]->parent = replaceIndex;
+		if (toDelete->parent != -1)
 		{
-			if (toDelete->value >  memory_[parent]->value)
+			if (memory_[toDelete->parent]->value > toDelete->value)
 			{
-				memory_[parent]->right = replaceIndex;
+				memory_[toDelete->parent]->left = replaceIndex;
 			}
 			else
 			{
-				memory_[parent]->left = replaceIndex;
+				memory_[toDelete->parent]->right = replaceIndex;
 			}
 		}
 		else
 		{
 			root_ = replaceIndex;
 		}
+
+
+
+
+	}
+
+	while (parent != -1)
+	{
+		memory_[parent]->depth = 1 + std::max(depth(memory_[parent]->left), depth(memory_[parent]->right));
+		//todo use smaller data
+		const int balance = get_balance(parent);
+
+		if (balance > 1)
+		{
+			if (get_balance(memory_[parent]->left) >= 0)
+			{
+				// Left Left case
+				rotate_right(parent, memory_[parent]->parent);
+			}
+			else
+			{
+				// Left Right case
+				rotate_left(memory_[parent]->left, parent);
+				rotate_right(parent, memory_[parent]->parent);
+			}
+		}
+		else
+		if (balance < -1)
+		{
+			if (get_balance(memory_[parent]->right) <= 0)
+			{
+				// Right Right case
+				rotate_left(parent, memory_[parent]->parent);
+			}
+			else
+			{
+				// Right Left case
+				rotate_right(memory_[parent]->right, parent);
+				rotate_left(parent, memory_[parent]->parent);
+			}
+		}
+		parent = memory_[parent]->parent;
 	}
 	memory_.erase(indexToDelete);
-
 
 }
 
@@ -331,6 +423,63 @@ typename AVL<T>::node<T>* AVL<T>::root_node()
 {
 	return memory_[root_];
 }
+
+template <typename T>
+AVL<T>::iterator::iterator()
+{
+	current_ = tree_->min_node();
+}
+
+template <typename T>
+AVL<T>::iterator::iterator(AVL<T>* tree, int node):tree_(tree),current_(node)
+{
+}
+
+template <typename T>
+bool AVL<T>::iterator::operator==(const iterator& i)
+{
+	return tree_ == i.tree_ && current_ == i.current_;
+}
+
+template <typename T>
+bool AVL<T>::iterator::operator!=(const iterator& i)
+{
+	return tree_ != i.tree_ || current_ != i.current_;
+}
+
+template <typename T>
+typename AVL<T>::iterator& AVL<T>::iterator::operator++()
+{
+	current_ = tree_->in_order_successor(current_);
+	return *this;
+}
+
+template <typename T>
+typename AVL<T>::iterator AVL<T>::iterator::operator++(int)
+{
+	iterator temp = iterator(tree_, current_);
+	current_ = tree_.in_order_successor(current_);
+	return temp;
+}
+
+template <typename T>
+T& AVL<T>::iterator::operator*()
+{
+	return tree_->memory_[current_]->value;
+}
+
+template <typename T>
+typename AVL<T>::iterator AVL<T>::begin()
+{
+	return iterator(this, min_node(root_));
+}
+
+template <typename T>
+typename AVL<T>::iterator AVL<T>::end()
+{
+	return iterator(this, -1);
+}
+
 
 template <typename T>
 typename AVL<T>::memoryIterator AVL<T>::begin_memory_iterator()
@@ -343,4 +492,5 @@ typename AVL<T>::memoryIterator AVL<T>::end_memory_iterator()
 {
 	return memory_.end();
 }
+
 

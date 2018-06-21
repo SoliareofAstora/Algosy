@@ -2,11 +2,22 @@
 #include <utility>
 #include "graph.hpp"
 
+template<typename edge>
+edge linear(edge x)
+{
+	return x;
+}
 
 template <typename T, typename edge>
-std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i)
+std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, int des_i,
+	std::function<double(const edge&)> getEdgeLength = nullptr)
 {
 	const int size = graph.nrOfVertices();
+
+	if (getEdgeLength == nullptr)
+	{
+		getEdgeLength = [](const double &e) -> double { return e; };
+	}
 
 	std::vector<bool> unvisited(size,true);
 	std::vector<double> distance(size,DBL_MAX);
@@ -41,9 +52,10 @@ std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, i
 		{
 			if (unvisited[i])
 			{
-				if (graph.connection(u, i))
+				if (graph.edgeExist(u, i))
 				{
-					minv = distance[u] + *graph.edgeLabel(u, i);
+					minv = distance[u] + getEdgeLength(*(graph.edgeLabel(u, i)));
+
 					if (minv < distance[i])
 					{
 						distance[i] = minv;
@@ -68,4 +80,4 @@ std::pair<double, std::vector<int>> dijkstra(graph<T,edge>& graph, int from_i, i
 	out.first = distance[des_i];
 	out.second = S;
 	return out;
-};
+}

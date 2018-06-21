@@ -6,8 +6,8 @@
 template <typename  T>
 class MemoryBlock
 {
-	static const int N_ = 64;
-	int firstFree_ = 0;
+	static const int N_ = 256;
+	size_t firstFree_ = 0;
 	std::vector<std::pair<char *, std::bitset<N_>>> array_;
 	static std::pair<size_t, size_t> get_2D_index(int i);
 	void find_next_empty();
@@ -20,10 +20,13 @@ class MemoryBlock
 public:
 
 	bool check_if_free(int index);
+	bool check_if_row_exist(int index);
+	bool check_if_outOfArray(int index);
 	size_t size();
 	std::pair<char*,int> allocate();
 	T* get_value(int index) const;
 	void erase(size_t index);
+	void erase_all();
 	T* operator[](int index) const;
 
 	class iterator
@@ -32,16 +35,15 @@ public:
 		int current;
 	public:
 		iterator();
-		iterator(MemoryBlock<T>* source, int& current);
+		iterator(MemoryBlock<T>* source, const int& current);
 		bool operator ==(const iterator& i);;
 		bool operator !=(const iterator& i);
 		iterator& operator++();
 		iterator operator ++(int);
 
-		T operator*() const
-		{
-			T temp = &block[current];
-			return temp;
+		T& operator*()
+		{	 
+			return *(block->get_value(current));
 		};
 
 		void next();
@@ -55,7 +57,7 @@ std::pair<size_t, size_t> MemoryBlock<T>::get_2D_index(int i)
 {
 	std::pair<size_t, size_t> out;
 	out.second = i % N_;
-	out.first = (i - out.second)/N_;
+	out.first = (i - i % N_)/N_;
 	
 	return out;
 }
@@ -105,28 +107,31 @@ template <typename T>
 			std::bitset<N_>()
 		);
 	}
-
 	return &array_[i_first];
 }
 
 template <typename T>
 void MemoryBlock<T>::erase_row(size_t i_first)
 {
-	if (array_[i_first].first == nullptr)
+	if (array_[i_first].first != nullptr)
 	{
-		return;
+		for (int i = 0; i < N_; i++)
+		{
+			T* prt = reinterpret_cast<T*>(array_[i_first].first + sizeof(T) * i);
+			if (prt != nullptr)
+			{
+				prt->~T();
+			}
+		}
+		delete[] array_[i_first].first;
 	}
 
-	for (int i = 0; i < N_; i++)
+	auto* tmp = array_.back().first;
+	while (tmp == nullptr)
 	{
-		T* prt = reinterpret_cast<T*>(array_[i_first].first + sizeof(T) * i);
-		if (prt != nullptr)
-		{
-			prt->~T();
-		}
-		
+		array_.erase(array_.end() - 1);
+		tmp = array_.back().first;
 	}
-	delete[] array_[i_first].first;
 }
 
 template <typename T>
@@ -138,13 +143,31 @@ void MemoryBlock<T>::erase(std::pair<size_t, size_t> i)
 template <typename T>
 void MemoryBlock<T>::erase(size_t index)
 {
-	firstFree_ = std::min(index, firstFree_);
 	const auto i = get_2D_index(index);
 	if (array_[i.first].second[i.second])
 	{
-		reinterpret_cast<T*>(array_[i.first].first + sizeof(T) * i.second)->~T();
+		firstFree_ = std::min(index, firstFree_);
+		array_[i.first].second[i.second] = false;
 		size_--;
+
+		bool empty = true;
+		for (int j = 0; j < N_; j++)
+		{
+			if (array_[i.first].second[j])
+			{
+				empty = false;
+			}
+		}
+		if (empty)
+		{
+			erase_row(i.first);
+		}
 	}
+}
+
+template <typename T>
+void MemoryBlock<T>::erase_all()
+{
 }
 
 template <typename T>
@@ -158,13 +181,12 @@ MemoryBlock<T>::iterator::iterator()
 {
 }
 
+//TODO zamienic na konst referencje
 template <typename T>
-MemoryBlock<T>::iterator::iterator(MemoryBlock<T>* source, int& current) :block(source),current(current)
+MemoryBlock<T>::iterator::iterator(MemoryBlock<T>* source, const int& current) :block(source),current(current)
 {
-	if (block->check_if_free(current))
-	{
-		next();
-	}
+	--this->current;
+	next();
 }
 
 template <typename T>
@@ -201,12 +223,18 @@ void MemoryBlock<T>::iterator::next()
 	do
 	{
 		current++;
-		//TODO REMOVE!!!!
-		if (current>1000)
+		if (block->check_if_outOfArray(current))
 		{
-			current = 1000;
-			return;
+			if (!block->check_if_row_exist(current))
+			{
+				current += block->N_;
+			}
 		}
+		else
+		{
+			current = -1;
+		}
+		
 	}
 	while (!block->check_if_free(current));
 }
@@ -220,15 +248,33 @@ typename MemoryBlock<T>::iterator MemoryBlock<T>::begin()
 template <typename T>
 typename MemoryBlock<T>::iterator MemoryBlock<T>::end()
 {
-	return iterator(this, 1000);
+	return iterator(this, -1);
 }
 
 
 template <typename T>
 bool MemoryBlock<T>::check_if_free(int index)
 {
+	if (index == -1)
+	{
+		return true;
+	}
 	const auto i = get_2D_index(index);
 	return array_[i.first].second[i.second];
+}
+
+template <typename T>
+bool MemoryBlock<T>::check_if_row_exist(int index)
+{
+	const auto i = get_2D_index(index);
+	return array_[i.first].first!=nullptr;
+}
+
+template <typename T>
+bool MemoryBlock<T>::check_if_outOfArray(int index)
+{
+	const auto i = get_2D_index(index);
+	return i.first < array_.size();
 }
 
 template <typename T>
@@ -266,7 +312,7 @@ T* MemoryBlock<T>::get_value(int index) const
 		return nullptr;
 	}
 	const auto i = get_2D_index(index);
-	return *const_cast<T>(array_[i.first].first + sizeof(T) * i.second);
+	return reinterpret_cast<T*>(array_[i.first].first + sizeof(T) * i.second);
 }
 
 

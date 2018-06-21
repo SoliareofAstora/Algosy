@@ -2,44 +2,250 @@
 #include "betterAVL.h"
 #include "avl.h"
 #include <iostream>
+#include <vector>
+#include <ctime>
 
 
 int main(int argc, char* argv[])
 {
-	
-	avl<int> avl1;
-	AVL<int> avl2;
-	int a[] = {0,1,2};
-	for (int i = 0; i < 12;i++)//sizeof(a)/sizeof(int); i++)
+	int n = 500000;
+	int kropki = n / 50;
+	std::cout << "generowanie "<< n <<" danych...";
+
+	std::vector<int> data(n);
+	for (int i = 0; i < n; i++)
+		data[i] = i;
+
+	std::vector<double> oldavl;
+	std::vector<double> newavl;
+	std::cout << "mieszanie danych\n";
+	std::random_shuffle(data.begin(), data.end());
+
+	std::cout << "Na start wrzucamy dane, potem wszystkie je wyszukujemy i iterujemy inorder.\n";
+	std::cout << "kasujemy pierwsza polowe, wyszukujemy pozostale, dodajemy i kasujemy wszystko\n";
+	std::cout << "\n Na start stare AVL\ndodawanie";
+
+	avl<int> avl;
+	int tmp = 0;
+	clock_t begin = clock();
+	for (int i = 0; i < n; i++)
 	{
-		avl2.insert(i);
-		avl1.insert(i);
+		avl.insert(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
 	}
-	//std::cout << avl2.find(2)->value << "\n";
-	std::cout << "root: " << avl2.root_node()->value<<"\n";
-	std::cout << "root: " << avl1.root_node()->value << "\n";
-	for (auto v_it = avl2.begin_memory_iterator(); v_it != avl2.end_memory_iterator(); ++v_it)
+	clock_t end = clock();
+	oldavl.push_back(end - begin);
+
+	std::cout << oldavl[0];
+	std::cout << "\n szukanie";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n; i++)
 	{
-		auto value = *v_it;
-	}
-	/*
-	for (int j = 0; j < 100; ++j)
-	{		
-		for (int i = 0; i < 10000; ++i)
+		avl.find(data[i]);
+		tmp++;
+		if (tmp>kropki)
 		{
-			avl1.insert(i);
-		}
-		for (int i = 0; i < 10000; ++i)
-		{
-			avl1.find(i);
-		}
-		for (int i = 0; i < 10000; ++i)
-		{
-			avl1.remove(i);
+			tmp = 0;
+			std::cout << ".";
 		}
 	}
-	*/
-	std::cout << "DONE\n";
+	end = clock();
+	oldavl.push_back(end - begin);
+
+	std::cout << "\n inorder";
+	tmp = 0;
+	begin = clock();
+	for (auto &a : avl)
+	{
+		tmp++;
+		if (tmp > kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	oldavl.push_back(end - begin);
+
+	std::cout << "\n kasowanie 1/2";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n/2; i++)
+	{
+		avl.remove(data[i]);
+		tmp++;
+		if (tmp>kropki/2)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	oldavl.push_back(end - begin);
+
+	std::cout << "\n szukanie 1/2";
+	tmp = 0;
+	begin = clock();
+	for (int i = n/2; i < n; i++)
+	{
+		avl.find(data[i]);
+		tmp++;
+		if (tmp>kropki / 2)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	oldavl.push_back(end - begin);
+
+
+	std::cout << "\n dodawanie i kasowanie\n";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n; i++)
+	{
+		avl.insert(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	std::cout << "\n";
+	for (int i = 0; i < n; i++)
+	{
+		avl.remove(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	oldavl.push_back(end - begin);
+
+
+	////////////////////////////////////////////////////////////////////
+	std::cout << "\n Teraz czas na nowe drzewo! Prosze zapiac pasy i nacisnac przycisk\n";
+
+	AVL<int> newAVL;
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n; i++)
+	{
+		newAVL.insert(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+	std::cout << newavl[0];
+	std::cout << "\n szukanie";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n; i++)
+	{
+		newAVL.find(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+
+	std::cout << "\n inorder";
+	tmp = 0;
+	begin = clock();
+	for (auto &a : newAVL)
+	{
+		tmp++;
+		if (tmp > kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+
+	std::cout << "\n kasowanie 1/2";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n / 2; i++)
+	{
+		newAVL.remove(data[i]);
+		tmp++;
+		if (tmp>kropki / 2)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+
+	std::cout << "\n szukanie 1/2";
+	tmp = 0;
+	begin = clock();
+	for (int i = n / 2; i < n; i++)
+	{
+		newAVL.find(data[i]);
+		tmp++;
+		if (tmp>kropki / 2)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+
+
+	std::cout << "\n dodawanie i kasowanie\n";
+	tmp = 0;
+	begin = clock();
+	for (int i = 0; i < n; i++)
+	{
+		newAVL.insert(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	std::cout << "\n";
+	for (int i = 0; i < n; i++)
+	{
+		newAVL.remove(data[i]);
+		tmp++;
+		if (tmp>kropki)
+		{
+			tmp = 0;
+			std::cout << ".";
+		}
+	}
+	end = clock();
+	newavl.push_back(end - begin);
+
+
+	std::cout << "\n\nDONE\n";
 	system("PAUSE");
 	return 0;
 }

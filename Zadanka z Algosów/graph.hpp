@@ -20,24 +20,14 @@ public:
 	std::vector<T> vertices;
 	graph();
 
-	bool insertEdge(int from_index, int destination_index, edge name);
-	bool insertEdge(int from_index,int destination_index, edge name, bool overwrite);
-	void insertVertex(T value);
-	void removeVertex(int index);
-	void removeEdge(int from_index, int destination_index);
-	
-	T* vertexData(int index);
-	edge* edgeLabel(int from_index, int destination_index);
-	bool connection(int from_index, int destination_index);
-	size_t nrOfVertices();
-	int nrOfEdges();
-	void printNeighborhoodMatrix();
-
 #pragma region Iterators
 
 	typedef typename std::vector<T>::iterator VerticesIterator;
 	VerticesIterator beginVertices();
 	VerticesIterator endVertices();
+
+	VerticesIterator begin();
+	VerticesIterator end();
 
 	class EdgesIterator
 	{
@@ -95,6 +85,18 @@ public:
 
 #pragma endregion 
 
+	EdgesIterator insertEdge(int from_index, int destination_index, edge name);
+	EdgesIterator insertEdge(int from_index, int destination_index, edge name, bool overwrite);
+	VerticesIterator insertVertex(T value);
+	VerticesIterator removeVertex(int index);
+	EdgesIterator removeEdge(int from_index, int destination_index);
+
+	T* vertexData(int index);
+	edge* edgeLabel(int from_index, int destination_index);
+	bool edgeExist(int from_index, int destination_index)const;
+	size_t nrOfVertices() const;
+	size_t nrOfEdges() const;
+	void printNeighborhoodMatrix();
 };
 
 #pragma region Graph functions
@@ -103,27 +105,27 @@ template<typename T, typename edge>
 graph<T, edge>::graph() = default;
 
 template <typename T, typename edge>
-bool graph<T, edge>::insertEdge(int from_index, int destination_index, edge name)
+typename graph<T,edge>::EdgesIterator graph<T, edge>::insertEdge(int from_index, int destination_index, edge name)
 {
 	return insertEdge(from_index, destination_index, name, false);
 }
 
 template <typename T, typename edge>
-bool graph<T, edge>::insertEdge(int from_index, int destination_index, edge name, bool overwrite)
+typename graph<T,edge>::EdgesIterator graph<T, edge>::insertEdge(int from_index, int destination_index, edge name, bool overwrite)
 {
 	if (from_index >= vertices.size() ||destination_index >= vertices.size() ||from_index<0||destination_index<0)
 	{
-		return false;
+		return endEdges();
 	}
 	if (!(adjacency_matrix[from_index][destination_index].connection)||overwrite)
 	{
 		adjacency_matrix[from_index][destination_index] = edge_info(name);
 	}
-	return true;
+	return EdgesIterator(this,from_index,destination_index);
 }
 
 template <typename T, typename edge>
-void graph<T, edge>::insertVertex(T value)
+typename graph<T, edge>::VerticesIterator graph<T, edge>::insertVertex(T value)
 {
 	vertices.push_back(value);
 	adjacency_matrix.push_back(std::vector<edge_info>());
@@ -132,10 +134,11 @@ void graph<T, edge>::insertVertex(T value)
 		v.push_back(edge_info());
 	}
 	adjacency_matrix[vertices.size()-1].resize(vertices.size());
+	return endVertices() - 1;
 }
 
 template <typename T, typename edge>
-void graph<T, edge>::removeVertex(int index)
+typename graph<T, edge>::VerticesIterator graph<T, edge>::removeVertex(int index)
 {
 	vertices.erase(vertices.begin()+index);
 	for(auto &v : adjacency_matrix)
@@ -143,12 +146,15 @@ void graph<T, edge>::removeVertex(int index)
 		v.erase(v.begin() + index);
 	}
 	adjacency_matrix.erase(adjacency_matrix.begin() + index);
+
+	return beginVertices() + index;
 }
 
 template <typename T, typename edge>
-void graph<T, edge>::removeEdge(int from_index, int destination_index)
+typename graph<T, edge>::EdgesIterator  graph<T, edge>::removeEdge(int from_index, int destination_index)
 {
 	adjacency_matrix[from_index][destination_index] = edge_info();
+	return EdgesIterator(this, from_index, destination_index);
 }
 
 template <typename T, typename edge>
@@ -172,21 +178,21 @@ edge* graph<T, edge>::edgeLabel(int from_index, int destination_index)
 }
 
 template <typename T, typename edge>
-bool graph<T, edge>::connection(int from_index, int destination_index)
+bool graph<T, edge>::edgeExist(int from_index, int destination_index) const
 {
 	return adjacency_matrix[from_index][destination_index].connection;
 }
 
 template <typename T, typename edge>
-size_t graph<T, edge>::nrOfVertices()
+size_t graph<T, edge>::nrOfVertices() const
 {
 	return vertices.size();
 }
 
 template <typename T, typename edge>
-int graph<T, edge>::nrOfEdges()
+size_t graph<T, edge>::nrOfEdges() const
 {
-	int sum = 0;
+	size_t sum = 0;
 	for (auto &vector : adjacency_matrix)
 	{
 		for (auto &element : vector)
@@ -208,7 +214,7 @@ void graph<T, edge>::printNeighborhoodMatrix()
 		for (auto &a : v)
 		{
 			std::string temp = a.connection == true ? "1" : "0";
-			std::cout <<temp<<" ";
+			std::cout << temp<<" ";
 		}
 		std::cout << "\n";
 	}
@@ -229,6 +235,18 @@ template <typename T, typename edge>
 typename graph<T, edge>::VerticesIterator graph<T, edge>::endVertices()
 {
 	return vertices.end();
+}
+
+template <typename T, typename edge>
+typename graph<T, edge>::VerticesIterator graph<T, edge>::begin()
+{
+	return beginVertices();
+}
+
+template <typename T, typename edge>
+typename graph<T, edge>::VerticesIterator graph<T, edge>::end()
+{
+	return endVertices();
 }
 
 #pragma endregion 
