@@ -6,7 +6,7 @@
 template <typename  T>
 class MemoryBlock
 {
-	static const int N_ = 256;
+	static const int N_ = 64;
 	size_t firstFree_ = 0;
 	std::vector<std::pair<char *, std::bitset<N_>>> array_;
 	static std::pair<size_t, size_t> get_2D_index(int i);
@@ -18,11 +18,13 @@ class MemoryBlock
 	void erase(std::pair<size_t, size_t> i);
 	size_t size_ = 0;
 public:
-
+	// 3 functions to block out of vector range error. TODO make less
 	bool check_if_free(int index);
 	bool check_if_row_exist(int index);
 	bool check_if_outOfArray(int index);
+
 	size_t size();
+	// returns pointer and index to element that should be allocated next
 	std::pair<char*,int> allocate();
 	T* get_value(int index) const;
 	void erase(size_t index);
@@ -168,6 +170,7 @@ void MemoryBlock<T>::erase(size_t index)
 template <typename T>
 void MemoryBlock<T>::erase_all()
 {
+	//todo implement
 }
 
 template <typename T>

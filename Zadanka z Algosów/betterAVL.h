@@ -1,6 +1,5 @@
 #pragma once
 #include "MemoryBlock.h"
-#include "MemoryPool.h"
 
 template<typename T>
 class AVL
@@ -255,7 +254,6 @@ typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 
 			memory_[currentIndex]->depth = 1 + std::max(depth(memory_[currentIndex]->left), depth(memory_[currentIndex]->right));
 
-			//todo use smaller data
 			const int balance = get_balance(currentIndex);
 
 			if (balance > 1)
@@ -304,7 +302,7 @@ void AVL<T>::remove(const T& value)
 	node<T>* toDelete = memory_[indexToDelete];
 	int parent = toDelete->parent;
 
-	if (std::min(toDelete->right, toDelete->left)==-1)
+	if (toDelete->right == -1 || toDelete->left==-1)
 	{
 		//one or no child
 		int child = memory_[indexToDelete]->left == -1 ? memory_[indexToDelete]->right : memory_[indexToDelete]->left;
@@ -350,9 +348,7 @@ void AVL<T>::remove(const T& value)
 			memory_[memory_[replaceIndex]->right]->parent = memory_[replaceIndex]->parent;
 		}
 		
-
-
-
+		memory_[replaceIndex]->depth = toDelete->depth;
 		memory_[replaceIndex]->parent = toDelete->parent;
 		memory_[replaceIndex]->left = toDelete->left;
 		memory_[toDelete->left]->parent = replaceIndex;
@@ -376,13 +372,13 @@ void AVL<T>::remove(const T& value)
 
 
 	}
-
+	/*
+	 //TODO fix never ending loop
 	while (parent != -1)
 	{
 		memory_[parent]->depth = 1 + std::max(depth(memory_[parent]->left), depth(memory_[parent]->right));
 		//todo use smaller data
 		const int balance = get_balance(parent);
-
 		if (balance > 1)
 		{
 			if (get_balance(memory_[parent]->left) >= 0)
@@ -412,8 +408,9 @@ void AVL<T>::remove(const T& value)
 				rotate_left(parent, memory_[parent]->parent);
 			}
 		}
-		parent = memory_[parent]->parent;
+		
 	}
+	*/
 	memory_.erase(indexToDelete);
 
 }

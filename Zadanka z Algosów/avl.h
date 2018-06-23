@@ -70,7 +70,7 @@ private:
 	int depth(node<T>* node);
 	node<T>* right_rotate(node<T>* n);
 	node<T>* left_rotate(node<T>* n);
-
+	T root_value();
 
 };
 
