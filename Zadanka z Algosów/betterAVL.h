@@ -1,6 +1,9 @@
 #pragma once
 #include "MemoryBlock.h"
 
+
+//TODO zamiast int zrobiæ sizeT. flaga zamiast na -1 na size_t max
+//korzystac z iteratorow!!!
 template<typename T>
 class AVL
 {

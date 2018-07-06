@@ -3,11 +3,15 @@
 #include <bitset>
 #include <algorithm>
 
+//template <typename  T, size_t N_>
 template <typename  T>
 class MemoryBlock
 {
 	static const int N_ = 64;
-	size_t firstFree_ = 0;
+	size_t firstFree_ = 0;//zamieniæ na parê 
+
+	//zamienic miejscami 
+	//vector< std:pair<std::bitset<N_> , std::uniquepointer <std::array<sizeof(T)*N_>>>>
 	std::vector<std::pair<char *, std::bitset<N_>>> array_;
 	static std::pair<size_t, size_t> get_2D_index(int i);
 	void find_next_empty();
@@ -54,6 +58,8 @@ public:
 	iterator end();
 };
 
+
+//pozbyc sie 
 template <typename T>
 std::pair<size_t, size_t> MemoryBlock<T>::get_2D_index(int i)
 {
@@ -62,8 +68,15 @@ std::pair<size_t, size_t> MemoryBlock<T>::get_2D_index(int i)
 	out.first = (i - i % N_)/N_;
 	
 	return out;
+
+	//zinlajnowaæ 
+	return {i%N_, i/N_};
 }
 
+//TODO branch prediction? 
+/* przewiduje do którego IFA wskoczymy w tej albo w kolejnej iteracji 
+ * co sie da usunac poza pêtle 
+ */
 template <typename T>
 void MemoryBlock<T>::find_next_empty()
 {
@@ -94,6 +107,7 @@ std::pair<char*, std::bitset<MemoryBlock<T>::N_>>* MemoryBlock<T>::extend_array(
 	return &array_.back();
 }
 
+//shrink to fit kasuje nulowe elementy ( zale¿y od u¿ytkownika )
 template <typename T>
  std::pair<char*, std::bitset<MemoryBlock<T>::N_>>* MemoryBlock<T>::allocate_row(size_t i_first, bool erase)
 {
@@ -119,6 +133,7 @@ void MemoryBlock<T>::erase_row(size_t i_first)
 	{
 		for (int i = 0; i < N_; i++)
 		{
+			//dodaæ ifa do bitsetu 
 			T* prt = reinterpret_cast<T*>(array_[i_first].first + sizeof(T) * i);
 			if (prt != nullptr)
 			{
@@ -150,7 +165,9 @@ void MemoryBlock<T>::erase(size_t index)
 	{
 		firstFree_ = std::min(index, firstFree_);
 		array_[i.first].second[i.second] = false;
+		//plt->~T();
 		size_--;
+		//if bitset.any() zamist poni¿ej
 
 		bool empty = true;
 		for (int j = 0; j < N_; j++)
@@ -185,6 +202,7 @@ MemoryBlock<T>::iterator::iterator()
 }
 
 //TODO zamienic na konst referencje
+//TODO zrobiæ osobny iterator dla enda i dla begina 
 template <typename T>
 MemoryBlock<T>::iterator::iterator(MemoryBlock<T>* source, const int& current) :block(source),current(current)
 {
@@ -219,7 +237,7 @@ typename MemoryBlock<T>::iterator MemoryBlock<T>::iterator::operator++(int)
 	return temp;
 }
 
-
+//TOOD poprawiæ optymalizacjê, usunaæ \ify 
 template <typename T>
 void MemoryBlock<T>::iterator::next()
 {
@@ -237,7 +255,6 @@ void MemoryBlock<T>::iterator::next()
 		{
 			current = -1;
 		}
-		
 	}
 	while (!block->check_if_free(current));
 }
@@ -286,6 +303,31 @@ size_t MemoryBlock<T>::size()
 	return size_;
 }
 
+// insert zwraca na element zalokowane 
+/*
+ * T t(i,j,k);
+ * vector.insert(t); //const referencja (const T& t)
+ * vector.insert(T(i,j,k); //move constructor
+ * vector.emplace(i,j,k); //
+ * vector.emplace(Args&&... a)
+ * 
+ * i,j,k mo¿na przesy³aæ 
+ * Funkcja mo¿e przyjmowaæ wiele wartoœci do funkcji 
+ * void fun(...){	
+ * }
+ * 
+ * 
+ * albo 
+ * void fun(Args&&... a){
+ * 
+ * Ksi¹zki scotta mayersa 
+ * Perfect forwarding 
+ * T(std::forward(a))
+ * 
+ * Obczaiæ inline 
+ */
+
+// 
 template <typename T>
 std::pair<char*, int> MemoryBlock<T>::allocate()
 {

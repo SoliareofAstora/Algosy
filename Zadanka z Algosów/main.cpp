@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
 
 
-	int n = 20000;
+	int n = 900000;
 	int kropki = n / 5;
 	std::cout << "generowanie "<< n <<" pomieszanych danych\n";
 	std::pair<int, int> roots;
