@@ -2,6 +2,7 @@
 #include <vector>
 #include <bitset>
 #include <algorithm>
+//dodaæ typedef address na std::pair<sizet,sizet>
 
 //template <typename  T, size_t N_>
 template <typename  T>
@@ -364,4 +365,4 @@ T* MemoryBlock<T>::get_value(int index) const
 //Pink Panter
 //todo todo 
 //todo
-//todo todo todo todo todoooooo
+//todo todo todo todo todooo

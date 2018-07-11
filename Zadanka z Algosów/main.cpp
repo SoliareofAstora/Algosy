@@ -4,10 +4,16 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include "MemoryPool.h"
+
 
 
 int main(int argc, char* argv[])
 {
+
+	MemoryPool<int> arr;
+	MemoryPool<int> ar2;
+	arr.test();
 	/*
 	 * Plik realizuj¹cy takie same zadania na obu drzewach. 
 	 * Tworzy wektor danych, które nastêpnie szufluje. 
@@ -19,7 +25,7 @@ int main(int argc, char* argv[])
 	 */
 
 
-
+	/*
 	int n = 900000;
 	int kropki = n / 5;
 	std::cout << "generowanie "<< n <<" pomieszanych danych\n";
@@ -290,7 +296,7 @@ int main(int argc, char* argv[])
 
 	std::cout << "\nChcialbym rowniez zaznaczyc, ze struktura drzewa jest poprawna. \nMozna to poznac po tym, ze wartosc root jest identyczna\n";
 	std::cout << roots.first << " " << roots.second;
-
+	*/
 	std::cout << "\n\nDONE\n";
 	system("PAUSE");
 	return 0;
