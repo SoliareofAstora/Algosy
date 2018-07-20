@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
 	MemoryPool<int> arr;
 	MemoryPool<int> ar2;
 	arr.test();
+
 	/*
 	 * Plik realizuj¹cy takie same zadania na obu drzewach. 
 	 * Tworzy wektor danych, które nastêpnie szufluje. 
@@ -299,6 +300,7 @@ int main(int argc, char* argv[])
 	*/
 	std::cout << "\n\nDONE\n";
 	system("PAUSE");
+
 	return 0;
 }
 

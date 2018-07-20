@@ -43,7 +43,7 @@ public:
 	public:
 		iterator();
 		iterator(MemoryBlock<T>* source, const int& current);
-		bool operator ==(const iterator& i);;
+		bool operator ==(const iterator& i);
 		bool operator !=(const iterator& i);
 		iterator& operator++();
 		iterator operator ++(int);
