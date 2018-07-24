@@ -25,7 +25,7 @@ class MemoryPool
 	address firstFree = address(0,0);
 	void find_next_empty();
 
-	address index_2D(size_t index1D)
+	address index_2D_from_1D(size_t index1D)
 	{
 		return address(index1D / N, index1D % N);
 	}
@@ -53,6 +53,10 @@ class MemoryPool
 
 public:
 
+	void erase(size_t index1D);
+	void erase(address index2D);
+
+
 	void test();
 	iterator operator [](address index);
 	iterator begin();
@@ -64,20 +68,23 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 {
 	for (auto i = firstFree.first; i < memory.size(); i++)
 	{
-		//TODO czy to na pewno ma zlozonosc O(1)? vjeœli nie to nie warto 
+		//todo czy to oby na pewno ma sens
 		if (!(memory[i].first.all()))
 		{
-			for (auto j = firstFree.second; j < N; ++j)
-			{
-				if (memory[i].first[j]!=true)
+			for (auto j = firstFree.second; j < N; j++)
+			{   //TODO czy op³ada siê wrzucaæ tutaj wskaŸnik na bitset, 
+				//zeby nie wyci¹gaæ wartoœci z wektora i pary.
+				if (memory[i].first[j]==false)
 				{
+					firstFree = address(i, j);
 					return;
 				}
 			}
 			firstFree.second = 0;
 		}
-	}
-	firstFree.first++;
+	}	
+
+	firstFree = address(memory.size(), 0);
 	memory.push_back(
 		std::pair<std::bitset<N>,
 		std::unique_ptr<std::array<char, N * sizeof T>>>
@@ -85,10 +92,35 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 	);
 }
 
+template <typename T, size_t N, bool constIndex>
+void MemoryPool<T, N, constIndex>::erase(size_t index1D)
+{
+	return erase(index_2D_from_1D(index1D));
+}
+
+template <typename T, size_t N, bool constIndex>
+void MemoryPool<T, N, constIndex>::erase(address index2D)
+{
+	if (memory[index2D.first].first[index2D.second])
+	{
+		firstFree = std::min(index2D, firstFree);
+		memory[index2D.first].first[index2D.second] = false;
+
+
+		if (!constIndex)
+		{
+			if (memory[index2D.first].first.empty())
+			{
+				//memory.eras
+			}
+		}
+	}
+}
+
 template <typename T, size_t N, bool stf>
 void MemoryPool<T, N, stf>::test()
 {
-	auto temp = index_2D(200000);
+	auto temp = index_2D_from_1D(200000);
 	std::cout << temp.first<<" "<<temp.second;
 
 	for (auto i = 0; i < 7; ++i)

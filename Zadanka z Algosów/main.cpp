@@ -5,8 +5,71 @@
 #include <vector>
 #include <ctime>
 #include "MemoryPool.h"
+#include <bitset>
+
+template<size_t N>
+class tester
+{
+public:
+	std::bitset<N> bitset_;
+
+	void fun()
+	{
+		std::vector<double> temp;
+		std::cout << N;
+		
+		clock_t begin = clock();
+
+		bitset_.all();
+
+		clock_t end = clock();
+		temp.push_back(end - begin);
+
+		begin = clock();
+
+		bitset_.any();
+
+		end = clock();
+		temp.push_back(end - begin);
+
+		begin = clock();
+
+		bitset_.none();
+
+		end = clock();
+		temp.push_back(end - begin);
+		begin = clock();
+
+		bitset_.count();
+
+		end = clock();
+		temp.push_back(end - begin);
+		begin = clock();
+
+		bitset_.size();
+
+		end = clock();
+		temp.push_back(end - begin);
+
+		int tmp = bitset_.size();
+		begin = clock();
+
+		for (int i = 0; i < tmp; ++i)
+		{
+			bitset_[i];
+		}
+
+		end = clock();
+		temp.push_back(end - begin);
 
 
+		for (auto element : temp)
+		{
+			std::cout <<","<< element;
+		}
+		std::cout << "\n";
+	}
+};
 
 int main(int argc, char* argv[])
 {
@@ -14,6 +77,59 @@ int main(int argc, char* argv[])
 	MemoryPool<int> arr;
 	MemoryPool<int> ar2;
 	arr.test();
+
+	std::vector<int> a;
+	
+
+	/*
+	auto* a = new tester<10>();
+	a->fun();
+	delete a;
+	
+	auto* b = new tester<58540>();
+	b->fun();
+	delete b;
+	auto* q = new tester<1000000>();
+	q->fun();
+	delete q;
+	auto* e = new tester<1000654700>();
+	e->fun();
+	delete e;
+	auto* r = new tester<100000000>();
+	r->fun();
+	delete r;
+	auto* t = new tester<1036675420>();
+	t->fun();
+	delete t;
+	auto* d = new tester<10000000>();
+	d->fun();
+	delete d;
+	auto* s = new tester<1000000000>();
+	s->fun();
+	delete s;
+	auto* x = new tester<404523918>();
+	x->fun();
+	delete x;
+	auto* n = new tester<5728012>();
+	n->fun();
+	delete n;
+	auto* m = new tester<764252400>();
+	m->fun();
+	delete m;
+	
+
+	*/
+
+
+
+
+
+
+
+
+
+
+
 
 	/*
 	 * Plik realizuj¹cy takie same zadania na obu drzewach. 
@@ -297,6 +413,9 @@ int main(int argc, char* argv[])
 
 	std::cout << "\nChcialbym rowniez zaznaczyc, ze struktura drzewa jest poprawna. \nMozna to poznac po tym, ze wartosc root jest identyczna\n";
 	std::cout << roots.first << " " << roots.second;
+	
+
+
 	*/
 	std::cout << "\n\nDONE\n";
 	system("PAUSE");

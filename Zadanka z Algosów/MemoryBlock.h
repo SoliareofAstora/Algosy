@@ -71,7 +71,7 @@ std::pair<size_t, size_t> MemoryBlock<T>::get_2D_index(int i)
 	return out;
 
 	//zinlajnowaæ 
-	return {i%N_, i/N_};
+	//return {i%N_, i/N_};
 }
 
 //TODO branch prediction? 
