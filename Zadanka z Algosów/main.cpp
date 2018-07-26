@@ -74,6 +74,10 @@ public:
 int main(int argc, char* argv[])
 {
 
+	//std::unique_ptr < std::array<int, 3>> temp(new std::array<int, 3>({ 1,2,3 }));
+
+	//std::cout << &temp.operator*()[1];
+
 	MemoryPool<int> arr;
 	MemoryPool<int> ar2;
 	arr.test();

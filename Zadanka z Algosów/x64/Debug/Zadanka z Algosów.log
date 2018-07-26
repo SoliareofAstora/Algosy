@@ -1,6 +1,2 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\main.cpp(54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  e:\studia\algosy\zadanka z algosów\main.cpp(17): note: while compiling class template member function 'void tester<764252400>::fun(void)'
-  e:\studia\algosy\zadanka z algosów\main.cpp(115): note: see reference to function template instantiation 'void tester<764252400>::fun(void)' being compiled
-  e:\studia\algosy\zadanka z algosów\main.cpp(114): note: see reference to class template instantiation 'tester<764252400>' being compiled
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe

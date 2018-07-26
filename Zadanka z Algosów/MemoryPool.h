@@ -56,9 +56,11 @@ public:
 	void erase(size_t index1D);
 	void erase(address index2D);
 
+	void insert(T &&el);
 
 	void test();
-	iterator operator [](address index);
+	T* operator [](size_t index);
+	T* operator [](address index);
 	iterator begin();
 	iterator end();
 };
@@ -86,9 +88,10 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 
 	firstFree = address(memory.size(), 0);
 	memory.push_back(
-		std::pair<std::bitset<N>,
-		std::unique_ptr<std::array<char, N * sizeof T>>>
-		(std::bitset<N>(),new char[N * sizeof T])
+		std::pair<
+			std::bitset<N>,
+			std::unique_ptr<std::array<char, N * sizeof T>>>
+			(std::bitset<N>(),new std::array<char, N * sizeof T>())
 	);
 }
 
@@ -106,34 +109,33 @@ void MemoryPool<T, N, constIndex>::erase(address index2D)
 		firstFree = std::min(index2D, firstFree);
 		memory[index2D.first].first[index2D.second] = false;
 
+		auto* prt = reinterpret_cast<T>(memory[index2D].second[index2D.second]);
+		prt->~T();
 
-		if (!constIndex)
-		{
-			if (memory[index2D.first].first.empty())
-			{
-				//memory.eras
-			}
-		}
+		//TODO delete unused vector elements 
 	}
+}
+
+template <typename T, size_t N, bool constIndex>
+void MemoryPool<T, N, constIndex>::insert(T&& el)
+{
+	find_next_empty();
+	auto tmp = new(&memory[firstFree.first].second.operator*()[firstFree.second * sizeof T])T(std::forward<T>(el));
+	memory[firstFree.first].first[firstFree.second] = true;
 }
 
 template <typename T, size_t N, bool stf>
 void MemoryPool<T, N, stf>::test()
 {
-	auto temp = index_2D_from_1D(200000);
-	std::cout << temp.first<<" "<<temp.second;
+	insert(1000);
+	insert(2356);
+	insert(64373);
+	insert(4234);
 
-	for (auto i = 0; i < 7; ++i)
-	{
-		std::cout << i;
-	}
+	std::cout<<*(this->operator[](3));
 
-	std::bitset<10> asdf;
-	asdf[3] = true;
-	std::cout<<asdf.any();
 	std::string txt;
-
-	if (asdf[9])
+	if (true)
 	{
 		txt = "true";
 	}
@@ -142,6 +144,18 @@ void MemoryPool<T, N, stf>::test()
 		txt = "false";
 	}
 	std::cout << "\n\n" << txt;
+}
+
+template <typename T, size_t N, bool constIndex>
+T* MemoryPool<T, N, constIndex>::operator[](size_t index)
+{
+	return this->operator[](index_2D_from_1D(index));
+}
+
+template <typename T, size_t N, bool constIndex>
+T* MemoryPool<T, N, constIndex>::operator[](address index)
+{
+	return reinterpret_cast<T*>(&memory[index.first].second.operator*()[index.second * sizeof T]);
 }
 
 
