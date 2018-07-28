@@ -6,9 +6,9 @@
 /*
 T - element type  
 N - size of one block 
-constIndex - keep elements under constant, once allocated index
+constIndexing - keep elements under constant, once allocated index
 */
-template <typename T,size_t N = 128, bool constIndex = false>
+template <typename T,size_t N = 128, bool constIndexing = false>
 class MemoryPool
 {
 	using address = std::pair<size_t, size_t>;
@@ -25,7 +25,7 @@ class MemoryPool
 	address firstFree = address(0,0);
 	void find_next_empty();
 
-	address index_2D_from_1D(size_t index1D)
+	static address index_2D_from_1D(size_t index1D)
 	{
 		return address(index1D / N, index1D % N);
 	}
@@ -58,6 +58,8 @@ public:
 
 	void insert(T &&el);
 
+	void shrink_to_fit();
+
 	void test();
 	T* operator [](size_t index);
 	T* operator [](address index);
@@ -70,28 +72,38 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 {
 	for (auto i = firstFree.first; i < memory.size(); i++)
 	{
-		//todo czy to oby na pewno ma sens
-		if (!(memory[i].first.all()))
+		auto* bitset = &memory[i].first;
+		bitset->flip();
+		if (bitset->any())
 		{
-			for (auto j = firstFree.second; j < N; j++)
-			{   //TODO czy op³ada siê wrzucaæ tutaj wskaŸnik na bitset, 
-				//zeby nie wyci¹gaæ wartoœci z wektora i pary.
-				if (memory[i].first[j]==false)
+			size_t idx = firstFree.second;
+			while (idx < N && !(bitset->test(idx)))
+			{
+				++idx;
+			}
+			if (idx < N)
+			{
+				bitset->flip();
+				firstFree = address(i, idx);
+
+				if (!memory[i].second)
 				{
-					firstFree = address(i, j);
-					return;
+					memory[i].second = new std::array<char, N * sizeof T>();
 				}
+
+				return;
 			}
 			firstFree.second = 0;
 		}
+		bitset->flip();
 	}	
 
 	firstFree = address(memory.size(), 0);
 	memory.push_back(
 		std::pair<
-			std::bitset<N>,
-			std::unique_ptr<std::array<char, N * sizeof T>>>
-			(std::bitset<N>(),new std::array<char, N * sizeof T>())
+		std::bitset<N>,
+		std::unique_ptr<std::array<char, N * sizeof T>>>
+		(std::bitset<N>(), new std::array<char, N * sizeof T>())
 	);
 }
 
@@ -104,16 +116,43 @@ void MemoryPool<T, N, constIndex>::erase(size_t index1D)
 template <typename T, size_t N, bool constIndex>
 void MemoryPool<T, N, constIndex>::erase(address index2D)
 {
-	if (memory[index2D.first].first[index2D.second])
+	if (index2D.first < memory.size() && index2D.second < N)
 	{
-		firstFree = std::min(index2D, firstFree);
-		memory[index2D.first].first[index2D.second] = false;
+		T deletedElement;
+		if (memory[index2D.first].first[index2D.second])
+		{
+			firstFree = std::min(index2D, firstFree);
+			memory[index2D.first].first[index2D.second] = false;
 
-		auto* prt = reinterpret_cast<T>(memory[index2D].second[index2D.second]);
-		prt->~T();
+			auto* prt = reinterpret_cast<T>(memory[index2D].second[index2D.second]);
+			prt->~T();
 
-		//TODO delete unused vector elements 
+			if (constIndex)
+			{
+				if (index2D.first == memory.size() - 1)
+				{
+					auto begin = memory.end();
+					while ((--begin).operator*().first.none())
+					{
+					}
+					memory.erase(++begin, memory.end());
+				}
+			}
+			else
+			{
+				if (memory[index2D.first].first.none())
+				{
+					memory.erase(index2D.first);
+				}
+			}
+		}
+		return; //iterator(deletedElement)
 	}
+	else
+	{
+		std::cerr << "Erase index out of range";
+	}
+
 }
 
 template <typename T, size_t N, bool constIndex>
@@ -124,15 +163,21 @@ void MemoryPool<T, N, constIndex>::insert(T&& el)
 	memory[firstFree.first].first[firstFree.second] = true;
 }
 
+template <typename T, size_t N, bool constIndexing>
+void MemoryPool<T, N, constIndexing>::shrink_to_fit()
+{
+
+}
+
 template <typename T, size_t N, bool stf>
 void MemoryPool<T, N, stf>::test()
 {
-	insert(1000);
-	insert(2356);
-	insert(64373);
-	insert(4234);
+	insert(0);
+	insert(15432);
+	insert(25356);
+	insert(3632);
 
-	std::cout<<*(this->operator[](3));
+	std::cout<<*(this->operator[](2));
 
 	std::string txt;
 	if (true)

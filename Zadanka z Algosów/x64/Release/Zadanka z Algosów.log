@@ -1,24 +1,7 @@
 ﻿  main.cpp
-e:\studia\algosy\zadanka z algosów\memorypool.h(158): warning C4311: 'reinterpret_cast': pointer truncation from 'char *' to 'int'
-  e:\studia\algosy\zadanka z algosów\memorypool.h(157): note: while compiling class template member function 'int MemoryPool<int,128,false>::operator [](MemoryPool<int,128,false>::address)'
-  e:\studia\algosy\zadanka z algosów\memorypool.h(152): note: see reference to function template instantiation 'int MemoryPool<int,128,false>::operator [](MemoryPool<int,128,false>::address)' being compiled
-  e:\studia\algosy\zadanka z algosów\memorypool.h(123): note: while compiling class template member function 'void MemoryPool<int,128,false>::insert(T &&)'
-          with
-          [
-              T=int
-          ]
-  e:\studia\algosy\zadanka z algosów\memorypool.h(130): note: see reference to function template instantiation 'void MemoryPool<int,128,false>::insert(T &&)' being compiled
-          with
-          [
-              T=int
-          ]
-  e:\studia\algosy\zadanka z algosów\memorypool.h(129): note: while compiling class template member function 'void MemoryPool<int,128,false>::test(void)'
-  e:\studia\algosy\zadanka z algosów\main.cpp(83): note: see reference to function template instantiation 'void MemoryPool<int,128,false>::test(void)' being compiled
-  e:\studia\algosy\zadanka z algosów\main.cpp(81): note: see reference to class template instantiation 'MemoryPool<int,128,false>' being compiled
-e:\studia\algosy\zadanka z algosów\memorypool.h(158): warning C4302: 'reinterpret_cast': truncation from 'char *' to 'int'
   Generating code
-  0 of 232 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
+  4 of 338 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Release\Zadanka z Algosów.exe

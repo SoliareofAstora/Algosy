@@ -17,21 +17,49 @@ public:
 	{
 		std::vector<double> temp;
 		std::cout << N;
-		
+		bool alle;
 		clock_t begin = clock();
 
-		bitset_.all();
+		alle = bitset_.all();
 
 		clock_t end = clock();
 		temp.push_back(end - begin);
 
 		begin = clock();
 
-		bitset_.any();
+		bool all=false;
+		size_t size = bitset_.size();
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (bitset_.test(i))
+			{
+				all = true;
+			}
+		}
 
 		end = clock();
 		temp.push_back(end - begin);
 
+
+		begin = clock();
+
+		size_t idx = 0;
+		while (idx < bitset_.size() && !bitset_.test(idx)) {
+			++idx;
+		}
+
+		/*if (idx < b1.size()) {
+			std::cout << "first set bit at index " << idx << '\n';
+		}
+		else {
+			std::cout << "no set bits\n";
+		}*/
+
+		end = clock();
+		temp.push_back(end - begin);
+
+		/*
 		begin = clock();
 
 		bitset_.none();
@@ -61,68 +89,76 @@ public:
 
 		end = clock();
 		temp.push_back(end - begin);
+		/**/
 
 
 		for (auto element : temp)
 		{
 			std::cout <<","<< element;
 		}
+
 		std::cout << "\n";
+		if (all)
+		{
+			if (alle)
+			{
+				std::cout << "alibaba";
+			}
+		}
 	}
 };
 
 int main(int argc, char* argv[])
 {
-
 	//std::unique_ptr < std::array<int, 3>> temp(new std::array<int, 3>({ 1,2,3 }));
 
 	//std::cout << &temp.operator*()[1];
+
+	/*std::vector<int> a({ 12,23,34,45,56,67 });
+	auto b = a.end();
+	std::cout << (--b).operator*();
+	--b;
+	a.erase(++b, a.end());
+
+	for (auto element : a)
+	{
+		std::cout << element << " ";
+	}*/
+
 
 	MemoryPool<int> arr;
 	MemoryPool<int> ar2;
 	arr.test();
 
-	std::vector<int> a;
-	
+	std::cout << "\n";
 
-	/*
 	auto* a = new tester<10>();
 	a->fun();
 	delete a;
-	
-	auto* b = new tester<58540>();
+	auto* b = new tester<100>();
 	b->fun();
 	delete b;
-	auto* q = new tester<1000000>();
+	auto* q = new tester<1000>();
 	q->fun();
 	delete q;
-	auto* e = new tester<1000654700>();
+	auto* e = new tester<10000>();
 	e->fun();
 	delete e;
-	auto* r = new tester<100000000>();
+	auto* r = new tester<100000>();
 	r->fun();
 	delete r;
-	auto* t = new tester<1036675420>();
+	auto* t = new tester<1000000>();
 	t->fun();
 	delete t;
 	auto* d = new tester<10000000>();
 	d->fun();
 	delete d;
-	auto* s = new tester<1000000000>();
+	auto* s = new tester<100000000>();
 	s->fun();
 	delete s;
-	auto* x = new tester<404523918>();
-	x->fun();
-	delete x;
-	auto* n = new tester<5728012>();
-	n->fun();
-	delete n;
-	auto* m = new tester<764252400>();
-	m->fun();
-	delete m;
 	
-
-	*/
+	/**/
+	
 
 
 
