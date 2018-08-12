@@ -28,11 +28,12 @@ public:
 		begin = clock();
 
 		bool all=false;
-		size_t size = bitset_.size();
 
-		for (size_t i = 0; i < size; i++)
+		size_t size = bitset_.size();
+		std::string str = bitset_.to_string();
+		for (auto i = str.begin();i != str.end(); i++)
 		{
-			if (bitset_.test(i))
+			if (*i=='1')
 			{
 				all = true;
 			}
@@ -107,7 +108,6 @@ public:
 		}
 	}
 };
-
 int main(int argc, char* argv[])
 {
 	//std::unique_ptr < std::array<int, 3>> temp(new std::array<int, 3>({ 1,2,3 }));
@@ -124,11 +124,38 @@ int main(int argc, char* argv[])
 	{
 		std::cout << element << " ";
 	}*/
+	{
+		//MemoryPool<int> arr;
+		//MemoryPool<int> ar2;
+		//arr.test();
+		std::cout << "\n\n";
+	}
 
 
-	MemoryPool<int> arr;
-	MemoryPool<int> ar2;
-	arr.test();
+
+	/*
+	int qwer[] = { 0,1,2,3,4,5 };
+	int a1 = 10;
+	int a2 = 20;
+	
+	std::unique_ptr<int> abc(&a1);
+	std::unique_ptr<int> bcd(&a2);
+
+	abc.release();
+	abc = std::move(bcd);
+
+	std::cout << abc.operator*();
+	//std::cout << bcd.operator*();
+
+	
+	std::vector<std::pair<int, int*>> vec;
+	vec.emplace_back(0, &qwer[0]);
+	vec.push_back(std::pair<int, int*>(2, &qwer[3]));
+	vec[0] = vec[1];
+	for (auto element : vec)
+	{
+	//	std::cout << element.first;
+	}
 
 	std::cout << "\n";
 
@@ -157,19 +184,6 @@ int main(int argc, char* argv[])
 	s->fun();
 	delete s;
 	
-	/**/
-	
-
-
-
-
-
-
-
-
-
-
-
 
 	/*
 	 * Plik realizuj¹cy takie same zadania na obu drzewach. 

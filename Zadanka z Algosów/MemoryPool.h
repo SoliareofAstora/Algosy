@@ -5,76 +5,145 @@
 
 /*
 T - element type  
-N - size of one block 
-constIndexing - keep elements under constant, once allocated index
+N - size of one memory block 
+constIndexing - keep elements under once allocated constant index 
 */
 template <typename T,size_t N = 128, bool constIndexing = false>
 class MemoryPool
 {
 	using address = std::pair<size_t, size_t>;
 
+	//vector< pair< controller, memory block>>
 	std::vector< 
 		std::pair<
 			std::bitset<N>,
 			std::unique_ptr
 				<std::array<char, N * sizeof T>>
-			
 		>	
 	>memory_;
 
-	//zamieniæ mo¿e na address?
-	size_t size_ = 0;
-
+	address size_ = address(0,0);
 	address firstFree_ = address(0,0);
-	void find_next_empty();
+	void find_next_free();
 
-	static address index_2D_from_1D(size_t index1D)
+	static address index_2D_from_1D(size_t& index1D)
 	{
 		return address(index1D / N, index1D % N);
 	}
-	
+	static size_t index_1D_from_2D(address& index2D)
+	{
+		return index2D.first*N + index2D.second;
+	}
+	void increaseSize()
+	{
+		if (size_.second==N-1)
+		{
+			++size_.first;
+			size_.second = 0;
+		}
+		else
+		{
+			++size_.second;
+		}
+	}
+	void decreaseSize()
+	{
+		if (size_.second == 0)
+		{
+			--size_.first;
+			size_.second = N - 1;
+		}
+		else
+		{
+			--size_.second;
+		}
+	}
+	address find_next(address& index);
+	address find_prev(address& index);
+
 	class iterator
 	{
-		MemoryPool<T>* pool;
+		MemoryPool* pool;
 		address current;
 	public:
 		iterator();
-		iterator(MemoryBlock<T>* source, const int& current);
+		iterator(MemoryPool* source, const address& current);
+
 		bool operator ==(const iterator& i);
 		bool operator !=(const iterator& i);
+		bool operator > (const iterator& lhs, const iterator& rhs);
+		bool operator >= (const iterator& lhs, const iterator& rhs);
+		bool operator< (const iterator& lhs, const iterator& rhs);
+		bool operator <= (const iterator& lhs, const iterator& rhs);
+
 		iterator& operator++();
+		iterator& operator--();
+
 		iterator operator ++(int);
+		iterator operator --(int);
+
+		iterator operator+();
+		iterator operator-();
+
+		iterator& operator-=();
+		iterator& operator+=();
 
 		T& operator*()
 		{
 			return pool[current];
 		};
-
-		void next();
-		void prev();
 	};
+		/*
+reverse_iterator& operator++();
+reverse_iterator& operator--();
+
+reverse_iterator operator++( int );
+reverse_iterator operator--( int );
+	
+reverse_iterator operator+( difference_type n ) const;
+reverse_iterator operator-( difference_type n ) const;
+
+reverse_iterator& operator+=( difference_type n );
+reverse_iterator& operator-=( difference_type n );
+	
+1) lhs.base() == rhs.base()
+2) lhs.base() != rhs.base()
+3) lhs.base() > rhs.base()
+4) lhs.base() >= rhs.base()
+5) lhs.base() < rhs.base()
+6) lhs.base() <= rhs.base()
+	
+	
+	
+	*/
+
+
+
 
 public:
-
-	void erase(size_t index1D);
-	void erase(address index2D);
-
 	void insert(T &&el);
-
+	void erase(size_t& index1D);
+	void erase(address& index2D);
+	void clear();
 	void shrink_to_fit();
-
-	void test();
-	T* operator [](size_t index);
-	T* operator [](address index);
-	iterator begin();
-	iterator end();
+	T* operator [](size_t& index);
+	T* operator [](address& index);
 
 	size_t capacity() { return memory_.size()*N; }
-	size_t size() { return size_; }
+	size_t size() { return index_1D_from_2D(size_); }
+	address pair_size() const { return size_; }
+	size_t block_size() const { return N; }
+
+	iterator begin();
+	iterator end();
+	std::reverse_iterator<iterator> rbegin();
+	std::reverse_iterator<iterator> rend();
+
+	void test();
 };
 
 template <typename T, size_t N, bool constIndex>
-void MemoryPool<T, N, constIndex>::find_next_empty()
+void MemoryPool<T, N, constIndex>::find_next_free()
 {
 	for (auto i = firstFree_.first; i < memory_.size(); i++)
 	{
@@ -83,26 +152,24 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 		if (bitset->any())
 		{
 			size_t idx = firstFree_.second;
-			while (idx < N && !(bitset->test(idx)))
+			for (size_t j = firstFree_.second; j < N; j++)
 			{
-				++idx;
-			}
-			if (idx < N)
-			{
-				bitset->flip();
-				firstFree_ = address(i, idx);
-
-				if (!memory_[i].second)
+				if (bitset->test(j))
 				{
-					memory_[i].second = std::make_unique<std::array<char, N * sizeof T>>();
-				}
+					bitset->flip();
+					firstFree_ = address(i, j);
 
-				return;
+					if (!memory_[i].second)
+					{
+						memory_[i].second = std::make_unique<std::array<char, N * sizeof T>>();
+					}
+					return;
+				}
 			}
-			firstFree_.second = 0;
 		}
+		firstFree_.second = 0;
 		bitset->flip();
-	}	
+	}
 
 	firstFree_ = address(memory_.size(), 0);
 	memory_.push_back(
@@ -113,91 +180,258 @@ void MemoryPool<T, N, constIndex>::find_next_empty()
 	);
 }
 
-template <typename T, size_t N, bool constIndex>
-void MemoryPool<T, N, constIndex>::erase(size_t index1D)
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::address MemoryPool<T, N, constIndexing>::find_next(address& index)
 {
-	return erase(index_2D_from_1D(index1D));
 }
 
-template <typename T, size_t N, bool constIndex>
-void MemoryPool<T, N, constIndex>::erase(address index2D)
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::address MemoryPool<T, N, constIndexing>::find_prev(address& index)
 {
-	if (index2D.first < memory_.size() && index2D.second < N)
-	{
-		T deletedElement;
-		if (memory_[index2D.first].first[index2D.second])
-		{
-			firstFree_ = std::min(index2D, firstFree_);
-			memory_[index2D.first].first[index2D.second] = false;
+}
 
-			auto* prt = reinterpret_cast<T>(memory_[index2D].second[index2D.second]);
-			prt->~T();
+template <typename T, size_t N, bool constIndexing>
+MemoryPool<T, N, constIndexing>::iterator::iterator()
+{
+}
 
-			--size_;
+template <typename T, size_t N, bool constIndexing>
+MemoryPool<T, N, constIndexing>::iterator::iterator(MemoryPool* source, const address& current)
+{
+}
 
-			if (constIndex)
-			{
-				if (index2D.first == memory_.size() - 1)
-				{
-					auto begin = memory_.end();
-					while ((--begin).operator*().first.none())
-					{
-					}
-					memory_.erase(++begin, memory_.end());
-				}
-			}
-			else
-			{
-				if (memory_[index2D.first].first.none())
-				{
-					memory_.erase(index2D.first);
-				}
-			}
-		}
-		return; //iterator(deletedElement)
-	}
-	else
-	{
-		std::cerr << "Erase index out of range";
-	}
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator==(const iterator& i)
+{
+}
 
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator!=(const iterator& i)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator>(const iterator& lhs, const iterator& rhs)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator>=(const iterator& lhs, const iterator& rhs)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator<(const iterator& lhs, const iterator& rhs)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+bool MemoryPool<T, N, constIndexing>::iterator::operator<=(const iterator& lhs, const iterator& rhs)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator++()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator--()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::iterator::operator++(int)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::iterator::operator--(int)
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::iterator::operator+()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::iterator::operator-()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator-=()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator+=()
+{
 }
 
 template <typename T, size_t N, bool constIndex>
 void MemoryPool<T, N, constIndex>::insert(T&& el)
 {
-	find_next_empty();
+	find_next_free();
 	auto tmp = new(&memory_[firstFree_.first].second.operator*()[firstFree_.second * sizeof T])T(std::forward<T>(el));
-	memory_[firstFree_.first].first[firstFree_.second] = true;
-	++size_;
+	memory_[firstFree_.first].first.set(firstFree_.second);
+	increaseSize();
 }
+
+template <typename T, size_t N, bool constIndex>
+void MemoryPool<T, N, constIndex>::erase(size_t& index1D)
+{
+	return erase(index_2D_from_1D(index1D));
+}
+
+template <typename T, size_t N, bool constIndex>
+void MemoryPool<T, N, constIndex>::erase(address& index2D)
+{
+	if (index2D.first >= memory_.size() || index2D.second >= N)
+	{
+		std::cerr << "Erase index out of range";
+		return; //iterator do zerowego
+	}
+	if (!memory_[index2D.first].first.test(index2D.second))
+	{
+		std::cerr << "Trying to delete empty element";
+	}
+
+//T deletedElement;
+
+	(reinterpret_cast<T*>(&memory_[index2D.first].second.operator*()[index2D.second * sizeof T]))->~T();
+	
+	decreaseSize();
+
+	if (constIndex)
+	{
+		memory_[index2D.first].first.reset(index2D.second);
+		firstFree_ = std::min(index2D, firstFree_);
+	}
+	else
+	{
+		//moving last element in place of deleted element
+		if (index2D != size_)
+		{
+			*(reinterpret_cast<T*>(&memory_[index2D.first].second.operator*()[index2D.second * sizeof T]))
+				= std::move(*reinterpret_cast<T*>(&memory_[size_.first].second.operator*()[size_.second * sizeof T]));
+		}
+		memory_[size_.first].first.reset(size_.second);
+		firstFree_ = size_;
+	}
+	return; //iterator(deletedElement)
+}
+
+template <typename T, size_t N, bool constIndexing>
+void MemoryPool<T, N, constIndexing>::clear()
+{
+	for (auto rit = memory_.rbegin(); rit != memory_.rend(); ++rit) 
+	{
+		size_t count = (*rit).first.count();
+		if (count > 0)
+		{
+			if (count == N)
+			{
+				for (size_t i = 0; i < N; i++)
+				{
+					(reinterpret_cast<T*>(&(*rit).second.operator*()[i * sizeof T]))->~T();
+				}
+			}
+			else
+			{
+				size_t idx = 0;
+				for (size_t i = 0; i < count; i++)
+				{
+					while (!(*rit).first.test(i + idx))
+					{
+						++idx;
+					}
+					(reinterpret_cast<T*>(&(*rit).second.operator*()[i * sizeof T]))->~T();
+				}
+			}
+		}
+		memory_.pop_back();
+	}
+	memory_.shrink_to_fit();
+	size_ = address(0, 0);
+	firstFree_ = address(0, 0);
+}
+
 
 template <typename T, size_t N, bool constIndexing>
 void MemoryPool<T, N, constIndexing>::shrink_to_fit()
 {
 	if (constIndexing)
 	{
-		//dealokowanie pustych bloków z wektora nie zmieniaj¹c jego zawartoœci
-
+		for(auto &pair: memory_)
+		{
+			if (pair.first.none())
+			{
+				pair.second.reset(nullptr);
+			}
+		}
 	}
 	else
 	{
-		//przeoranie wektora i jego elementów ¿eby zajmowa³ jak najmniej miejsca
+		auto begin = memory_.end();
+		while ((--begin).operator*().first.none())
+		{
+		}
+		memory_.erase(++begin, memory_.end());
 	}
+	memory_.shrink_to_fit();
+}
+
+template <typename T, size_t N, bool constIndex>
+T* MemoryPool<T, N, constIndex>::operator[](size_t& index)
+{
+	return this->operator[](index_2D_from_1D(index));
+}
+
+template <typename T, size_t N, bool constIndex>
+T* MemoryPool<T, N, constIndex>::operator[](address& index)
+{
+	if (index >= size_) return nullptr;
+	if (!memory_[index.first].first.test(index.second)) return nullptr;
+	return reinterpret_cast<T*>(&memory_[index.first].second.operator*()[index.second * sizeof T]);
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::begin()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexing>::end()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+std::reverse_iterator<typename MemoryPool<T, N, constIndexing>::iterator> MemoryPool<T, N, constIndexing>::rbegin()
+{
+}
+
+template <typename T, size_t N, bool constIndexing>
+std::reverse_iterator<typename MemoryPool<T, N, constIndexing>::iterator> MemoryPool<T, N, constIndexing>::rend()
+{
 }
 
 template <typename T, size_t N, bool stf>
 void MemoryPool<T, N, stf>::test()
 {
-	insert(0);
-	insert(15432);
-	insert(25356);
-	insert(3632);
+	for (int i = 0; i < 9999999; ++i)
+	{
+		int a = i;
+		insert(std::move(a));
+	}
 
-	std::cout<<*(this->operator[](2));
-
+	clear();
+	
 	std::string txt;
-	if (true)
+	std::cout << this->operator[](1);
+
+	if (this->operator[](1))
 	{
 		txt = "true";
 	}
@@ -208,17 +442,7 @@ void MemoryPool<T, N, stf>::test()
 	std::cout << "\n\n" << txt;
 }
 
-template <typename T, size_t N, bool constIndex>
-T* MemoryPool<T, N, constIndex>::operator[](size_t index)
-{
-	return this->operator[](index_2D_from_1D(index));
-}
 
-template <typename T, size_t N, bool constIndex>
-T* MemoryPool<T, N, constIndex>::operator[](address index)
-{
-	return reinterpret_cast<T*>(&memory_[index.first].second.operator*()[index.second * sizeof T]);
-}
 
 
 /*

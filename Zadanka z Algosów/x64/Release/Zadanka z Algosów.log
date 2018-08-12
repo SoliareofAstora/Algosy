@@ -1,7 +1,7 @@
 ﻿  main.cpp
   Generating code
-  8 of 343 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+  31 of 241 functions (12.9%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Release\Zadanka z Algosów.exe

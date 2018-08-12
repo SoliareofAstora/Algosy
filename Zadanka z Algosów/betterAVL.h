@@ -220,7 +220,6 @@ typename AVL<T>::node<T>* AVL<T>::find(const T& value)
 template <typename T>
 typename AVL<T>::node<T>* AVL<T>::insert(const T& value)
 {
-
 	int parentIndex = -1;
 	int currentIndex = root_;
 

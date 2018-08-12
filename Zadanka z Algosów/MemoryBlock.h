@@ -29,7 +29,7 @@ public:
 	bool check_if_outOfArray(int index);
 
 	size_t size();
-	// returns pointer and index to element that should be allocated next
+	// returns pointer and index to element that should be allocated find_next
 	std::pair<char*,int> allocate();
 	T* get_value(int index) const;
 	void erase(size_t index);

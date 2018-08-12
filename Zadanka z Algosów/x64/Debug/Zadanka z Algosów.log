@@ -1,2 +1,10 @@
 ﻿  main.cpp
+e:\studia\algosy\zadanka z algosów\memorypool.h(134): warning C4101: 'deletedElement': unreferenced local variable
+  e:\studia\algosy\zadanka z algosów\memorypool.h(123): note: while compiling class template member function 'void MemoryPool<int,128,false>::erase(MemoryPool<int,128,false>::address)'
+  e:\studia\algosy\zadanka z algosów\memorypool.h(118): note: see reference to function template instantiation 'void MemoryPool<int,128,false>::erase(MemoryPool<int,128,false>::address)' being compiled
+  e:\studia\algosy\zadanka z algosów\memorypool.h(117): note: while compiling class template member function 'void MemoryPool<int,128,false>::erase(size_t)'
+  e:\studia\algosy\zadanka z algosów\memorypool.h(211): note: see reference to function template instantiation 'void MemoryPool<int,128,false>::erase(size_t)' being compiled
+  e:\studia\algosy\zadanka z algosów\memorypool.h(206): note: while compiling class template member function 'void MemoryPool<int,128,false>::test(void)'
+  e:\studia\algosy\zadanka z algosów\main.cpp(130): note: see reference to function template instantiation 'void MemoryPool<int,128,false>::test(void)' being compiled
+  e:\studia\algosy\zadanka z algosów\main.cpp(128): note: see reference to class template instantiation 'MemoryPool<int,128,false>' being compiled
   Zadanka z Algosów.vcxproj -> E:\Studia\Algosy\x64\Debug\Zadanka z Algosów.exe
