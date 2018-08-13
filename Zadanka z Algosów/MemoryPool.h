@@ -26,40 +26,41 @@ class MemoryPool
 	address firstFree_ = address(0,0);
 	void find_next_free();
 
-	static address index_2D_from_1D(size_t& index1D)
+	static address index_1D_to_2D(size_t& index1D)
 	{
 		return address(index1D / N, index1D % N);
 	}
-	static size_t index_1D_from_2D(address& index2D)
+	static size_t index_2D_to_1D(address& index2D)
 	{
 		return index2D.first*N + index2D.second;
 	}
-	void increaseSize()
+
+	static void increaseAddress(address& address)
 	{
-		if (size_.second==N-1)
+		if (address.second==N-1)
 		{
-			++size_.first;
-			size_.second = 0;
+			++address.first;
+			address.second = 0;
 		}
 		else
 		{
-			++size_.second;
+			++address.second;
 		}
 	}
-	void decreaseSize()
+	static void decreaseAddress(address& address)
 	{
-		if (size_.second == 0)
+		if (address.second == 0)
 		{
-			--size_.first;
-			size_.second = N - 1;
+			--address.first;
+			address.second = N - 1;
 		}
 		else
 		{
-			--size_.second;
+			--address.second;
 		}
 	}
-	address find_next(address& index);
-	address find_prev(address& index);
+	void find_next(address& index);
+	void find_prev(address& index);
 
 	class iterator
 	{
@@ -69,12 +70,12 @@ class MemoryPool
 		iterator();
 		iterator(MemoryPool* source, const address& current);
 
-		bool operator ==(const iterator& i);
-		bool operator !=(const iterator& i);
-		bool operator > (const iterator& lhs, const iterator& rhs);
-		bool operator >= (const iterator& lhs, const iterator& rhs);
-		bool operator< (const iterator& lhs, const iterator& rhs);
-		bool operator <= (const iterator& lhs, const iterator& rhs);
+		bool operator == (const iterator& i);
+		bool operator != (const iterator& i);
+		bool operator > (const iterator& i);
+		bool operator >= (const iterator& i);
+		bool operator< (const iterator& i);
+		bool operator <= (const iterator& i);
 
 		iterator& operator++();
 		iterator& operator--();
@@ -85,8 +86,8 @@ class MemoryPool
 		iterator operator+();
 		iterator operator-();
 
-		iterator& operator-=();
-		iterator& operator+=();
+		iterator& operator-=(int);
+		iterator& operator+=(int);
 
 		T& operator*()
 		{
@@ -122,17 +123,19 @@ reverse_iterator& operator-=( difference_type n );
 
 public:
 	void insert(T &&el);
-	void erase(size_t& index1D);
-	void erase(address& index2D);
+	void erase(size_t index1D);
+	void erase(address index2D);
 	void clear();
 	void shrink_to_fit();
-	T* operator [](size_t& index);
-	T* operator [](address& index);
+	T* operator [](size_t index);
+	T* operator [](address index);
+	T* at(size_t index);
+	T* at(address index);
 
 	size_t capacity() { return memory_.size()*N; }
-	size_t size() { return index_1D_from_2D(size_); }
+	size_t size() { return index_2D_to_1D(size_); }
 	address pair_size() const { return size_; }
-	size_t block_size() const { return N; }
+	static size_t block_size() { return N; }
 
 	iterator begin();
 	iterator end();
@@ -181,15 +184,17 @@ void MemoryPool<T, N, constIndex>::find_next_free()
 }
 
 template <typename T, size_t N, bool constIndexing>
-typename MemoryPool<T, N, constIndexing>::address MemoryPool<T, N, constIndexing>::find_next(address& index)
+void MemoryPool<T, N, constIndexing>::find_next(address& index)
 {
+
 }
 
 template <typename T, size_t N, bool constIndexing>
-typename MemoryPool<T, N, constIndexing>::address MemoryPool<T, N, constIndexing>::find_prev(address& index)
+void MemoryPool<T, N, constIndexing>::find_prev(address& index)
 {
 }
 
+#
 template <typename T, size_t N, bool constIndexing>
 MemoryPool<T, N, constIndexing>::iterator::iterator()
 {
@@ -203,30 +208,32 @@ MemoryPool<T, N, constIndexing>::iterator::iterator(MemoryPool* source, const ad
 template <typename T, size_t N, bool constIndexing>
 bool MemoryPool<T, N, constIndexing>::iterator::operator==(const iterator& i)
 {
+	return pool == i.pool && current == i.current;
 }
 
 template <typename T, size_t N, bool constIndexing>
 bool MemoryPool<T, N, constIndexing>::iterator::operator!=(const iterator& i)
 {
+	return pool != i.pool || current != i.current;
 }
 
 template <typename T, size_t N, bool constIndexing>
-bool MemoryPool<T, N, constIndexing>::iterator::operator>(const iterator& lhs, const iterator& rhs)
+bool MemoryPool<T, N, constIndexing>::iterator::operator>(const iterator& i)
 {
 }
 
 template <typename T, size_t N, bool constIndexing>
-bool MemoryPool<T, N, constIndexing>::iterator::operator>=(const iterator& lhs, const iterator& rhs)
+bool MemoryPool<T, N, constIndexing>::iterator::operator>=(const iterator& i)
 {
 }
 
 template <typename T, size_t N, bool constIndexing>
-bool MemoryPool<T, N, constIndexing>::iterator::operator<(const iterator& lhs, const iterator& rhs)
+bool MemoryPool<T, N, constIndexing>::iterator::operator<(const iterator& i)
 {
 }
 
 template <typename T, size_t N, bool constIndexing>
-bool MemoryPool<T, N, constIndexing>::iterator::operator<=(const iterator& lhs, const iterator& rhs)
+bool MemoryPool<T, N, constIndexing>::iterator::operator<=(const iterator& i)
 {
 }
 
@@ -261,14 +268,15 @@ typename MemoryPool<T, N, constIndexing>::iterator MemoryPool<T, N, constIndexin
 }
 
 template <typename T, size_t N, bool constIndexing>
-typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator-=()
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator-=(int)
 {
 }
 
 template <typename T, size_t N, bool constIndexing>
-typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator+=()
+typename MemoryPool<T, N, constIndexing>::iterator& MemoryPool<T, N, constIndexing>::iterator::operator+=(int)
 {
 }
+
 
 template <typename T, size_t N, bool constIndex>
 void MemoryPool<T, N, constIndex>::insert(T&& el)
@@ -276,17 +284,17 @@ void MemoryPool<T, N, constIndex>::insert(T&& el)
 	find_next_free();
 	auto tmp = new(&memory_[firstFree_.first].second.operator*()[firstFree_.second * sizeof T])T(std::forward<T>(el));
 	memory_[firstFree_.first].first.set(firstFree_.second);
-	increaseSize();
+	increaseAddress(size_);
 }
 
 template <typename T, size_t N, bool constIndex>
-void MemoryPool<T, N, constIndex>::erase(size_t& index1D)
+void MemoryPool<T, N, constIndex>::erase(size_t index1D)
 {
-	return erase(index_2D_from_1D(index1D));
+	return erase(index_1D_to_2D(index1D));
 }
 
 template <typename T, size_t N, bool constIndex>
-void MemoryPool<T, N, constIndex>::erase(address& index2D)
+void MemoryPool<T, N, constIndex>::erase(address index2D)
 {
 	if (index2D.first >= memory_.size() || index2D.second >= N)
 	{
@@ -301,8 +309,8 @@ void MemoryPool<T, N, constIndex>::erase(address& index2D)
 //T deletedElement;
 
 	(reinterpret_cast<T*>(&memory_[index2D.first].second.operator*()[index2D.second * sizeof T]))->~T();
-	
-	decreaseSize();
+
+	decreaseAddress(size_);
 
 	if (constIndex)
 	{
@@ -384,13 +392,25 @@ void MemoryPool<T, N, constIndexing>::shrink_to_fit()
 }
 
 template <typename T, size_t N, bool constIndex>
-T* MemoryPool<T, N, constIndex>::operator[](size_t& index)
+T* MemoryPool<T, N, constIndex>::operator[](size_t index)
 {
-	return this->operator[](index_2D_from_1D(index));
+	return this->operator[](index_1D_to_2D(index));
 }
 
 template <typename T, size_t N, bool constIndex>
-T* MemoryPool<T, N, constIndex>::operator[](address& index)
+T* MemoryPool<T, N, constIndex>::operator[](address index)
+{
+	return reinterpret_cast<T*>(&memory_[index.first].second.operator*()[index.second * sizeof T]);
+}
+
+template <typename T, size_t N, bool constIndexing>
+T* MemoryPool<T, N, constIndexing>::at(size_t index)
+{
+	return at(index_1D_to_2D(index));
+}
+
+template <typename T, size_t N, bool constIndexing>
+T* MemoryPool<T, N, constIndexing>::at(address index)
 {
 	if (index >= size_) return nullptr;
 	if (!memory_[index.first].first.test(index.second)) return nullptr;
@@ -425,8 +445,9 @@ void MemoryPool<T, N, stf>::test()
 		int a = i;
 		insert(std::move(a));
 	}
-
-	clear();
+	int i = 1;
+	erase(i);
+	//clear();
 	
 	std::string txt;
 	std::cout << this->operator[](1);

@@ -108,6 +108,12 @@ public:
 		}
 	}
 };
+
+void fun(int& a)
+{
+	a++;
+}
+
 int main(int argc, char* argv[])
 {
 	//std::unique_ptr < std::array<int, 3>> temp(new std::array<int, 3>({ 1,2,3 }));
@@ -126,11 +132,13 @@ int main(int argc, char* argv[])
 	}*/
 	{
 		//MemoryPool<int> arr;
-		//MemoryPool<int> ar2;
-		//arr.test();
+		MemoryPool<int> ar2;
+		ar2.test();
 		std::cout << "\n\n";
 	}
-
+	int a=1;
+	fun(a);
+	std::cout << a;
 
 
 	/*
