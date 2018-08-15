@@ -120,26 +120,19 @@ int main(int argc, char* argv[])
 
 	//std::cout << &temp.operator*()[1];
 
-	/*std::vector<int> a({ 12,23,34,45,56,67 });
-	auto b = a.end();
-	std::cout << (--b).operator*();
-	--b;
-	a.erase(++b, a.end());
-
+	std::vector<int> a({ 12,23,34,45,56,67 });
 	for (auto element : a)
 	{
-		std::cout << element << " ";
-	}*/
-	{
-		//MemoryPool<int> arr;
-		MemoryPool<int> ar2;
-		ar2.test();
-		std::cout << "\n\n";
+		//std::cout << element << " ";
 	}
-	int a=1;
-	fun(a);
-	std::cout << a;
 
+	//MemoryPool<int> arr;
+	MemoryPool<int> ar2;
+	ar2.test();
+	auto af = ar2.end();
+	af -= 0;
+	auto tmp = af.get_index();
+	std::cout << "\n" << tmp.first*ar2.block_size() + tmp.second;
 
 	/*
 	int qwer[] = { 0,1,2,3,4,5 };
